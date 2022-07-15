@@ -1,4 +1,6 @@
 <?php
+
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -12,3 +14,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Dashboard Modules Start
+Route::get('auth/login', [DashboardController::class, 'login'])->name('auth.login')->middleware('AlreadyDashLoggedIn');
+Route::post('loginDash', [DashboardController::class, 'loginDash'])->name('loginDash')->middleware('AlreadyDashLoggedIn');
+
+// Route::group(['middleware'=>['DashboardAuthCheck']], function () {
+
+// });
+// Dashboard Modules End

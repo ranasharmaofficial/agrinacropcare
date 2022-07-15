@@ -60,6 +60,8 @@ class Kernel extends HttpKernel
         'StudentAuthCheck' => \App\Http\Middleware\StudentAuthCheck::class,
         'AlreadyLoggedEmployee' => \App\Http\Middleware\AlreadyLoggedEmployee::class,
         'EmployeeAuthCheck' => \App\Http\Middleware\EmployeeAuthCheck::class,
+        'DashboardAuthCheck' => \App\Http\Middleware\DashboardAuthCheck::class,
+        'AlreadyDashLoggedIn' => \App\Http\Middleware\AlreadyDashLoggedIn::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'auth.session' => \Illuminate\Session\Middleware\AuthenticateSession::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
