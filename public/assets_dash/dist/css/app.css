@@ -582,13 +582,13 @@ p {
   padding: 0px;
 }
 .btn-oringe {
-  background-color: #e96125;
-  border-color: #e96125;
+  background-color: #25c082;
+  border-color: #25c08285;
   color: #fff;
 }
 .btn-oringe:hover {
-  background-color: #e96125;
-  border-color: #e96125;
+  background-color: #159863;
+  border-color: #15986385;
   color: #fff;
 }
 .ion-orderlist .small,
@@ -797,8 +797,8 @@ p {
 }
 .bg-gradient-auth{
   background: #F0C27B;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to top, #4B1248, #F0C27B);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to top, #4B1248, #F0C27B); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: -webkit-linear-gradient(to top, #ab75a8, #66ed9c);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to top, #64e1c2, #2bc39d); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 .auth-header{
   position: fixed;
@@ -864,4 +864,23 @@ input:invalid ~ label {
   color: #cd3c32;
   /* background-color:#fff;
   padding:0 5px 0 5px; */
+}
+
+#pageloader
+{
+    background: rgba( 255, 255, 255, 0.8 );
+    display: none;
+    height: 100%;
+    position: fixed;
+    width: 100%;
+    z-index: 9999;
+}
+
+#pageloader img
+{
+    left: 50%;
+    margin-left: -32px;
+    margin-top: -32px;
+    position: absolute;
+    top: 50%;
 }

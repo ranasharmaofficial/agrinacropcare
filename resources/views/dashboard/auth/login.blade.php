@@ -10,12 +10,12 @@
 <main role="main" class="ion-checkout">
     <div class="row mt-3">
         <div class="col-sm-12 text-center">
-            <img src="{{asset('assets_admin/images/logo-dark.png')}}" alt="Logo" class="img-login-logo shadow">
+            <img src="{{asset('front_assets/img/logo.png')}}" alt="Logo" class="img-login-logo">
         </div>
     </div>
     <div class="card mb-3">
-       <div class="card-header font-weight-bold text-center">
-           Student Login
+       <div class="card-header font-weight-bold text-center text-success">
+           Retailer Login
        </div>
         <div class="card-body p-0">
             <form action="{{route('loginDash')}}" method="post" class="p-2">
@@ -46,7 +46,7 @@
                     <span class="text-danger form-text">@error('password') {{$message}} @enderror</span>
                 </div>
                 </div>
-                <button type="submit" class="btn btn-block btn-oringe ion-no-margin">Login Now</button>
+                <button type="submit" class="btn btn-block btn-oringe ion-no-margin" id="login">Login Now</button>
             </form>
             <div class="p-3 border-top">                
                 <div class="text-center">
@@ -56,4 +56,5 @@
         </div>       
     </div>
  </main>
+
 @endsection

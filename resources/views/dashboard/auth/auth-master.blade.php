@@ -19,18 +19,29 @@
       <!-- javascript -->
       <script src="{{asset('assets_dash/vendors/jquery.min.js')}}"></script>
       <script src="{{asset('assets_dash/dist/js/hc-offcanvas-nav.js?ver=4.2.2')}}"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
       <style>
       html{
          overflow: hidden;
       }         
       body{
          overflow: hidden !important;
-      }
+      }      
       </style>
    </head>
    <body class="index-app bg-gradient-auth">	
-       @include('dashboard.auth.header')
+      <div id="pageloader">
+         <img src="{{asset('assets_dash/loader-large.gif')}}" alt="processing..." />
+      </div>
+       {{-- @include('dashboard.auth.header') --}}
 		@yield('content')
       <script src="{{asset('assets_dash/dist/js/bootstrap.bundle.js')}}"></script>
+      <script>
+         $(document).ready(function(){
+             $("form").submit(function(){
+                 $("#pageloader").fadeIn();
+             });
+         });
+      </script>
    </body>
 </html>
