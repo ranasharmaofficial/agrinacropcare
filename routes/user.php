@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('auth/login', [DashboardController::class, 'login'])->name('auth.login')->middleware('AlreadyDashLoggedIn');
 Route::post('loginDash', [DashboardController::class, 'loginDash'])->name('loginDash')->middleware('AlreadyDashLoggedIn');
 
+Route::get('home', [DashboardController::class, 'home'])->name('home');
 // Route::group(['middleware'=>['DashboardAuthCheck']], function () {
 
 // });

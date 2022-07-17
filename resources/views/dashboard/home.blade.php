@@ -7,104 +7,48 @@
             <div class="owl-carousel">
                 <div class="item">
                     <img alt="img" class="img-responsive single-img"
-                        src="{{ asset('uploads/banners/banner 375X212 - 1.png') }}">
+                        src="https://jssors8.azureedge.net/demos/image-slider/img/px-beach-daylight-fun-1430675-image.jpg">
                 </div>
                 <div class="item">
                     <img alt="img" class="img-responsive single-img"
-                        src="{{ asset('uploads/banners/banner 375X212 - 2.png') }}">
+                        src="https://wowslider.com/sliders/demo-5/data/images/sweden.jpg">
                 </div>
             </div>
         </div>
         <div class="pt-4">
-            <div class="ion-grid app-products pb-3">
-                <div onclick="window.location.href='{{url('dashboard/events')}}'" class="col-12">
-                    <div class="p-3 shop-homepage bg-white mb-2">
-                        <div class="dash-left-icon text-indigo">
-                            <i class="fa fa-calendar" aria-hidden="true"></i>
+            <div class="row app-products">
+                <div onclick="window.location.href='{{url('dashboard/home')}}'" class="col-6">
+                    <div class="p-3 shop-homepage mb-2 text-center">
+                        <div class="shop-img">
+                            <img src="{{asset('assets_dash/icon/wheat.png')}}" alt="">
                         </div>
-                        <b class="dash-main-name">Events</b>
-                        <div class="dash-right-arrow">
-                            <i class="fa fa-chevron-right" aria-hidden="true"></i>
-                        </div>
+                        <p class="font-weight-bold">Crop Care</p>
                     </div>
                 </div>
-                <div onclick="window.location.href='{{url('dashboard/timetable')}}'" class="col-12">                    
-                    <div class="p-3 shop-homepage bg-white mb-2">
-                        <div class="dash-left-icon text-orange">
-                            <i class="fa fa-clock-o" aria-hidden="true"></i>
+                <div onclick="window.location.href='{{url('dashboard/home')}}'" class="col-6">                    
+                    <div class="p-3 shop-homepage mb-2 text-center">
+                        <div class="shop-img">
+                            <img src="{{asset('assets_dash/icon/healthcare.png')}}" alt="">
                         </div>
-                        <b class="dash-main-name">Timetable</b>
-                        <div class="dash-right-arrow">
-                            <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                        <p class="font-weight-bold">Animal Health Care</p>
+                    </div>
+                </div> 
+                <div onclick="window.location.href='{{url('dashboard/home')}}'" class="col-6">                    
+                    <div class="p-3 shop-homepage mb-2 text-center">
+                        <div class="shop-img">
+                            <img src="{{asset('assets_dash/icon/insurance.png')}}" alt="">
                         </div>
+                        <p class="font-weight-bold">Insurance</p>
                     </div>
                 </div>
-                <div onclick="window.location.href='{{url('dashboard/fees')}}'" class="col-12">
-                    <div class="p-3 shop-homepage bg-white mb-2">
-                        <div class="dash-left-icon text-teal">
-                            <i class="fa fa-inr" aria-hidden="true"></i>
+                <div onclick="window.location.href='{{url('dashboard/home')}}'" class="col-6">                    
+                    <div class="p-3 shop-homepage mb-2 text-center">
+                        <div class="shop-img">
+                            <img src="{{asset('assets_dash/icon/help.png')}}" alt="">
                         </div>
-                        <b class="dash-main-name">Fees</b>
-                        <div class="dash-right-arrow">
-                            <i class="fa fa-chevron-right" aria-hidden="true"></i>
-                        </div>
+                        <p class="font-weight-bold">Helpline</p>
                     </div>
-                </div>
-                <div onclick="window.location.href='{{url('dashboard/attendance')}}'" class="col-12">
-                    <div class="p-3 shop-homepage bg-white mb-2">
-                        <div class="dash-left-icon text-red">
-                            <i class="fa fa-calendar-check-o" aria-hidden="true"></i>
-                        </div>
-                        <b class="dash-main-name">Attendence</b>
-                        <div class="dash-right-arrow">
-                            <i class="fa fa-chevron-right" aria-hidden="true"></i>
-                        </div>
-                    </div>
-                </div>
-                <div onclick="window.location.href='{{url('dashboard/mysubject')}}'" class="col-12">
-                    <div class="p-3 shop-homepage bg-white mb-2">
-                        <div class="dash-left-icon text-danger">
-                            <i class="fa fa-book" aria-hidden="true"></i>
-                        </div>
-                        <b class="dash-main-name">My Subject</b>
-                        <div class="dash-right-arrow">
-                            <i class="fa fa-chevron-right" aria-hidden="true"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12">
-                    <div class="p-3 shop-homepage bg-white mb-2">
-                        <div class="dash-left-icon text-purple">
-                            <i class="fa fa-address-card" aria-hidden="true"></i>
-                        </div>
-                        <b class="dash-main-name">Exam Report</b>
-                        <div class="dash-right-arrow">
-                            <i class="fa fa-chevron-right" aria-hidden="true"></i>
-                        </div>
-                    </div>
-                </div>
-                <div onclick="window.location.href='{{url('dashboard/gallery')}}'" class="col-12">
-                    <div class="p-3 shop-homepage bg-white mb-2">
-                        <div class="dash-left-icon text-info">
-                            <i class="fa fa-file-image-o" aria-hidden="true"></i>
-                        </div>
-                        <b class="dash-main-name">Gallery</b>
-                        <div class="dash-right-arrow">
-                            <i class="fa fa-chevron-right" aria-hidden="true"></i>
-                        </div>
-                    </div>
-                </div>
-                <div onclick="window.location.href='{{url('dashboard/announcements')}}'" class="col-12">
-                    <div class="p-3 shop-homepage bg-white mb-2">
-                        <div class="dash-left-icon text-info">
-                            <i class="fa fa-volume-up" aria-hidden="true"></i>
-                        </div>
-                        <b class="dash-main-name">Announcements</b>
-                        <div class="dash-right-arrow">
-                            <i class="fa fa-chevron-right" aria-hidden="true"></i>
-                        </div>
-                    </div>
-                </div>
+                </div>                
             </div>
         </div>
     </main>
