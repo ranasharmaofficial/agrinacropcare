@@ -39,4 +39,9 @@ class DashboardController extends Controller
     public function forgetPassword(){
         return view('dashboard.auth.forget-password');
     }    
+
+    public function home()
+    {
+        return view('dashboard.home');
+    }
 }

@@ -4,13 +4,13 @@
           <p class="h5 m-0"><i class="fa fa-home" aria-hidden="true"></i></p>
           Home
        </a>
-       <a href="{{url('dashboard/blogs')}}" class="text-muted col small font-weight-bold  text-decoration-none p-2">
+       <a href="{{url('dashboard/home')}}" class="text-muted col small font-weight-bold  text-decoration-none p-2">
           <p class="h5 m-0"><i class="fa fa-file-text-o" aria-hidden="true"></i></p>
-          Blog
+          Crop Care
        </a>
        <a href="{{url('dashboard/home')}}" class="text-muted col small font-weight-bold text-decoration-none p-2">
-          <p class="h5 m-0"><i class="fa fa-book" aria-hidden="true"></i></p>
-          My Class
+          <p class="h5 m-0"><i class="fa fa-industry" aria-hidden="true"></i></p>
+          Insurance
        </a>
        <a href="{{url('dashboard/profile')}}" class="text-muted font-weight-bold small col text-decoration-none p-2">
           <p class="h5 m-0"><i class="fa fa-user-circle-o" aria-hidden="true"></i></p>

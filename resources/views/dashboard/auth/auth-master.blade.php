@@ -8,7 +8,7 @@
 	  <meta name="apple-mobile-web-app-status-bar-style" content="default">
       {{-- <meta name="theme-color" content="#319197"> --}}
 	  <meta http-equiv="Content-Security-Policy" content="default-src * 'self' 'unsafe-inline' 'unsafe-eval' data: gap:">
-      <title>@yield('title') - Prabuddham Academy</title>
+      <title>@yield('title') - Agrina</title>
       <!-- nav Slide -->
       <link rel="stylesheet" href="{{asset('assets_dash/dist/css/navslide.css?ver=4.2.3')}}">
       <!-- Bootstrap core CSS -->
