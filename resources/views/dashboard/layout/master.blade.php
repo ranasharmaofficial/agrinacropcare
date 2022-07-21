@@ -7,7 +7,7 @@
 	  <meta name="apple-mobile-web-app-capable" content="yes">
 	  <meta name="apple-mobile-web-app-status-bar-style" content="default">
 	  <meta http-equiv="Content-Security-Policy" content="default-src * 'self' 'unsafe-inline' 'unsafe-eval' data: gap:">
-      <title>@yield('title') - Prabuddham Academy</title>
+      <title>@yield('title') - Agrina Crop Care</title>
       <!-- Owl Stylesheets -->
       <link rel="stylesheet" href="{{asset('assets_dash/owlcarousel/assets/owl.carousel.min.css')}}">
       <link rel="stylesheet" href="{{asset('assets_dash/owlcarousel/assets/owl.theme.default.min.css')}}">

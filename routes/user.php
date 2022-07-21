@@ -19,6 +19,9 @@ Route::get('auth/login', [DashboardController::class, 'login'])->name('dashboard
 Route::post('loginDash', [DashboardController::class, 'loginDash'])->name('loginDash')->middleware('AlreadyDashLoggedIn');
 
 Route::get('home', [DashboardController::class, 'home'])->name('home');
+Route::get('crop-care', [DashboardController::class, 'cropCare'])->name('crop-care');
+Route::get('animal-health-care', [DashboardController::class, 'animalHealthCare'])->name('animal-health-care');
+Route::get('insurance', [DashboardController::class, 'insurance'])->name('insurance');
 // Route::group(['middleware'=>['DashboardAuthCheck']], function () {
 
 // });

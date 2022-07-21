@@ -86,7 +86,7 @@ class AdminController extends Controller
     }
     public function dataList(){
         $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
-        $worklist = Work::paginate(10);
+        $worklist = Work::paginate(2);
         return view('admin/datalist', $data, compact('worklist'));
     }
     public function workCompletedRequest(){
@@ -1345,5 +1345,74 @@ class AdminController extends Controller
         } else{
             return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please! try again later.'));
         }
+    }
+    public function districtList(Request $request){
+        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
+        
+		$sort_search = null;
+		$district = District::where('status',1);
+        if ($request->search != null){
+            $district = $district->where('name', 'like', '%'.$request->search.'%');
+							$sort_search = $request->search;
+        }
+		$district = $district ->orderBy('id_district', 'asc')->paginate(15);
+							   
+        return view('admin/districtlist', $data, compact('district','sort_search')); 
+    }
+    public function editDistrict($id){
+        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
+        $districtDetails = District::where('id_district',$id)->first();
+        return view('admin/editdistrict', $data, compact('districtDetails')); 
+    }
+    public function updateDistrictData(Request $request){
+        $data = ['LoggedUserInfo'=>User::where('id', '=', session('LoggedUser'))->first()];
+        $request->validate([
+            'dist_name'  => 'required',
+            'districtid'  => 'required',
+        ]);
+        $updatedistrict = District::where('id_district', $request->districtid)
+                        ->update([
+                            'name' => $request->dist_name,
+                        ]);
+        if($updatedistrict){
+        return redirect()->back()->with(session()->flash('alert-success', 'District Name Updated Successfully '));
+        } else {
+            return redirect()->back()->with(session()->flash('alert-warning', 'Something went wrong. Please try again.')); 
+        } 
+    }
+    public function blockList(Request $request){
+        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
+		$sort_search = null;
+		$block = Block::join('districts', 'blocks.district_id', '=', 'districts.id_district');
+        if ($request->search != null){
+            $block = $block->where('blocks.name', 'like', '%'.$request->search.'%')
+							->orWhere('districts.name', "like", "%" . $request->search . "%");
+							$sort_search = $request->search;
+        }
+		$block = $block ->select('districts.name as districtName', 'blocks.*')
+                               ->paginate(35);
+		return view('admin/blocklist', $data, compact('block','sort_search')); 
+    }
+    public function editBlock($id){
+        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
+        $blockDetails = Block::where('id',$id)->first();
+        return view('admin/editblock', $data, compact('blockDetails')); 
+    }
+    public function updateBlockData(Request $request){
+        $data = ['LoggedUserInfo'=>User::where('id', '=', session('LoggedUser'))->first()];
+        $request->validate([
+            'dist_name'  => 'required',
+            'block_name'  => 'required',
+        ]);
+        $updateblock = Block::where('id', $request->blockid)
+                        ->update([
+                            'district_id' => $request->dist_name,
+                            'name' => $request->block_name,
+                        ]);
+        if($updateblock){
+        return redirect()->back()->with(session()->flash('alert-success', 'Block Name Updated Successfully '));
+        } else {
+            return redirect()->back()->with(session()->flash('alert-warning', 'Something went wrong. Please try again.')); 
+        } 
     }
 }

@@ -189,5 +189,11 @@ Route::group(['middleware'=>['AdminAuthCheck']], function () {
     Route::post('uploadEvent', [AdminController::class, 'uploadEvent'])->name('uploadEvent');
     Route::post('uploadGalleryImage', [AdminController::class, 'uploadGalleryImage'])->name('uploadGalleryImage');
     Route::post('uploadNotice', [AdminController::class, 'uploadNotice'])->name('uploadNotice');
+    Route::get('admin/district-list', [AdminController::class, 'districtList'])->name('admin.district-list');
+    Route::get('admin/edit-district/{id}', [AdminController::class, 'editDistrict'])->name('admin.editDistrict.{$id}');
+    Route::post('updateDistrictData', [AdminController::class, 'updateDistrictData'])->name('admin.updateDistrictData');
+    Route::get('admin/block-list', [AdminController::class, 'blockList'])->name('admin.block-list');
+    Route::get('admin/edit-block/{id}', [AdminController::class, 'editblock'])->name('admin.editblock.{$id}');
+    Route::post('updateBlockData', [AdminController::class, 'updateBlockData'])->name('admin.updateBlockData');
 });
 // Admin Modules End

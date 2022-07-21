@@ -16,7 +16,7 @@
                         <span>Dashboard</span>
                     </a>
                 </li>
-                <li>
+                {{-- <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="ri-file-user-fill"></i>
                         <span>Teacher </span>
@@ -35,7 +35,7 @@
                         <li><a href="{{url('admin/data-list')}}">Data List</a></li>
                         <li><a href="{{url('admin/work-completed-request')}}">Work Completed Request</a></li>
                     </ul>
-                </li>
+                </li> --}}
                 
                 
                 <li>
@@ -44,9 +44,19 @@
                         <span>Employee</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="{{url('admin/add-employee')}}">Add Employee</a></li>
+                        {{-- <li><a href="{{url('admin/add-employee')}}">Add Employee</a></li> --}}
                         <li><a href="{{url('admin/employee-list')}}">Employee List</a></li>
                         <li><a href="{{url('admin/view-employee')}}">View Employee</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="ri-user-2-fill"></i>
+                        <span>Manage</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="{{url('admin/district-list')}}">District List</a></li>
+                        <li><a href="{{url('admin/block-list')}}">Block List</a></li>
                     </ul>
                 </li>
                 

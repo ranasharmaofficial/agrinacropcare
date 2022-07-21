@@ -44,4 +44,13 @@ class DashboardController extends Controller
     {
         return view('dashboard.home');
     }
+    public function cropCare(){
+        return view('dashboard.cropcare');
+    }
+    public function animalHealthCare(){
+        return view('dashboard.animalhealthcare');
+    }
+    public function insurance(){
+        return view('dashboard.insurance');
+    }
 }
