@@ -20,22 +20,25 @@
       <script src="{{asset('assets_dash/vendors/jquery.min.js')}}"></script>
       <script src="{{asset('assets_dash/dist/js/hc-offcanvas-nav.js?ver=4.2.2')}}"></script>
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+      <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
       <style>
+	  /*
       html{
          overflow: hidden;
       }         
       body{
          overflow: hidden !important;
-      }      
+      }    */  
       </style>
    </head>
-   <body class="index-app bg-gradient-auth">	
+   <body style="height:100%; width:100%; overflow:hidden;overflow-y:scroll;" class="index-app bg-gradient-auth">	
       <div id="pageloader">
          <img src="{{asset('assets_dash/loader-large.gif')}}" alt="processing..." />
       </div>
        {{-- @include('dashboard.auth.header') --}}
 		@yield('content')
       <script src="{{asset('assets_dash/dist/js/bootstrap.bundle.js')}}"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
       <script>
          $(document).ready(function(){
              $("form").submit(function(){
@@ -43,5 +46,18 @@
              });
          });
       </script>
+       <script>
+         $(document).ready(function() {
+             toastr.options.timeOut = 5000;
+             @if (Session::has('alert-danger'))
+                 toastr.error('{{ Session::get('alert-danger') }}');
+             @elseif(Session::has('alert-success'))
+                 toastr.success('{{ Session::get('alert-success') }}');
+             @elseif(Session::has('alert-warning'))
+                 toastr.success('{{ Session::get('alert-warning') }}');
+             @endif
+         });
+     
+     </script>
    </body>
 </html>

@@ -1,16 +1,16 @@
 @extends('dashboard.layout.master')
-@section('title')Profile @endsection
+@section('title')Crop Insurance @endsection
 @section('header-title')Profile @endsection
 
 @section('content')
     <main role="main" class="ion-content ion-myprofile">
         <div class="mb-2 card bg-white profile-box text-center">
             <div class="py-4 px-3 border-bottom">
-                <img alt="img" class="img-fluid mt-2 rounded-circle" src="{{asset('uploads/students/'.$userinfo->studentPhoto)}}">
+                <img alt="img" class="img-fluid mt-2 rounded-circle" src="">
                 <h5 class="font-weight-bold text-dark mb-1 mt-4">{{ $LoggedUserInfo['name'] }}</h5>
-                <p class="mb-0 text-muted">CLASS - {{$course->courseName}}</p>
+                <p class="mb-0 text-muted">CLASS - </p>
             </div>
-            {{-- <div class="d-flex">
+              <div class="d-flex">
                 <div class="col-6 border-right p-3">
                     <a class="card-link-style" href="myaddress.html">
                         <h6 class="font-weight-bold text-dark mb-1">
@@ -27,13 +27,13 @@
                         <p class="mb-0 text-black-50 small">Edit Profile</p>
                     </a>
                 </div>
-            </div> --}}
+            </div>  
             <div class="overflow-hidden border-top p-3 d-flex justify-content-between align-items-center">
                 <small class="text-secondary font-weight-bold">
                     <i class="fa fa-credit-card" aria-hidden="true"></i>
                     Dues Amount:
                 </small>
-                <small class="text-primary font-weight-bold">Rs: {{$duesamount}}/-</small>
+                <small class="text-primary font-weight-bold">Rs: 20/-</small>
             </div>
         </div>
         <div class="card">
@@ -44,23 +44,23 @@
                 <tbody>
                     <tr>
                         <th>Admission&nbsp;Number:</th>
-                        <td>{{$userinfo->admissionNumber}}</td>
+                        <td></td>
                     </tr>
                     <tr>
                         <th>Class:</th>
-                        <td>{{$course->courseName}}</td>
+                        <td></td>
                     </tr>
                     <tr>
                         <th>Batch:</th>
-                        <td>{{date("g:i a", strtotime($batch->batchtimefrom))}} - {{date("g:i a", strtotime($batch->batchtimeto))}}</td>
+                        <td></td>
                     </tr>
                     <tr>
                         <th>Admission Date:</th>
-                        <td>{{date("d-M-Y", strtotime($userinfo->joiningDate))}}</td>
+                        <td></td>
                     </tr>
                     <tr>
                         <th>Gurdian&nbsp;Name:</th>
-                        <td>{{$userinfo->gurdianName}}</td>
+                        <td></td>
                     </tr>
                 </tbody>
             </table>
@@ -83,22 +83,7 @@
                         <th>Email:</th>
                         <td>{{$user->email}}</td>
                     </tr>
-                    <tr>
-                        <th>Date of Birth:</th>
-                        <td>{{$userinfo->dob}}</td>
-                    </tr>
-                    <tr>
-                        <th>Gender:</th>
-                        <td>{{$userinfo->gender}}</td>
-                    </tr>
-                    <tr>
-                        <th>Blood Group:</th>
-                        <td>{{$userinfo->bloodGroup}}</td>
-                    </tr>
-                    <tr>
-                        <th>Birth&nbsp;Place:</th>
-                        <td>{{$userinfo->birthPlace}}</td>
-                    </tr>
+                    
                 </tbody>
             </table>
         </div>

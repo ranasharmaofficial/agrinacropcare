@@ -1,5 +1,5 @@
 @extends('dashboard.auth.auth-master')
-@section('title', 'Login')
+@section('title', 'Farmer Registration')
 @section('content')
 <style>
     .img-login-logo{
@@ -10,15 +10,15 @@
 <main role="main" class="ion-checkout">
     <div class="row mt-3">
         <div class="col-sm-12 text-center">
-            <img src="{{asset('front_assets/img/logo.png')}}" alt="Logo" class="img-login-logo">
+            <img style="margin-top:-45px;" src="{{asset('front_assets/img/logo.png')}}" alt="Logo" class="img-login-logo">
         </div>
     </div>
     <div class="card mb-3">
        <div class="card-header font-weight-bold text-center text-success">
-           Login
+           Farmer Registration
        </div>
         <div class="card-body p-0">
-            <form action="{{route('loginDash')}}" method="post" class="p-2">
+            <form action="{{route('dashboard.uploadFarmerRegData')}}" method="post" class="p-2">
                 <div class="flash-message">
                     @foreach (['danger', 'warning', 'success', 'info'] as $msg)
                         @if (Session::has('alert-' . $msg))
@@ -34,30 +34,31 @@
                 @csrf
                 <div class="ion-list ion-no-margin ion-no-padding">
                 <div class="text-field">
-                    <input type="text" required name="username" title="Username" value="{{old('username')}}" />
-                    <label>Enter Your Username <span class="danger">*</span></label>
-                    <span class="text-danger form-text">@error('username') {{$message}} @enderror</span>
+                    <input required type="text" name="name" title="Name" value="{{old('name')}}" />
+                    <label>Name as On Aadhar <span class="danger">*</span></label>
+                    <span class="text-danger form-text">@error('name') {{$message}} @enderror</span>
                 </div>
                 </div>
                 <div class="ion-list ion-no-margin">
                 <div class="text-field">
-                    <input type="password" required name="password" title="Password" value="{{old('password')}}" />
-                    <label>Enter Your Password<span class="danger">*</span></label>
-                    <span class="text-danger form-text">@error('password') {{$message}} @enderror</span>
+                    <input required type="tel" pattern="[6789][0-9]{9}" min="10" maxlength="10" name="mobile" title="Mobile" value="{{old('mobile')}}" />
+                    <label>Mobile Number<span class="danger">*</span></label>
+                    <span class="text-danger form-text">@error('mobile') {{$message}} @enderror</span>
                 </div>
                 </div>
-                <button type="submit" class="btn btn-block btn-oringe ion-no-margin" id="login">Login Now</button>
+                <button type="submit" class="btn btn-block btn-oringe ion-no-margin" id="login">Register Now</button>
             </form>
             <div class="p-3 mb-3">                
                 <div class="float-left">
-                    <a href="{{url('dashboard/auth/forget-password')}}" class="text-center mt-3 text-primary">Lost your password?</a>
+                    <a href="{{url('dashboard/auth/login')}}" class="text-center mt-3 text-primary">Already Registered? Login Now</a>
                 </div>
-                <div class="float-right">
+                {{--<div class="float-right">
                     <a href="{{url('dashboard/register')}}" class="text-center mt-3 text-primary">Register</a>
-                </div>
-            </div>    
+                </div>--}}
+            </div> 
         </div>       
     </div>
+	@include('dashboard.partials.gotohome')
  </main>
 
 @endsection

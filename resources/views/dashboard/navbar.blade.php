@@ -6,7 +6,7 @@
                     <img class="img-responsive img-circle" alt="" src="{{asset('assets_dash/icon/man.png')}}">
                 </div>
                 <h3 class="profile_title">Ankit Raj</h3>
-                <h4 class="profile_email">Software Developver</h4>
+                <h4 class="profile_email">fd</h4>
             </li>
             <li>
                 <a href="{{url('dashboard/home')}}"> <i class="fa fa-home" aria-hidden="true"></i>Home</a>

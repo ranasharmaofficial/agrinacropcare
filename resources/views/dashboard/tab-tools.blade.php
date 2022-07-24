@@ -4,11 +4,11 @@
           <p class="h5 m-0"><i class="fa fa-home" aria-hidden="true"></i></p>
           Home
        </a>
-       <a href="{{url('dashboard/home')}}" class="text-muted col small font-weight-bold  text-decoration-none p-2">
+       <a href="{{url('dashboard/crop-care')}}" class="text-muted col small font-weight-bold  text-decoration-none p-2">
           <p class="h5 m-0"><i class="fa fa-file-text-o" aria-hidden="true"></i></p>
           Crop Care
        </a>
-       <a href="{{url('dashboard/home')}}" class="text-muted col small font-weight-bold text-decoration-none p-2">
+       <a href="{{url('dashboard/insurance')}}" class="text-muted col small font-weight-bold text-decoration-none p-2">
           <p class="h5 m-0"><i class="fa fa-industry" aria-hidden="true"></i></p>
           Insurance
        </a>

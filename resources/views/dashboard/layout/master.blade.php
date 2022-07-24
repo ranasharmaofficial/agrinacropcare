@@ -22,12 +22,43 @@
       <script src="{{asset('assets_dash/vendors/jquery.min.js')}}"></script>
       <script src="{{asset('assets_dash/dist/js/hc-offcanvas-nav.js?ver=4.2.2')}}"></script>
       <script src="{{asset('assets_dash/owlcarousel/owl.carousel.js')}}"></script>
+      <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+      
    </head>
-   <body class="index-app">
+   <body style="height:100%; width:100%; overflow:hidden;overflow-y:scroll;" class="index-app">
 		@include('dashboard.navbar')		
 		@yield('content')
 		@include('dashboard.tab-tools')
       <script>
+
+function get_state_city(){
+    var pincode = jQuery('#pincode').val();
+    if(pincode==''){
+      jQuery('#city').val('');
+      jQuery('#state').val('');
+      document.getElementById("wrong_pincode").innerHTML=""; 
+    }else{
+      jQuery.ajax({
+        url:'{{route('dashboard.getPinCodeDetails')}}',
+        type:'post',
+        data:'pincode='+pincode+'&_token={{csrf_token()}}',
+        success:function(data){
+          if(data=='no'){
+            // alert('Wrong Pincode');
+            document.getElementById("wrong_pincode").innerHTML="Wrong Pincode."; 
+            jQuery('#city').val('');
+            jQuery('#state').val('');
+          }else{
+            var getData=$.parseJSON(data);
+            jQuery('#city').val(getData.city);
+            jQuery('#state').val(getData.state);
+            document.getElementById("wrong_pincode").innerHTML=""; 
+          }
+        }
+      });
+    }
+    }
+
          (function($) {
            var $main_nav = $('#main-nav');
            var $toggle = $('.toggle');
@@ -118,8 +149,24 @@
            items: 1
          })
       </script>
-      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+      <script>
+        $(document).ready(function() {
+            toastr.options.timeOut = 2000;
+            @if (Session::has('alert-danger'))
+                toastr.error('{{ Session::get('alert-danger') }}');
+            @elseif(Session::has('alert-success'))
+                toastr.success('{{ Session::get('alert-success') }}');
+            @elseif(Session::has('alert-warning'))
+                toastr.success('{{ Session::get('alert-warning') }}');
+            @endif
+        });
+    
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+      {{-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script> --}}
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
       <script>window.jQuery || document.write('<script src="{{asset("assets_dash/js/vendor/jquery.slim.min.js")}}"><\/script>')</script>
       <script src="{{asset('assets_dash/dist/js/bootstrap.bundle.js')}}"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
    </body>
 </html>

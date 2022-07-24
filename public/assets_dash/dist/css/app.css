@@ -692,6 +692,16 @@ p {
   font-size: 15px;
   padding-left: 19px;
 }
+
+.ion-checkout select {
+  flex: 1;
+  width: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  border: 1;
+  font-size: 15px;
+  padding-left: 19px;
+}
 .ion-checkout input:focus,
 .ion-checkout textarea:focus {
   outline: gold;
@@ -838,16 +848,38 @@ input {
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
 }
+select {
+  display: inline-block;
+  border: 1px solid #fafafa;
+  border-bottom: solid 1px #999;
+  color: #444;
+  background-color: #fafafa;
+  padding: 10px 10px 10px 10px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
 
 input:focus {
       border: thin solid #32cd32;
       border-bottom: solid 1px #32cd32;
       background-color:#fff;
   }
+
 input:invalid {
     border: thin solid #b37f78;
     border-bottom: solid 1px #b37f78;
     background-color:#fff;
+}
+
+select:focus {
+  border: thin solid #32cd32;
+  border-bottom: solid 1px #32cd32;
+  background-color:#fff;
+}
+.select:invalid {
+border: thin solid #b37f78;
+border-bottom: solid 1px #b37f78;
+background-color:#fff;
 }
 
 label {
@@ -893,4 +925,26 @@ input:invalid ~ label {
     margin-top: -32px;
     position: absolute;
     top: 50%;
+}
+
+/* Rana css from here*/
+.register_heading {
+  color: #003049 !important;
+}
+.img-login-logo{
+  width: 190px;
+  border-radius: 10px;
+}
+.is-invalid{
+border-color: #dc3545;
+padding-right: calc(1.5em + 0.75rem);
+background-repeat: no-repeat;
+background-position: right calc(0.375em + 0.1875rem) center;
+background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+}
+hr {
+  margin-top: 0.7rem;
+  margin-bottom: 1rem;
+  border: 0;
+  border-top: 1px solid #003049;
 }
