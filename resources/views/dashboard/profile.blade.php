@@ -36,35 +36,7 @@
                 <small class="text-primary font-weight-bold">Rs: 20/-</small>
             </div>
         </div>
-        <div class="card">
-            <div class="card-header bg-indigo text-white font-weight-bold">
-                General Details
-            </div>
-            <table class="table table-striped">
-                <tbody>
-                    <tr>
-                        <th>Admission&nbsp;Number:</th>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <th>Class:</th>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <th>Batch:</th>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <th>Admission Date:</th>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <th>Gurdian&nbsp;Name:</th>
-                        <td></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        
         <div class="card">
             <div class="card-header bg-indigo text-white font-weight-bold">
                 Personal Details
@@ -79,10 +51,10 @@
                         <th>Mobile:</th>
                         <td>{{$user->mobile}}</td>
                     </tr>
-                    <tr>
+                    {{-- <tr>
                         <th>Email:</th>
                         <td>{{$user->email}}</td>
-                    </tr>
+                    </tr> --}}
                     
                 </tbody>
             </table>

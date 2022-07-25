@@ -1,29 +1,4 @@
-/* --------------------------------------------------------------------------
- * Foundstrap     : Zengarden - Garden and Landscape HTML Template
- *  
- * file           : responsive.css
- * Version        : 1.2
- * Author         : foundstrap - team
- * Author URI     : http://foundstrap.net
- *
- * Foundstrap Studio. Copyright 2021. All Rights Reserved.
- * -------------------------------------------------------------------------- */
-/*  -------------------------------------------------------------------------- 
-    [table of contents]
-    1. extra large screen
-    2. large screen
-    3. medium screen
-    4. small screen
-    5. notebook 
-    6. tablet landscape
-    7. tablet portrait 
-    8. mobile landscape 
-    9. mobile portrait 
-    10.specified device
-    - iphone 5 Portrait
-    - iphone 6 Portrait
-   -------------------------------------------------------------------------- */
-/* [extra large screen] */
+
 @media screen and (max-width: 1200px) {
     /* your responsive style here */
 }
@@ -110,7 +85,7 @@
         background: #1a191e;
     }
     #header .header-main {
-        background: #242328;
+        background: #fff;
     }
 
     .me-menu > li > a {
@@ -123,7 +98,7 @@
 
     .me-menu ul > li > a,
     .me-menu .mega-menu-container {
-        color: #717173;
+        color: #00020b;
     }
 
     .me-menu {

@@ -19,7 +19,7 @@
        </div>
         <div class="card-body p-0">
             <form action="{{route('loginDash')}}" method="post" class="p-2">
-                <div class="flash-message">
+                {{-- <div class="flash-message">
                     @foreach (['danger', 'warning', 'success', 'info'] as $msg)
                         @if (Session::has('alert-' . $msg))
                             <div class="alert alert-{{ $msg }} alert-dismissible fade show" role="alert">
@@ -30,7 +30,7 @@
                             </div>
                         @endif
                     @endforeach
-                </div>
+                </div> --}}
                 @csrf
                 <div class="ion-list ion-no-margin ion-no-padding">
                 <div class="text-field">

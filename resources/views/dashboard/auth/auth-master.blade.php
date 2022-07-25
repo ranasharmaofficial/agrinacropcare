@@ -48,7 +48,7 @@
       </script>
        <script>
          $(document).ready(function() {
-             toastr.options.timeOut = 5000;
+             toastr.options.timeOut = 2000;
              @if (Session::has('alert-danger'))
                  toastr.error('{{ Session::get('alert-danger') }}');
              @elseif(Session::has('alert-success'))

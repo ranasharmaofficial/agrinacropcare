@@ -49,7 +49,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <div class="copyright pull-left">&copy; All rights reserved @php echo date('Y') @endphp, <strong>AGRINA CROP CARE</strong> | <a href="http://ranasharma.com">Designed with <i class="fa fa-heart"></i> by WebFinic Enterprise</a></div>
+                    <div class="copyright pull-left">&copy; All rights reserved @php echo date('Y') @endphp, <strong>AGRINA CROP CARE PRIVATE LIMITED</strong> | <a href="http://ranasharma.com">Designed with <i class="fa fa-heart"></i> by WebFinic Enterprise</a></div>
                     <ul class="footer-social social-icon pull-right">
                         <li>
                             <a class="facebook-color" href="#"><i class="fa fa-facebook"></i></a>

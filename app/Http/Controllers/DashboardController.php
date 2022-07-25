@@ -21,12 +21,18 @@ class DashboardController extends Controller
         $dashInfo = User::where('user_id', '=', $request->username)->where('status', '1')->first();
 		// dd($dashInfo);die;
         if (!$dashInfo) {
-            return redirect()->route('dashboard.auth.login')->with(session()->flash('alert-warning', 'Failed! We do not recognize your username.'));
+            return redirect()->route('dashboard.auth.login')->with(session()->flash('alert-danger', 'Failed! We do not recognize your username.'));
         } else if ($request->password === $dashInfo->password) {
 			//Doctor role here
 			if($dashInfo->role==3)
 			{
 				$request->session()->put('LoggedDash', $dashInfo->id);
+                $doctorinfo = \App\Models\User::where('id',$dashInfo->id)->first();
+                // dd($doctorinfo);
+                // die;
+                $logged_name = $request->session()->put('logged_name',$doctorinfo->name);
+                $logged_mobile = $request->session()->put('logged_mobile',$doctorinfo->mobile);
+                $logged_user_id = $request->session()->put('logged_user_id',$doctorinfo->user_id);
 				return redirect('dashboard/home?doctor');
 			}
 			//Agent role here
@@ -50,7 +56,8 @@ class DashboardController extends Controller
     {
         if (session()->has('LoggedDash')) {
             session()->pull('LoggedDash');
-            return redirect('dashboard/auth/login');
+            session()->pull('logged_name');
+            return redirect('dashboard/home');
         }
     } 
     

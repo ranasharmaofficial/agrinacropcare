@@ -29,7 +29,7 @@
         <link rel="stylesheet" href="{{url('front_assets/css/responsive.css')}}">
 
         <!-- favicon -->
-        <link rel="shortcut icon" href="{{url('front_assets/img/favicon.ico')}}">
+        <link rel="shortcut icon" href="{{url('front_assets/img/favicon.png')}}">
     </head>
 
     <body>

@@ -39,6 +39,9 @@ class ExternalController extends Controller
         
         return view('index');
     }
+    public function contact(){
+        return view('contact');
+    }
     public function events(){
         $events = Event::limit(1)->get();
         return view('events',compact('events'));
@@ -51,9 +54,9 @@ class ExternalController extends Controller
     public function enquiryContact(Request $request){
         $request->validate([
             'name' => 'required|string',
-            'email' => 'required|string',
-            'mobile' => 'required|string',
-            'message' => 'required'
+            'email' => 'required|string|email',
+            'mobile' => 'required|string|numeric|min:10',
+            'message' => 'required|string|max:160'
         ]);
 
         $contactpost = new Contact;

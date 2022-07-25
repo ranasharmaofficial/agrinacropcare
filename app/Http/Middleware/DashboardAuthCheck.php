@@ -17,7 +17,7 @@ class DashboardAuthCheck
     public function handle(Request $request, Closure $next)
     {
         if(!session()->has('LoggedDash') && ($request->path() !='dashboard/auth/login')){
-            return redirect()->route('dashboard.auth.login')->with(session()->flash('alert-warning', 'You must be logged in.'));
+            return redirect()->route('dashboard.auth.login')->with(session()->flash('alert-danger', 'You must be logged in.'));
         }
 
         if(session()->has('LoggedDash') && ($request->path() == 'dashboard/auth/login')){

@@ -22,7 +22,7 @@ Route::get('course', [ExternalController::class, 'course'])->name('course');
 Route::get('course-details/{courseslug}', [ExternalController::class, 'courseSingle'])->name('course-details');
 Route::view('events', 'events');
 Route::view('gallery', 'gallery');
-Route::view('contact', 'contact');
+Route::view('contact-us', 'contact');
 Route::view('register', 'register');
 Route::view('verification', 'verification');
 Route::view('login', 'login');
