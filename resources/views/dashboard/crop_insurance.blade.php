@@ -1,5 +1,5 @@
 @extends('dashboard.layout.master')
-@section('title')Profile @endsection
+@section('title')Crop Insurance @endsection
 @section('header-title')Crop Insurance @endsection
 
 @section('content')
@@ -10,7 +10,7 @@
            Doctor Registration
        </div>
         <div class="card-body p-0">
-            <form action="{{route('dashboard.uploadDocRegData')}}" autocomplete="off" method="post" class="p-2">
+            <form action="{{route('dashboard.uploadCropInsuranceData')}}" autocomplete="off" method="post" enctype="multipart/form-data" class="p-2">
                 {{-- <div class="flash-message">
                     @foreach (['danger', 'warning', 'success', 'info'] as $msg)
                         @if (Session::has('alert-' . $msg))
@@ -27,9 +27,9 @@
             <h6 class="register_heading">Crop E-Farms</h6>
 				 
                 <div class="text-field">
-                    <input type="text" autofocus required name="name" class="form-control" title="Name" value="{{old('name')}}" />
+                    <input type="text" autofocus required name="employee_id" class="form-control" title="Name" value="{{old('employee_id')}}" />
                     <label>Employee Code <span class="danger">*</span></label>
-                    <span class="text-danger form-text">@error('name') {{$message}} @enderror</span>
+                    <span class="text-danger form-text">@error('employee_id') {{$message}} @enderror</span>
                 </div>
 				<h6 class="register_heading">Proposor Details</h6>
 				<hr>
@@ -42,30 +42,33 @@
 									<option value="Mrs.">Mrs.</option>
 									<option value="Miss">Miss</option>
 								</select>
+                                <span class="text-danger form-text">@error('employee_id') {{$salutation}} @enderror</span>
 							</div>
 						</div>
-						<input type="text" name="name" class="form-control" id="Name" placeholder="Enter Your Name">
+						<input type="text" name="name" required class="form-control" id="Name" placeholder="Enter Your Name">
 					</div>
-                </div>
-				<div class="text-field">
-                    <input type="text" required name="name" class="form-control" title="Name" value="{{old('name')}}" />
-                    <label>Name <span class="danger">*</span></label>
                     <span class="text-danger form-text">@error('name') {{$message}} @enderror</span>
                 </div>
+				<input type="hidden" name="type" value="1">
 				<div class="text-field">
                     <input type="text" required name="gender" class="form-control" title="Gender" value="{{old('gender')}}" />
                     <label>Gender <span class="danger">*</span></label>
                     <span class="text-danger form-text">@error('gender') {{$message}} @enderror</span>
                 </div>
+                <div class="text-field">
+                    <input type="tel" pattern="[6789][0-9]{9}" required name="mobile" class="form-control" title="Mobile" value="{{old('gender')}}" />
+                    <label>Mobile <span class="danger">*</span></label>
+                    <span class="text-danger form-text">@error('mobile') {{$message}} @enderror</span>
+                </div>
 				<div class="text-field">
                     <input type="date" required name="dob" class="form-control" title="Date of Birth" value="{{old('dob')}}" />
                     <label style="top:-19px;">Date of Birth <span class="dob">*</span></label>
-                    <span class="text-danger form-text">@error('gender') {{$message}} @enderror</span>
+                    <span class="text-danger form-text">@error('dob') {{$message}} @enderror</span>
                 </div>
 				<div class="text-field">
                     <input type="tel" min="6" maxlength="6" required name="pincode" id="pincode" class="form-control" title="Date of Birth" value="{{old('pincode')}}" />
                     <label>Pin Code <span class="dob">*</span></label>
-                    <span class="text-danger form-text">@error('gender') {{$message}} @enderror</span>
+                    <span class="text-danger form-text">@error('pincode') {{$message}} @enderror</span>
 					<span class="text-warning form-text font-weight-bold" id="wrong_pincode"></span>
                 </div>
 				<div class="text-field">
@@ -86,10 +89,10 @@
 				<div class="text-field">
                     <input type="text" required name="crops_insurred" class="form-control" title="Major Crops Insurred" value="{{old('crops_insurred')}}" />
                     <label>Major Crops Insurred <span class="dob">*</span></label>
-                    <span class="text-danger form-text">@error('state') {{$message}} @enderror</span>
+                    <span class="text-danger form-text">@error('crops_insurred') {{$message}} @enderror</span>
                 </div>
 				<div style="margin-top:5px;"class="text-field">
-                    <input onchange="loadFile(event)" type="file" required name="aadhar_card" class="form-control" title="Aadhar Card Picture" value="{{old('aadhar_card')}}" />
+                    <input onchange="loadFile(event)" type="file" required name="aadhar_card" class="form-control" title="Aadhar Card Picture" />
                     <label style="top:-19px;">Aadhar Card Picture <span class="dob">*</span></label>
                     <span class="text-danger form-text">@error('aadhar_card') {{$message}} @enderror</span>
                 </div>
@@ -107,12 +110,12 @@
                 <div class="text-field">
 					<select class="select w-100" required type="text" name="plan_details" id="class_id">
 							<option>---Select Plan---</option>
-							<option>Tenure</option>
-							<option>Policy Start</option>
-							<option>Total Sum Insurred</option>
-							<option>Gross Premium in(Rs)</option>
+							<option value="Tenure">Tenure</option>
+							<option value="Policy Start">Policy Start</option>
+							<option value="Total Sum Insurred">Total Sum Insurred</option>
+							<option value="Gross Premium in(Rs)">Gross Premium in(Rs)</option>
 					</select>
-					<span class="text-danger form-text">@error('block') {{$message}} @enderror</span>
+					<span class="text-danger form-text">@error('plan_details') {{$message}} @enderror</span>
                 </div>
 				<h6 class="register_heading">Nominee Details</h6>
 				<hr>
@@ -120,28 +123,28 @@
                     <div class="input-group">
 						<div class="input-group-prepend">
 							<div style="background-color:#003049;color:#fff;" class="input-group-text">
-								<select style="padding:0px;background-color:#003049;color:#fff;" name="salutation">
+								<select style="padding:0px;background-color:#003049;color:#fff;" name="nominee_salutation">
 									<option selected="selected" value="Mr.">Mr.</option>
 									<option value="Mrs.">Mrs.</option>
 									<option value="Miss">Miss</option>
 								</select>
 							</div>
 						</div>
-						<input type="text" name="name" class="form-control" id="Name" placeholder="Enter Your Name">
+						<input type="text" name="nominee_name" class="form-control" id="Name" placeholder="Enter Your Name">
 					</div>
                 </div>
                 <div class="text-field">
-                    <input type="text" required name="nominee_s_father" class="form-control" title="Father" value="{{old('nominee_s_father')}}" />
+                    <input type="text" required name="nominee_father" class="form-control" title="Father" value="{{old('nominee_father')}}" />
                     <label>Father's Name <span class="danger">*</span></label>
-                    <span class="text-danger form-text">@error('nominee_s_father') {{$message}} @enderror</span>
+                    <span class="text-danger form-text">@error('nominee_father') {{$message}} @enderror</span>
                 </div> 
                 <div class="text-field">
-                    <input type="date" required name="nominee_s_dob" class="form-control" title="Date of Birth" value="{{old('nominee_s_dob')}}" />
+                    <input type="date" name="nominee_dob" class="form-control" title="Date of Birth" value="{{old('nominee_dob')}}" />
                     <label style="top:-19px;">Date of Birth <span class="dob">*</span></label>
-                    <span class="text-danger form-text">@error('nominee_s_dob') {{$message}} @enderror</span>
+                     
                 </div>
 				<div class="text-field">
-                    <select class="select w-100" required type="text" name="nominee_s_relation">
+                    <select class="select w-100" required type="text" name="nominee_relation">
 							<option>---Select Relationship with Proposer---</option>
 							<option>Father</option>
 							<option>Mother</option>
@@ -152,7 +155,7 @@
 							<option>Other</option>
 					</select>
                     
-                    <span class="text-danger form-text">@error('nominee_s_dob') {{$message}} @enderror</span>
+                    <span class="text-danger form-text">@error('nominee_relation') {{$message}} @enderror</span>
                 </div>
                 <button type="submit" class="btn btn-block btn-oringe ion-no-margin" id="login">Proceed</button>
             </form>

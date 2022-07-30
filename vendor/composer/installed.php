@@ -1,11 +1,11 @@
 <?php return array(
     'root' => array(
-        'pretty_version' => '1.0.0+no-version-set',
-        'version' => '1.0.0.0',
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => NULL,
+        'reference' => '20f1a63c57c62015241ba57c7863371dd8f3491f',
         'name' => 'laravel/laravel',
         'dev' => true,
     ),
@@ -374,12 +374,12 @@
             'dev_requirement' => false,
         ),
         'laravel/laravel' => array(
-            'pretty_version' => '1.0.0+no-version-set',
-            'version' => '1.0.0.0',
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => NULL,
+            'reference' => '20f1a63c57c62015241ba57c7863371dd8f3491f',
             'dev_requirement' => false,
         ),
         'laravel/sail' => array(
@@ -792,12 +792,12 @@
             'dev_requirement' => false,
         ),
         'razorpay/razorpay' => array(
-            'pretty_version' => 'v2.8.3',
-            'version' => '2.8.3.0',
+            'pretty_version' => 'v2.8.4',
+            'version' => '2.8.4.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../razorpay/razorpay',
             'aliases' => array(),
-            'reference' => '1ae60f9142f63cb01e6f9b843dd0a3573976fd40',
+            'reference' => '3f2edc150f6ca035d15ab81382f7f76417de91f6',
             'dev_requirement' => false,
         ),
         'rhumsaa/uuid' => array(

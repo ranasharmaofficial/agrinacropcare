@@ -41,7 +41,7 @@
                         <p class="font-weight-bold">Insurance</p>
                     </div>
                 </div>
-                <div onclick="window.location.href='{{url('dashboard/home')}}'" class="col-6">                    
+                <div onclick="window.location.href='{{url('dashboard/kisan-loan')}}'" class="col-6">                    
                     <div class="p-3 shop-homepage mb-2 text-center">
                         <div class="shop-img">
                             <img src="{{asset('assets_dash/icon/farmer_loan.png')}}" alt="">
