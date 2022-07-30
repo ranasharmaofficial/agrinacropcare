@@ -1,5 +1,5 @@
 @extends('dashboard.layout.master')
-@section('title')Crop Insurance @endsection
+@section('title')My Profile @endsection
 @section('header-title')Profile @endsection
 
 @section('content')
@@ -27,14 +27,17 @@
                         <p class="mb-0 text-black-50 small">Edit Profile</p>
                     </a>
                 </div>
-            </div>  
+            </div> 
+            
+            @if($user->role==2)
             <div class="overflow-hidden border-top p-3 d-flex justify-content-between align-items-center">
                 <small class="text-secondary font-weight-bold">
                     <i class="fa fa-credit-card" aria-hidden="true"></i>
-                    Dues Amount:
+                    Wallet Amount:
                 </small>
                 <small class="text-primary font-weight-bold">Rs: 20/-</small>
             </div>
+            @endif
         </div>
         
         <div class="card">

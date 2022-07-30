@@ -63,9 +63,9 @@ $logged_name = \App\Models\User::where('id',$logged_id)->first();
                 @yield('header-title')
             </div>
             <div class="ion-buttons top-cart-con">
-                <a href="{{url('dashboard/notification')}}" class="ion-button top-cart">
+                <a href="#" class="ion-button top-cart">
                     <div class="ion-badge">
-                        {{-- {{$count_announcements;}} --}}
+                        {{-- {{$count_announcements;}} --}}0
                     </div>
                     <i class="menu_icon">
                         <i class="fa fa-bell" aria-hidden="true"></i>

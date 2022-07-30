@@ -669,6 +669,7 @@ class DashboardController extends Controller
     public function kisanLoan(){
         return view('dashboard/kisan_loan');
     }
+    //Apply for Kisan loan area
     public function applyForKisanLoan(Request $request){
         $request->validate([
             'name' => 'required|string',
@@ -703,5 +704,50 @@ class DashboardController extends Controller
             return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please! try again later.'));
         }
 
+    }
+    // Agriculture shop search area
+    public function agricultureShop(Request $request){
+        $data = null;
+        $districtlist = District::get();
+        return view('dashboard.agricultureshop', compact('districtlist'));
+    }
+    public function agriShopSearch(Request $request){
+        $state = $request->get('state');
+        $district = $request->get('district');
+        $pin = $request->get('pin');
+        if ($pin !== null) {
+
+            $agrishops = User::where('state', $state)->where('users.district', $district)->where('pincode', $pin)->where('role',2)
+                               ->join('districts', 'users.district', '=', 'districts.id_district')
+                            // ->join('blocks', 'students.block_id', '=', 'blocks.id')
+                               ->select('districts.*', 'users.*')
+                               ->paginate(15);
+            $districtName = District::where('id_district',$district)->first();
+            $districtName = $districtName->name;
+        }
+         return view('dashboard/agri-shop-search-details', compact('agrishops','districtName','pin'));
+    }
+
+    // Cattle doctor search area
+    public function cattleDoctors(Request $request){
+        $data = null;
+        $districtlist = District::get();
+        return view('dashboard.cattledoctor', compact('districtlist'));
+    }
+    public function cattleDoctorSearch(Request $request){
+        $state = $request->get('state');
+        $district = $request->get('district');
+        $pin = $request->get('pin');
+        if ($pin !== null) {
+
+            $cattledoctor = User::where('state', $state)->where('users.district', $district)->where('pincode', $pin)->where('role',3)
+                               ->join('districts', 'users.district', '=', 'districts.id_district')
+                            // ->join('blocks', 'students.block_id', '=', 'blocks.id')
+                               ->select('districts.*', 'users.*')
+                               ->paginate(15);
+            $districtName = District::where('id_district',$district)->first();
+            $districtName = $districtName->name;
+        }
+         return view('dashboard/cattle-doctor-search-details', compact('cattledoctor','districtName','pin'));
     }
 }

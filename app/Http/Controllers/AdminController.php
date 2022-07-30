@@ -987,7 +987,7 @@ class AdminController extends Controller
                                ->join('blocks', 'students.block_id', '=', 'blocks.id')
                                ->select('districts.*', 'students.*', 'blocks.*')
                                ->paginate(15);
-        } else{
+        }else{
             $teachers = Student::where('state_id', $state)->where('district_id', $district)->where('block_id', $block)
                                ->join('districts', 'students.district_id', '=', 'districts.id_district')
                                ->join('blocks', 'students.block_id', '=', 'blocks.id')

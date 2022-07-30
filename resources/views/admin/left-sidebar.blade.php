@@ -16,7 +16,7 @@
                         <span>Dashboard</span>
                     </a>
                 </li>
-                {{-- <li>
+                <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="ri-file-user-fill"></i>
                         <span>Teacher </span>
@@ -26,7 +26,7 @@
                         <li><a href="{{url('admin/teacher-list-search')}}">Search Teacher List</a></li>
                     </ul>
                 </li>
-                <li>
+                {{-- <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="ri-database-2-fill"></i>
                         <span>Data </span>

@@ -6,7 +6,7 @@
       <meta name="author" content="Webfinic">
 	  <meta name="apple-mobile-web-app-capable" content="yes">
 	  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-      {{-- <meta name="theme-color" content="#319197"> --}}
+      <meta name="theme-color" content="#003049">
 	  <meta http-equiv="Content-Security-Policy" content="default-src * 'self' 'unsafe-inline' 'unsafe-eval' data: gap:">
       <title>@yield('title') - Agrina</title>
       <!-- nav Slide -->

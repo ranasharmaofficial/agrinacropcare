@@ -62,14 +62,13 @@
                 </div>
 				<div class="ion-list ion-no-margin">
                     <div class="text-field">
-                         <select class="select" required type="text" name="district" id="school_id">
-								<option selected disabled>---Select District----</option>
-								@foreach ($districtlist as $citem)
-									<option value="{{$citem->id_district }}">{{$citem->name}}</option>                                            
-								@endforeach                                            
-                            </select>
-							 
-                        <span class="text-danger form-text">@error('district') {{$message}} @enderror</span>
+                        <select class="select" required type="text" name="district" id="school_id">
+                            <option selected disabled>---Select District----</option>
+                            @foreach ($districtlist as $citem)
+                                <option value="{{$citem->id_district }}">{{$citem->name}}</option>                                            
+                            @endforeach                                            
+                        </select>
+						<span class="text-danger form-text">@error('district') {{$message}} @enderror</span>
                     </div>
                 </div>
 				<div class="ion-list ion-no-margin">
