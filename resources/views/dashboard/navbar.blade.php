@@ -34,7 +34,7 @@ $logged_name = \App\Models\User::where('id',$logged_id)->first();
                 <a href="{{url('dashboard/home')}}"> <i class="fa fa-calendar" aria-hidden="true"></i>Events</a>
             </li>
             <li>
-                <a href="{{url('dashboard/home')}}"> <i class="fa fa-file-text-o" aria-hidden="true"></i>Crop Care</a>
+                <a href="{{url('dashboard/crop-care')}}"> <i class="fa fa-file-text-o" aria-hidden="true"></i>Crop Care</a>
             </li>
             <li>
                 <a href="{{url('dashboard/home')}}"> <i class="fa fa-medkit" aria-hidden="true"></i>Animal Health Care</a>
@@ -43,7 +43,7 @@ $logged_name = \App\Models\User::where('id',$logged_id)->first();
                 <a href="{{url('dashboard/home')}}"> <i class="fa fa-industry" aria-hidden="true"></i>Insurance</a>
             </li>
             <li>
-                <a href="{{url('dashboard/home')}}"> <i class="fa fa-envelope" aria-hidden="true"></i>Support</a>
+                <a href="{{url('dashboard/support')}}"> <i class="fa fa-envelope" aria-hidden="true"></i>Support</a>
             </li>
 			@if($logged_id!=null)
             <li>

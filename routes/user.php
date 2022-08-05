@@ -37,6 +37,7 @@ Route::get('agriculture-shop', [DashboardController::class, 'agricultureShop'])-
 Route::get('agriculture-shop-details', [DashboardController::class, 'agriShopSearch'])->name('dashboard.agriShopSearch');
 Route::get('cattledoctor-search-details', [DashboardController::class, 'cattleDoctorSearch'])->name('dashboard.cattleDoctorSearch');
 Route::get('cattle-doctor', [DashboardController::class, 'cattleDoctors'])->name('dashboard.cattleDoctors');
+Route::get('support',[DashboardController::class,'support'])->name('support');
 Route::group(['middleware'=>['DashboardAuthCheck']], function () {
     Route::get('profile', [DashboardController::class, 'profile'])->name('profile');
     //crop insurace

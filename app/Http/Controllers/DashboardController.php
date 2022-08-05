@@ -102,6 +102,10 @@ class DashboardController extends Controller
     public function insurance(){
         return view('dashboard.insurance');
     }
+    public function support()
+    {
+        return view('dashboard.support');
+    }
     public function profile(){
         $data = ['LoggedUserInfo' => User::where('id', '=', session('LoggedDash'))->first()];
         $user = User::where('id', '=', session('LoggedDash'))->first();

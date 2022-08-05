@@ -948,3 +948,14 @@ hr {
   border: 0;
   border-top: 1px solid #003049;
 }
+
+.support-page{
+  padding: 0.25rem;
+}
+.support-page p{
+  font-size: 18px;
+  margin-left: 10px;
+}
+.support-page .support-copyright{
+  font-size: 14px;
+}
