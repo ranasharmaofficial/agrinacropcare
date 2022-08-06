@@ -170,7 +170,7 @@ p {
 .faq-card {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
   border-radius: 8px !important;
-  border: none !important;
+  border: 2px solid green !important;
   overflow: hidden !important;
   margin: 15px;
   padding: 15px;
@@ -816,9 +816,11 @@ p {
   text-align: left;
 }
 .bg-gradient-auth{
-  background: #F0C27B;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to top, #ab75a8, #66ed9c);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to top, #64e1c2, #2bc39d); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background-color: #fff;
+  
+  /* background: #F0C27B;  fallback for old browsers */
+  /* background: -webkit-linear-gradient(to top, #ab75a8, #66ed9c);  Chrome 10-25, Safari 5.1-6 */
+  /* background: linear-gradient(to top, #64e1c2, #2bc39d); W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 .auth-header{
   position: fixed;

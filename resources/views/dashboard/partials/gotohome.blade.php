@@ -1,3 +1,17 @@
-<div class="osahan-fotter fixed-bottom bg-primary">
-    <a href="{{url('dashboard/home')}}" class="btn btn-block btn-lg text-white"><i class="icofont-home mr-2"></i>&nbsp;Go to Home</a>
+<style>
+    .go_to_home {
+        font-size: 30px;
+        color: white;
+        background: green;
+        padding: 18px 18px 18px 22px;
+        border-radius: 50%;
+        position: fixed;
+        z-index: 999;
+        bottom: 10px;
+        right: 10px;
+        text-align: center;
+    }
+</style>
+<div class="text-right">
+    <a href="{{ url('dashboard/home') }}" class="go_to_home"><i class="fa fa-home" aria-hidden="true"></i>&nbsp;</a>
 </div>

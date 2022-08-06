@@ -14,7 +14,7 @@
         </div>
     </div>
     <div class="card mb-3">
-       <div class="card-header font-weight-bold text-center text-success">
+       <div class="card-header font-weight-bold text-center text-white bg-success">
            Farmer Registration
        </div>
         <div class="card-body p-0">
@@ -46,7 +46,7 @@
                     <span class="text-danger form-text">@error('mobile') {{$message}} @enderror</span>
                 </div>
                 </div>
-                <button type="submit" class="btn btn-block btn-oringe ion-no-margin" id="login">Register Now</button>
+                <button type="submit" class="btn btn-block btn-success ion-no-margin" id="login">Register Now</button>
             </form>
             <div class="p-3 mb-3">                
                 <div class="float-left">
