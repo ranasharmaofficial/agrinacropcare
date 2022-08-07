@@ -20,7 +20,7 @@
                     </a>
                 </div>
                 <div class="col-6 p-3">
-                    <a class="card-link-style" href="editprofile.html">
+                    <a class="card-link-style" href="{{url('dashboard/editProfile')}}">
                         <h6 class="font-weight-bold text-dark mb-1">
                             <i class="fa fa-user-circle-o" aria-hidden="true"></i>
                         </h6>

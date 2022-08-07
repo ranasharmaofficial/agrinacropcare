@@ -8,13 +8,13 @@ $logged_name = \App\Models\User::where('id',$logged_id)->first();
           <p class="h5 m-0"><i class="fa fa-home" aria-hidden="true"></i></p>
           Home
        </a>
-       <a href="{{url('dashboard/crop-care')}}" class="text-muted col small font-weight-bold  text-decoration-none p-2">
-          <p class="h5 m-0"><i class="fa fa-file-text-o" aria-hidden="true"></i></p>
-          Crop Care
+       <a href="{{url('dashboard/crop-doc')}}" class="text-muted col small font-weight-bold  text-decoration-none p-2">
+          <p class="h5 m-0"><i class="fa fa-pagelines" aria-hidden="true"></i></p>
+          Crop Doctor
        </a>
-       <a href="{{url('dashboard/insurance')}}" class="text-muted col small font-weight-bold text-decoration-none p-2">
-          <p class="h5 m-0"><i class="fa fa-industry" aria-hidden="true"></i></p>
-          Insurance
+       <a href="{{url('dashboard/cattle-doc-search')}}" class="text-muted col small font-weight-bold text-decoration-none p-2">
+          <p class="h5 m-0"><i class="fa fa-user-md" aria-hidden="true"></i></p>
+          Cattle Doctor
        </a>
        @if($logged_id!=null)
        <a href="{{url('dashboard/profile')}}" class="text-muted font-weight-bold small col text-decoration-none p-2">
