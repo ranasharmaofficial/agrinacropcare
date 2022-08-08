@@ -1,5 +1,5 @@
 @extends('admin.layouts.master')
-@section('title','Employee List')
+@section('title','Farmer List')
 @section('content')
 <style>
     img, svg {
@@ -33,7 +33,7 @@
                 <div class="card">
                     <div class="card-header bg-danger rounded">
                         <h3 class="card-title text-white">@yield('title')</h3>
-                        <p class="p-0 m-0 text-white">Total Employee: <b>{{$employee->total();}}</b>, Page No: <b>{{$employee->currentPage();}}</b></p>
+                        <p class="p-0 m-0 text-white">Total Employee: <b>{{$farmers_list->total();}}</b>, Page No: <b>{{$farmers_list->currentPage();}}</b></p>
 						
                     </div>
                     <div class="flash-message">
@@ -61,34 +61,28 @@
                                 <th>User ID</th>
                                 <th>Name</th>
                                 <th>Mobile</th>
-                                <th>Email</th>
                                 <th>Password</th>
-                                <th>qualification</th>
-                                <th>Dob</th>
                                 <th>Action</th>
-                              </tr>
+                               </tr>
                             </thead>
 
 
                             <tbody>
-                                @foreach ($employee as $key => $item)
+                                @foreach ($farmers_list as $key => $item)
                                 <tr>
-                                    <td>{{($employee->currentpage()-1) * $employee->perpage() + $key + 1}}</td>
+                                    <td>{{($farmers_list->currentpage()-1) * $farmers_list->perpage() + $key + 1}}</td>
                                     <td>{{$item->user_id}}</td>
                                     <td>{{$item->name}}</td>
                                     <td>{{$item->mobile}}</td>
-                                    <td>{{$item->email}}</td>
                                     <td>{{$item->password}}</td>
-                                    <td>{{$item->qualification}}</td>
-                                    <td>{{$item->dob}}</td>
-                                    <td><a title="View Details" href="{{url('admin/employee-view/'.$item->user_id)}}"><i class="ri-eye-line"></i></a></td>
-                                 </tr>
+                                    <td><a title="View Details" href="{{url('admin/farmer-view/'.$item->user_id)}}"><i class="ri-eye-line"></i></a></td>
+                                </tr>
                                 @endforeach
                                 <tr>
                                     <td colspan="7">
                                         <nav aria-label="...">
                                             <ul class="pagination justify-content-end mb-0">
-                                                {{$employee->links();}}
+                                                {{$farmers_list->links();}}
                                             </ul>
                                         </nav>
                                     </td>

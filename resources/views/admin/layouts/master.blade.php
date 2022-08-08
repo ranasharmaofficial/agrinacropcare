@@ -41,7 +41,7 @@
 
     <!-- Right bar overlay-->
     <div class="rightbar-overlay"></div>
-
+   
     <!-- JAVASCRIPT -->
     <script src="{{asset('assets_admin/libs/jquery/jquery.min.js')}}"></script>
     <script src="{{asset('assets_admin/libs/bootstrap/js/bootstrap.bundle.min.js')}}"></script>

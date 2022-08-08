@@ -47,12 +47,12 @@
                                
                                 <div class="col-sm-4">
                                     <label for="fullname" class="col-form-label">Full Name <star>*</star></label>
-                                    <input class="form-control" type="text" required name="name" placeholder="Full Name Name" id="fullname">
+                                    <input class="form-control"  value="{{old('name')}}" type="text" required name="name" placeholder="Full Name Name" id="fullname">
                                     <small class="form-text text-danger">@error('name') {{$message}} @enderror</small>
                                 </div>
                                 <div class="col-sm-4">
                                     <label for="qualification" class="col-form-label">Qualification <star>*</star></label>
-                                    <input class="form-control" required type="text" name="qualification" placeholder="Qualification" id="qualification">
+                                    <input class="form-control" value="{{old('qualification')}}" required type="text" name="qualification" placeholder="Qualification" id="qualification">
                                     <small class="form-text text-danger">@error('qualification') {{$message}} @enderror</small>
                                 </div>
                                 <div class="col-sm-4">
@@ -94,13 +94,13 @@
                                 </div>
                                 <div class="col-sm-4">
                                     <label for="panNo" class="col-form-label">Pan Card (Pdf Format) <star>*</star></label>
-                                    <input required class="form-control" accept="application/pdf" type="file" name="pan_card" id="panNo">
-                                    <small class="form-text text-danger">@error('pan_card') {{$message}} @enderror</small>
+                                    <input class="form-control" accept="application/pdf" type="file" name="pan_card" id="panNo">
+                                    {{-- <small class="form-text text-danger">@error('pan_card') {{$message}} @enderror</small> --}}
                                 </div>
                                 <div class="col-sm-4">
                                     <label for="Voter" class="col-form-label">Voter Id (Pdf Format) <star>*</star></label>
-                                    <input required class="form-control" accept="application/pdf" type="file" name="voter_id" id="Voter">
-                                    <small class="form-text text-danger">@error('voter_id') {{$message}} @enderror</small>
+                                    <input class="form-control" accept="application/pdf" type="file" name="voter_id" id="Voter">
+                                    {{-- <small class="form-text text-danger">@error('voter_id') {{$message}} @enderror</small> --}}
                                 </div>
                             </div>
                         </div>
@@ -110,7 +110,7 @@
                             <div class="row mb-3">
                                 <div class="col-sm-4">
                                     <label for="landmark" class="col-form-label">Landmark<star>*</star></label>
-                                    <input class="form-control" required type="text" name="landmark" placeholder="Landmark" id="landmark" />
+                                    <input class="form-control" value="{{old('landmark')}}" required type="text" name="landmark" placeholder="Landmark" id="landmark" />
                                     <small class="form-text text-danger">@error('landmark') {{$message}} @enderror</small>
                                 </div>
                                 <div class="col-sm-4">
@@ -132,28 +132,28 @@
                                 </div>
                                 <div class="col-sm-4">
                                     <label for="PinCode" class="col-form-label">Pin Code <star>*</star></label>
-                                    <input class="form-control" required type="tel" name="pincode" placeholder="Enter Pin code" id="PinCode">
+                                    <input class="form-control" value="{{old('pincode')}}" required type="tel" name="pincode" placeholder="Enter Pin code" id="PinCode">
                                     <small class="form-text text-danger">@error('pincode') {{$message}} @enderror</small>
                                 </div>
                                 <div class="col-sm-4">
                                     <label for="mobileNumber" class="col-form-label">Mobile Number <star>*</star></label>
-                                    <input class="form-control" required type="tel" name="mobile_no" placeholder="Enter Mobile No." id="mobileNumber">
+                                    <input class="form-control" value="{{old('mobile_no')}}" required type="tel" name="mobile_no" placeholder="Enter Mobile No." id="mobileNumber">
                                     <small class="form-text text-danger">@error('mobile_no') {{$message}} @enderror</small>
                                 </div>
                                 <div class="col-sm-4">
                                     <label for="AltMobile" class="col-form-label">Alt Mobile Numbers (Optional)</label>
-                                    <input class="form-control" type="tel" name="alt_mobile_no" placeholder="Enter Alt. Mobile No." id="AltMobile">
+                                    <input class="form-control" type="tel" value="{{old('alt_mobile_no')}}" name="alt_mobile_no" placeholder="Enter Alt. Mobile No." id="AltMobile">
                                     <small class="form-text text-danger">@error('alt_mobile_no') {{$message}} @enderror</small>
                                 </div>
                                 <div class="col-sm-4">
                                     <label for="email" class="col-form-label">Email Id <star>*</star></label>
-                                    <input class="form-control" required type="email" name="email" placeholder="Enter Email" id="email">
+                                    <input class="form-control" required value="{{old('email')}}" type="email" name="email" placeholder="Enter Email" id="email">
                                     <small class="form-text text-danger">@error('email') {{$message}} @enderror</small>
                                 </div>
                                 <div class="col-sm-4">
                                     <label for="email" class="col-form-label">Upload Passport Size Photo <star>*</star></label>
                                     <input class="form-control" type="file" accept="image/*" name="photo" required id="file">
-                                    <small class="form-text text-danger">@error('photo') {{$message}} @enderror</small>
+                                    {{-- <small class="form-text text-danger">@error('photo') {{$message}} @enderror</small> --}}
                                 </div>
                                 <div class="col-sm-12 text-center mt-2">
                                     <button name="add_employee" type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Upload Data</button>    

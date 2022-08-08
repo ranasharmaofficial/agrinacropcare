@@ -195,5 +195,24 @@ Route::group(['middleware'=>['AdminAuthCheck']], function () {
     Route::get('admin/block-list', [AdminController::class, 'blockList'])->name('admin.block-list');
     Route::get('admin/edit-block/{id}', [AdminController::class, 'editblock'])->name('admin.editblock.{$id}');
     Route::post('updateBlockData', [AdminController::class, 'updateBlockData'])->name('admin.updateBlockData');
+    Route::get('admin/state-list', [AdminController::class,'stateList'])->name('admin.state-list');
+    Route::get('admin/add-state', [AdminController::class,'addState'])->name('admin.add-state');
+    Route::post('uploadState', [AdminController::class,'uploadState'])->name('uploadState');
+    Route::get('admin/farmer-list', [AdminController::class, 'farmerList'])->name('admin.farmer-list');
+    Route::get('admin/farmer-view/{user_id}', [AdminController::class, 'viewFarmerDetails'])->name('admin.agri-retailer-view.{user_id}');
+    Route::get('admin/agri-retailer-list', [AdminController::class, 'agriRetailerList'])->name('admin.agri-retailer-list');
+    Route::get('admin/agri-retailer-view/{user_id}', [AdminController::class, 'viewAgriRetailerDetails'])->name('admin.agri-retailer-view.{user_id}');
+    Route::get('admin/cattle-doctor-list', [AdminController::class, 'cattleDoctorList'])->name('admin.cattle-doctor-list');
+    Route::get('admin/cattle-doctor-view/{user_id}', [AdminController::class, 'viewCattleDoctorDetails'])->name('admin.cattle-doctor-view.{user_id}');
+    Route::get('admin/employee-view/{user_id}', [AdminController::class, 'viewEmployeeDetails'])->name('admin.employee-details.{user_id}');
+    Route::get('admin/crop-insurance', [AdminController::class, 'cropInsurance'])->name('admin.crop-insurance');
+    Route::get('admin/crop-insurance-details/{insurance_no}', [AdminController::class, 'viewCropInsuranceDetails'])->name('admin.cattle-insurance-details.{insurance_no}');
+    Route::get('admin/cattle-insurance', [AdminController::class, 'cattleInsurance'])->name('admin.cattle-insurance');
+    Route::get('admin/cattle-insurance-details/{insurance_no}', [AdminController::class, 'viewCattleInsuranceDetails'])->name('admin.cattle-insurance-details.{insurance_no}');
+    Route::get('admin/fix-amount', [AdminController::class, 'fixAmount'])->name('admin.fix-amount');
+    Route::post('updateCropInsurance', [AdminController::class, 'updateCropInsurance'])->name('updateCropInsurance');
+    Route::post('updateCattleInsurance', [AdminController::class, 'updateCattleInsurance'])->name('updateCattleInsurance');
+    Route::post('updateAgentAmount', [AdminController::class, 'updateAgentAmount'])->name('updateAgentAmount');
+    Route::get('admin/kisan-loan', [AdminController::class, 'kisanLoan'])->name('admin.kisan-loan');
 });
 // Admin Modules End

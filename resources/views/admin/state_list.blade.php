@@ -1,5 +1,5 @@
 @extends('admin.layouts.master')
-@section('title','Block List')
+@section('title','State List')
 @section('content')
 <style>
 table.border-modal{
@@ -56,33 +56,31 @@ img, svg {
                     </div> 
                     <div class="card-header bg-danger rounded">
                         <h3 class="card-title text-white">@yield('title')</h3>
-                        <p class="p-0 m-0 text-white">Total Data: <b>{{$block->total();}}</b>, Page No: <b>{{$block->currentPage();}}</b></p>
-						
+                        <p class="p-0 m-0 text-white">Total Data: <b>{{$state_list->total();}}</b>, Page No: <b>{{$state_list->currentPage();}}</b></p>
+						<a style="float:right;" data-toggle="tooltip" data-placement="top" title="Tooltip on top" class="btn btn-primary btn-rounded btn-sm" href="{{url('admin/add-state')}}">Add State</a>
                     </div>
                     <div class="card-body table-responsive"> 
-						<form method="get" style="float: right;">
+<form method="get" style="float: right;">
                             <div class="app-search">
                                 <input name="search" value="{{$sort_search}}" type="text" class="form-control" placeholder="Search here...">
                                 <span id="search_icons" class="ri-search-line"></span>
                             </div>
-                        </form>					
+                        </form>						
                         <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                            <thead class="thead-dark bg-danger text-white">
-                            <tr>
+                            <thead>
+                            <tr class="bg-dark text-white">
                                 <th class="text-center">Sl. No.</th>
-                                <th class="text-center">District Name</th>
-                                <th class="text-center">Block Name</th>
-                               <th class="text-center">Action</th>
+                                <th class="text-center">State</th>
+								{{-- <th class="text-center">Action</th>--}}
                             </tr>
                             </thead>
                             <tbody>
-								@foreach ($block as $key => $data)
-								<tr>
-									<td class="text-center">{{($block->currentpage()-1) * $block->perpage() + $key + 1}}</td>
-									<td class="text-center">{{$data->districtName}}</td>
-									<td class="text-center">{{$data->name}}</td>
+								@foreach ($state_list as $key => $data)
+								<tr class="text-center">
+									<td>{{($state_list->currentpage()-1) * $state_list->perpage() + $key + 1}}</td>
+									<td>{{$data->name}}</td>
 									{{--<td>{{$data->created_at->format('d-m-Y')}}</td>--}}
-									<td class="text-center"><a href="{{url('admin/edit-block/'.$data->id)}}" class="me-3 text-primary" data-bs-toggle="tooltip" data-placement="top" title="" data-bs-original-title="Edit" aria-label="Edit"><i class="mdi mdi-pencil font-size-18"></i></a></td>
+									{{--<td><a href="{{url('admin/edit-state_list/'.$data->id_state_list)}}" class="me-3 text-primary" data-bs-toggle="tooltip" data-placement="top" title="" data-bs-original-title="Edit" aria-label="Edit"><i class="mdi mdi-pencil font-size-18"></i></a></td>--}}
 										
 								</tr>
 								@endforeach
@@ -90,7 +88,7 @@ img, svg {
 									<td colspan="7">
 										<nav aria-label="...">
 											<ul class="pagination justify-content-end mb-0">
-												{{$block->links();}}
+												{{$state_list->links();}}
 											</ul>
 										</nav>
 									</td>
