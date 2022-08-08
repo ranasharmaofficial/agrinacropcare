@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\District;
+use App\Models\State;
 use App\Models\CropInsuranceProcess;
 use App\Models\CropInsurance;
 use App\Models\CattleInsurance;
@@ -44,17 +45,22 @@ class DashboardController extends Controller
                 $logged_name = $request->session()->put('logged_name', $doctorinfo->name);
                 $logged_mobile = $request->session()->put('logged_mobile', $doctorinfo->mobile);
                 $logged_user_id = $request->session()->put('logged_user_id', $doctorinfo->user_id);
-                return redirect('dashboard/home?doctor');
+                return redirect('dashboard/profile?doctor');
             }
             //Agent role here
             else if ($dashInfo->role == 2) {
                 $request->session()->put('LoggedDash', $dashInfo->id);
-                return redirect('dashboard/home?agent');
+                return redirect('dashboard/profile?agent');
             }
             //Farmer role here
             else if ($dashInfo->role == 5) {
                 $request->session()->put('LoggedDash', $dashInfo->id);
-                return redirect('dashboard/home?farmer');
+                return redirect('dashboard/profile?farmer');
+            }
+			//Employee role here
+            else if ($dashInfo->role == 4) {
+                $request->session()->put('LoggedDash', $dashInfo->id);
+                return redirect('dashboard/profile?employee');
             }
         } else {
             return redirect()->route('dashboard.auth.login')->with(session()->flash('alert-danger', 'Failed! Incorrect Password.'));
@@ -84,13 +90,15 @@ class DashboardController extends Controller
     }
     public function doctorRegistration()
     {
+        $statelist = State::get();
         $districtlist = District::get();
-        return view('dashboard.auth.doctor_register', compact('districtlist'));
+        return view('dashboard.auth.doctor_register', compact('districtlist','statelist'));
     }
     public function AgriRegistration()
     {
         $districtlist = District::get();
-        return view('dashboard.auth.agric_registration', compact('districtlist'));
+		$statelist = State::get();
+        return view('dashboard.auth.agric_registration', compact('districtlist','statelist'));
     }
 
     public function index()
@@ -172,7 +180,7 @@ class DashboardController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'mobile' => 'required|min:10|numeric',
+            'mobile' => 'required|min:10|unique:users,mobile',
             'address' => 'required',
             'state' => 'required|numeric',
             'district' => 'required|numeric',
@@ -191,7 +199,7 @@ class DashboardController extends Controller
         } else {
             $euserid = date('md') . rand(111, 999);
         }
-        if ($c < 1) {
+         
             $doctorupload = User::create([
                 "user_id" => "$euserid",
                 "mobile" => "$request->mobile",
@@ -231,23 +239,23 @@ class DashboardController extends Controller
             } else {
                 return redirect()->back()->with(session()->flash('alert-danger', 'Plz Try Again!.'));
             }
-        } else {
-            return redirect()->back()->with(session()->flash('alert-danger', 'Already Registered! Try with other No.'));
-        }
+         
     }
 
     public function uploadAgriRetailerRegData(Request $request)
     {
         $request->validate([
+            'firm_name' => 'required',
+            'gst_number' => 'required|min:15',
             'name' => 'required',
-            'mobile' => 'required|min:10|numeric',
+            'mobile' => 'required|min:10|unique:users,mobile',
             'address' => 'required',
             'state' => 'required|numeric',
             'district' => 'required|numeric',
             'block' => 'required|numeric',
             'panchayat' => 'required',
             'pin_code' => 'required|min:6|max:6',
-            'experience' => 'required',
+            
         ]);
         $checkUserExist = User::where('mobile', $request->mobile)->get();
         $c = count($checkUserExist);
@@ -258,10 +266,12 @@ class DashboardController extends Controller
         } else {
             $euserid = date('md') . rand(111, 999);
         }
-        if ($c < 1) {
+        
             $doctorupload = User::create([
                 "user_id" => "$euserid",
                 "mobile" => "$request->mobile",
+                "firm_name" => "$request->firm_name",
+                "gst" => "$request->gst_number",
                 "name" => "$request->name",
                 "state" => "$request->state",
                 "district" => "$request->district",
@@ -291,9 +301,7 @@ class DashboardController extends Controller
             } else {
                 return redirect()->back()->with(session()->flash('alert-danger', 'Plz Try Again!.'));
             }
-        } else {
-            return redirect()->back()->with(session()->flash('alert-danger', 'Already Registered! Try with other No.'));
-        }
+        
     }
 
     public function uploadFarmerRegData(Request $request)

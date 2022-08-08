@@ -37,6 +37,7 @@ Route::get('login', [ExternalController::class, 'login'])->name('login');
 Route::get('gallery',[ExternalController::class,'gallery'])->name('gallery');
 Route::get('events',[ExternalController::class, 'events'])->name('events');
 Route::post('getBlockNames',[ExternalController::class, 'getBlockNames'])->name('getBlockNames');
+Route::post('getDistrictName',[ExternalController::class, 'getDistrictName'])->name('getDistrictName');
 Route::post('enquiryContact', [ExternalController::class,'enquiryContact'])->name('enquiryContact');
 Route::get('mediupload',[MediaController::class, 'uploadMedia'])->name('mediupload');
 Route::post('mediupload',[MediaController::class, 'uploadMedia'])->name('mediupload');

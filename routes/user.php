@@ -54,8 +54,7 @@ Route::group(['middleware' => ['DashboardAuthCheck']], function () {
     Route::get('crop-insurance-preview/{tokenno}', [DashboardController::class, 'cropInsuranceDetailsPreview'])->name('dashboard.crop-insurance-preview.{tokenno}');
     Route::get('crop-insurance-done/{tokenno}', [DashboardController::class, 'cropInsuranceDone'])->name('dashboard.crop-insurance-done.{tokenno}');
     //cattle insurance
-
-    Route::get('cattle-insurance', [DashboardController::class, 'cattleInsurance'])->name('cattle-insurance');
+	Route::get('cattle-insurance', [DashboardController::class, 'cattleInsurance'])->name('cattle-insurance');
     Route::post('uploadCattleInsuranceData', [DashboardController::class, 'uploadCattleInsuranceData'])->name('dashboard.uploadCattleInsuranceData');
     Route::get('cattle-insurance-preview/{tokenno}', [DashboardController::class, 'cattleInsuranceDetailsPreview'])->name('dashboard.cattle-insurance-preview.{tokenno}');
     Route::get('cattle-insurance-done/{tokenno}', [DashboardController::class, 'cattleInsuranceDone'])->name('dashboard.cattle-insurance-done.{tokenno}');
