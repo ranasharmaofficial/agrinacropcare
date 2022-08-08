@@ -5,7 +5,7 @@
     <main role="main" class="ion-content">
         <div class="pt-4">
             <div class="row app-products">
-                <div onclick="window.location.href='{{url('dashboard/crop-insurance')}}'" class="col-6">
+                <div onclick="window.location.href='{{url('dashboard/crop_insurance_stepOne')}}'" class="col-6">
                     <div class="p-3 shop-homepage mb-2 text-center">
                         <div class="shop-img">
                             <img src="{{asset('assets_dash/icon/crop_insurance.png')}}" alt="">
@@ -13,7 +13,7 @@
                         <p class="font-weight-bold">Crop Insurance</p>
                     </div>
                 </div>
-                <div onclick="window.location.href='{{url('dashboard/cattle-insurance')}}'" class="col-6">                    
+                <div onclick="window.location.href='{{url('dashboard/cattle_insurance_stepOne')}}'" class="col-6">                    
                     <div class="p-3 shop-homepage mb-2 text-center">
                         <div class="shop-img">
                             <img src="{{asset('assets_dash/icon/plant_medicine.png')}}" alt="">
