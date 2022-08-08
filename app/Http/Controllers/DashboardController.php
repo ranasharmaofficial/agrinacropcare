@@ -158,10 +158,10 @@ class DashboardController extends Controller
             // ->paginate(15);
             // dd($cattledoctor);
 
-            $districtName = District::where('id_district', $cattledoctor->district)->get();
-            $districtName = $districtName->name;
+            // $districtName = District::where('id_district', $cattledoctor->district)->get();
+            // $districtName = $districtName->name;
         }
-        return view('dashboard/cattle-doc-search-details', compact('cattledoctor', 'districtName', 'pin'));
+        return view('dashboard/cattle-doc-search-details', compact('cattledoctor','pin'));
         // return view('dashboard.crop-doc-search-details');
     }
     public function profile()
@@ -192,12 +192,14 @@ class DashboardController extends Controller
         $checkUserExist = User::where('mobile', $request->mobile)->get();
         $c = count($checkUserExist);
 
-        $lastUserId = User::orderBy('id', 'desc')->first();
-        if (isset($lastUserId)) {
+        $last_userid = User::orderBy('id', 'desc')->first();
+        if (isset($last_userid)) {
             // Sum 1 + last id
-            $euserid = $lastUserId->user_id + 1;
+            $reuserid = substr($last_userid->user_id, 3);
+            $userid = $reuserid + 1;
+            $euserid= 'EUC' . $userid . '';
         } else {
-            $euserid = date('md') . rand(111, 999);
+            $euserid = 'EUC10001';
         }
          
             $doctorupload = User::create([
@@ -216,12 +218,7 @@ class DashboardController extends Controller
 
             ]);
 
-            //  dd($lastID);
-            //  die;
-            // $updateuserid = User::where('id', $lastID)
-            //             ->update([
-            //                 'user_id' => '111'.$lastID,
-            //             ]);
+            
             if ($doctorupload) {
                 //Send Message
                 $msg = 'Dear Student, Your registration details are: Username : ' . $request->mobile . ' Password : ' . $request->mobile . ' Visit : https://bit.ly/3uA3gaJ Regards - HASANAH EDUCATIONAL TRUST';
@@ -235,7 +232,10 @@ class DashboardController extends Controller
                 curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
                 $response = curl_exec($ch);
                 // session()->forget(['mobileotp', 'mobilenumber']);
-                return redirect('dashboard/auth/login')->with(session()->flash('alert-success', 'Registration Success.'));
+				$lastId = $doctorupload->id;
+				$request->session()->put('LoggedDash', $lastId);
+                // return redirect('dashboard/auth/login')->with(session()->flash('alert-success', 'Registration Success.'));
+                return redirect('dashboard/profile')->with(session()->flash('alert-success', 'Registration Success.'));
             } else {
                 return redirect()->back()->with(session()->flash('alert-danger', 'Plz Try Again!.'));
             }
@@ -259,15 +259,18 @@ class DashboardController extends Controller
         ]);
         $checkUserExist = User::where('mobile', $request->mobile)->get();
         $c = count($checkUserExist);
-        $lastUserId = User::orderBy('id', 'desc')->first();
-        if (isset($lastUserId)) {
+        
+		$last_userid = User::orderBy('id', 'desc')->first();
+        if (isset($last_userid)) {
             // Sum 1 + last id
-            $euserid = $lastUserId->user_id + 1;
+            $reuserid = substr($last_userid->user_id, 3);
+            $userid = $reuserid + 1;
+            $euserid= 'EUC' . $userid . '';
         } else {
-            $euserid = date('md') . rand(111, 999);
+            $euserid = 'EUC10001';
         }
         
-            $doctorupload = User::create([
+            $agri_retailer = User::create([
                 "user_id" => "$euserid",
                 "mobile" => "$request->mobile",
                 "firm_name" => "$request->firm_name",
@@ -284,7 +287,7 @@ class DashboardController extends Controller
                 "address" => "$request->address",
 
             ]);
-            if ($doctorupload) {
+            if ($agri_retailer) {
                 //Send Message
                 $msg = 'Dear Student, Your registration details are: Username : ' . $request->mobile . ' Password : ' . $request->mobile . ' Visit : https://bit.ly/3uA3gaJ Regards - HASANAH EDUCATIONAL TRUST';
                 $phones = $request->mobile;
@@ -297,7 +300,10 @@ class DashboardController extends Controller
                 curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
                 $response = curl_exec($ch);
                 // session()->forget(['mobileotp', 'mobilenumber']);
-                return redirect('dashboard/auth/login')->with(session()->flash('alert-success', 'Registration Success.'));
+				$lastId = $agri_retailer->id;
+				$request->session()->put('LoggedDash', $lastId);
+                // return redirect('dashboard/auth/login')->with(session()->flash('alert-success', 'Registration Success.'));
+                return redirect('dashboard/profile')->with(session()->flash('alert-success', 'Registration Success.'));
             } else {
                 return redirect()->back()->with(session()->flash('alert-danger', 'Plz Try Again!.'));
             }
@@ -313,12 +319,14 @@ class DashboardController extends Controller
         ]);
         $checkUserExist = User::where('mobile', $request->mobile)->get();
         $c = count($checkUserExist);
-        $lastUserId = User::orderBy('id', 'desc')->first();
-        if (isset($lastUserId)) {
+        $last_userid = User::orderBy('id', 'desc')->first();
+        if (isset($last_userid)) {
             // Sum 1 + last id
-            $euserid = $lastUserId->user_id + 1;
+            $reuserid = substr($last_userid->user_id, 3);
+            $userid = $reuserid + 1;
+            $euserid= 'EUC' . $userid . '';
         } else {
-            $euserid = date('md') . rand(111, 999);
+            $euserid = 'EUC10001';
         }
         if ($c < 1) {
             $farmerupload = User::create([
@@ -340,8 +348,10 @@ class DashboardController extends Controller
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
                 curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
                 $response = curl_exec($ch);
-                // session()->forget(['mobileotp', 'mobilenumber']);
-                return redirect('dashboard/auth/login')->with(session()->flash('alert-success', 'Registration Success.'));
+                $lastId = $farmerupload->id;
+				$request->session()->put('LoggedDash', $lastId);
+                // return redirect('dashboard/auth/login')->with(session()->flash('alert-success', 'Registration Success.'));
+                return redirect('dashboard/profile')->with(session()->flash('alert-success', 'Registration Success.'));
             } else {
                 return redirect()->back()->with(session()->flash('alert-danger', 'Plz Try Again!.'));
             }
@@ -774,8 +784,9 @@ class DashboardController extends Controller
     public function agricultureShop(Request $request)
     {
         $data = null;
+        $statelist = State::get();
         $districtlist = District::get();
-        return view('dashboard.agricultureshop', compact('districtlist'));
+        return view('dashboard.agricultureshop', compact('districtlist','statelist'));
     }
     public function agriShopSearch(Request $request)
     {
@@ -784,13 +795,13 @@ class DashboardController extends Controller
         $pin = $request->get('pin');
         if ($pin !== null) {
 
-            $agrishops = User::where('state', $state)->where('users.district', $district)->where('pincode', $pin)->where('role', 2)
+            $agrishops = User::where('users.state', $state)->where('users.district', $district)->where('pincode', $pin)->where('role', 2)
                 ->join('districts', 'users.district', '=', 'districts.id_district')
                 // ->join('blocks', 'students.block_id', '=', 'blocks.id')
                 ->select('districts.*', 'users.*')
                 ->paginate(15);
             $districtName = District::where('id_district', $district)->first();
-            $districtName = $districtName->name;
+            // $districtName = $districtName->name;
         }
         return view('dashboard/agri-shop-search-details', compact('agrishops', 'districtName', 'pin'));
     }
@@ -799,24 +810,28 @@ class DashboardController extends Controller
     public function cattleDoctors(Request $request)
     {
         $data = null;
+        $statelist = State::get();
         $districtlist = District::get();
-        return view('dashboard.cattledoctor', compact('districtlist'));
+        return view('dashboard.cattledoctor', compact('districtlist','statelist'));
     }
     public function cattleDoctorSearch(Request $request)
     {
         $state = $request->get('state');
         $district = $request->get('district');
         $pin = $request->get('pin');
-        if ($pin !== null) {
+        if ($pin !== null && $state!==null && $district!==null) {
 
-            $cattledoctor = User::where('state', $state)->where('users.district', $district)->where('pincode', $pin)->where('role', 3)
+            $cattledoctor = User::where('users.state', $state)->where('users.district', $district)->where('pincode', $pin)->where('role', 3)
                 ->join('districts', 'users.district', '=', 'districts.id_district')
                 // ->join('blocks', 'students.block_id', '=', 'blocks.id')
                 ->select('districts.*', 'users.*')
                 ->paginate(15);
             $districtName = District::where('id_district', $district)->first();
-            $districtName = $districtName->name;
+            // $districtName = $districtName->name;
         }
+		else{
+			
+		}
         return view('dashboard/cattle-doctor-search-details', compact('cattledoctor', 'districtName', 'pin'));
     }
 }

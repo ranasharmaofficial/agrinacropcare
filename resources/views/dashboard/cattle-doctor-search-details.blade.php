@@ -16,7 +16,7 @@
             @if (count($cattledoctor) > 0)
                 <div class="card-body p-2">
                     <p style="color:rgb(141, 10, 119);font-weight:bold; margin-left:15px">Showing results from Bihar,
-                        {{ $districtName }}-{{ $pin }}</p>
+                        {{ $districtName->name }}-{{ $pin }}</p>
                     @foreach ($cattledoctor as $item)
                         <div class="row mb-3">
                             <div class="col-md-12 cattle_show_result">
@@ -44,7 +44,7 @@
                             <span class="text-center text-danger">No&nbsp;related&nbsp;Data&nbsp;Found</span>
                         </div>
                         <div class="col">
-                            <a href="{{ url('dashboard/agriculture-shop') }}"
+                            <a href="{{ url('dashboard/cattle-doctor') }}"
                                 class="btn float-right text-white doct_call_now"><i class="fa fa-long-arrow-left" aria-hidden="true"></i> &nbsp;Back</a>
                         </div>
                     </div>

@@ -15,8 +15,7 @@
             </div>
             @if (count($cattledoctor) > 0)
                 <div class="card-body p-2">
-                    <p style="color:rgb(141, 10, 119);font-weight:bold; margin-left:15px">Showing results from Bihar,
-                        {{ $districtName }}-{{ $pin }}</p>
+                    <p style="color:rgb(141, 10, 119);font-weight:bold; margin-left:15px">Showing results from {{ $pin }}</p>
                     @foreach ($cattledoctor as $item)
                         <div class="row mb-3">
                             <div class="col-md-12 cattle_show_result">

@@ -45,7 +45,7 @@
                     </div>
 					<div class="ion-list ion-no-margin ion-no-padding">
                         <div class="text-field">
-                            <input type="text" required name="gst_number" class="@error('gst_number') is-invalid @enderror"
+                            <input type="text" style="text-transform:uppercase;" required name="gst_number" class="@error('gst_number') is-invalid @enderror"
                                 title="GST Number" value="{{ old('gst_number') }}" />
                             <label>GST Number <span class="danger">*</span></label>
                             <span class="text-danger form-text">
@@ -110,8 +110,8 @@
                         <div class="ion-list ion-no-margin">
                             <div class="text-field">
                                 <select class="select" required type="text" name="district" id="school_id">
-								{{--<option selected disabled>---Select District----</option>
-                                    @foreach ($districtlist as $citem)
+								<option selected disabled>---Select District----</option>
+                                   {{-- @foreach ($districtlist as $citem)
                                         <option value="{{ $citem->id_district }}">{{ $citem->name }}</option>
                                     @endforeach--}}
                                 </select>

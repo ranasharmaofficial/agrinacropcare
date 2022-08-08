@@ -82,7 +82,9 @@
                             <div class="text-field">
                                 <select class="select" required type="text" name="state" id="state">
                                     <option selected disabled>---Select State----</option>
-                                    <option value="1">Bihar</option>
+                                    @foreach ($statelist as $citem)
+                                        <option value="{{ $citem->id }}">{{ $citem->name }}</option>
+                                    @endforeach
                                 </select>
 
                                 <span class="text-danger form-text">
@@ -95,12 +97,11 @@
                         <div class="ion-list ion-no-margin">
                             <div class="text-field">
                                 <select class="select" required type="text" name="district" id="school_id">
-                                    <option selected disabled>---Select District----</option>
-                                    @foreach ($districtlist as $citem)
+								<option selected disabled>---Select District----</option>
+                                   {{-- @foreach ($districtlist as $citem)
                                         <option value="{{ $citem->id_district }}">{{ $citem->name }}</option>
-                                    @endforeach
+                                    @endforeach--}}
                                 </select>
-
                                 <span class="text-danger form-text">
                                     @error('district')
                                         {{ $message }}
@@ -181,7 +182,7 @@
             jQuery('#school_id').change(function() {
                 let school = jQuery(this).val();
                 let datas = "";
-                console.log(school)
+                // console.log(school)
                 // $('#sub_category').empty();
                 // $('#sub_category').append(`<option value="0" disabled selected>Processing...</option>`);
                 jQuery.ajax({
@@ -194,7 +195,7 @@
                         if (result == '') {
                             datas += '<option>Not Found.</option>';
                         } else {
-                            console.log(result);
+                            // console.log(result);
                             datas += '<option selected disabled>---Select Block---</option>';
                             $.each(result, function(i) {
                                 datas += '<option value="' + result[i].id + '">' +
@@ -203,6 +204,35 @@
                             });
                         }
                         jQuery('#class_id').html(datas);
+                    }
+                });
+            });
+			
+			jQuery('#state').change(function() {
+                let state = jQuery(this).val();
+                let datas = "";
+                // console.log(state)
+                // $('#sub_category').empty();
+                // $('#sub_category').append(`<option value="0" disabled selected>Processing...</option>`);
+                jQuery.ajax({
+                    url: '{{ url('getDistrictName') }}',
+                    type: 'post',
+                    //dataType: "json",
+                    data: 'state=' + state + '&_token={{ csrf_token() }}',
+                    success: function(result) {
+                        // console.log(result);
+                        if (result == '') {
+                            datas += '<option>Not Found.</option>';
+                        } else {
+                            // console.log(result);
+                            datas += '<option selected disabled>---Select District---</option>';
+                            $.each(result, function(i) {
+                                datas += '<option value="' + result[i].id_district + '">' +
+                                    result[i].name + '</option>';
+                                console.log(result);
+                            });
+                        }
+                        jQuery('#school_id').html(datas);
                     }
                 });
             });

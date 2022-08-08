@@ -30,6 +30,8 @@ class User extends Authenticatable
         'pincode',
         'role',
         'address',
+        'firm_name',
+        'gst',
     ];
 
     /**
