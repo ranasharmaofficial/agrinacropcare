@@ -870,16 +870,16 @@ class AdminController extends Controller
         $loginemployee = new User;
         $loginemployee->user_id = $employee_id_gen;
         // $loginemployee->user_id = $employee_id_gen;
-        // $alphabet = 'abcdefghijklmnopqrstuvwxyz@#$123456789';
-        // $pass = array(); //remember to declare $pass as an array
-        // $alphaLength = strlen($alphabet) - 1; //put the length -1 in cache
-        // for ($i = 0; $i < 8; $i++) {
-        //     $n = rand(0, $alphaLength);
-        //     $pass[] = $alphabet[$n];
-        // }
-        // $passwordis = implode($pass);
+        $alphabet = 'abcdefghijklmnopqrstuvwxyz@#$123456789';
+        $pass = array(); //remember to declare $pass as an array
+        $alphaLength = strlen($alphabet) - 1; //put the length -1 in cache
+        for ($i = 0; $i < 8; $i++) {
+            $n = rand(0, $alphaLength);
+            $pass[] = $alphabet[$n];
+        }
+        $passwordis = implode($pass);
         // $loginemployee->password = Hash::make($passwordis);
-        $loginemployee->password = $request->dob;
+        $loginemployee->password = $passwordis;
         $loginemployee->name = $request->name;
         $loginemployee->mobile = $request->mobile_no;
         $loginemployee->email = $request->email;
@@ -1467,16 +1467,34 @@ class AdminController extends Controller
     //Agri retailer list from here
     public function agriRetailerList(Request $request){
         $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
+        // $sort_search = null;
+        // $agri_retailer_list = User::where('role',2);
+        // if ($request->search != null){
+        //     $agri_retailer_list = $agri_retailer_list->where('users.name', 'like', '%'.$request->search.'%')
+        //                     ->orWhere('users.mobile', "like", "%" . $request->search . "%")
+        //                     ->orWhere('users.user_id', "like", "%" . $request->search . "%");
+        //                     $sort_search = $request->search;
+        // }
+        // $agri_retailer_list = $agri_retailer_list ->select('users.*')
+        //                         ->paginate(10);
+
+
         $sort_search = null;
-        $agri_retailer_list = User::where('role',2);
+        $agri_retailer_list = User::where('role',2)
+                    ->join('states', 'states.id', '=', 'users.state')
+                    ->join('districts','districts.id_district','=','users.district')
+                    ->join('blocks','blocks.id','=','users.block');
         if ($request->search != null){
-            $agri_retailer_list = $agri_retailer_list->where('users.name', 'like', '%'.$request->search.'%')
+            $agri_retailer_list = $agri_retailer_list->where('blocks.name', 'like', '%'.$request->search.'%')
+                            ->orWhere('districts.name', "like", "%" . $request->search . "%")
+                            ->orWhere('users.name', "like", "%" . $request->search . "%")
                             ->orWhere('users.mobile', "like", "%" . $request->search . "%")
                             ->orWhere('users.user_id', "like", "%" . $request->search . "%");
                             $sort_search = $request->search;
         }
-        $agri_retailer_list = $agri_retailer_list ->select('users.*')
-                                ->paginate(10);
+        $agri_retailer_list = $agri_retailer_list ->select('districts.name as districtName', 'blocks.name as block_name','states.name as state_name','users.*')
+                                ->paginate(35);
+                                
        return view('admin/agri_retailer_list',$data, compact('agri_retailer_list','sort_search'));
     }
     public function viewAgriRetailerDetails($user_id){
@@ -1488,15 +1506,21 @@ class AdminController extends Controller
      public function cattleDoctorList(Request $request){
         $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
         $sort_search = null;
-        $cattle_doctor_list = User::where('role',3);
+        $cattle_doctor_list = User::where('role',3)
+                    ->join('states', 'states.id', '=', 'users.state')
+                    ->join('districts','districts.id_district','=','users.district')
+                    ->join('blocks','blocks.id','=','users.block');
         if ($request->search != null){
-            $cattle_doctor_list = $cattle_doctore_list->where('users.name', 'like', '%'.$request->search.'%')
+            $cattle_doctor_list = $cattle_doctor_list->where('blocks.name', 'like', '%'.$request->search.'%')
+                            ->orWhere('districts.name', "like", "%" . $request->search . "%")
+                            ->orWhere('users.name', "like", "%" . $request->search . "%")
                             ->orWhere('users.mobile', "like", "%" . $request->search . "%")
                             ->orWhere('users.user_id', "like", "%" . $request->search . "%");
                             $sort_search = $request->search;
         }
-        $cattle_doctor_list = $cattle_doctor_list ->select('users.*')
-                                ->paginate(10);
+        $cattle_doctor_list = $cattle_doctor_list ->select('districts.name as districtName', 'blocks.name as block_name','states.name as state_name','users.*')
+                                ->paginate(35);
+        // dd($cattle_doctor_list);
        return view('admin/cattle_doctor_list',$data, compact('cattle_doctor_list','sort_search'));
     }
     public function viewCattleDoctorDetails($user_id){

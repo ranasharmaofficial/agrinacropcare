@@ -11,10 +11,10 @@
             <div class="row app-products">
                 <div class="col-12">
                     <div class="text-center bg-success crop_doc">
-                        <p class="">+91 9801785261</p>
+                        <p class="">+91 8825171386</p>
 
-                        <a class="btn btn-success mt-3" href="#"><i class="fa fa-phone" aria-hidden="true"></i>
-                            Call</a>
+                        <button class="btn btn-success mt-3" onclick="window.location.href='tel:8825171386'"><i class="fa fa-phone" aria-hidden="true"></i>
+                            Call</button>
                     </div>
                 </div>
             </div>

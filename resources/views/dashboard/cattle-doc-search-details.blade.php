@@ -24,8 +24,8 @@
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;</span>
                                     {{ $item->name }}</p>
                                 <p class=" text-primary"><span>Address
-                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;</span> Purnea</p>
-                                <p class=" text-primary"><span>Experience :&nbsp;</span> 2 Years</p>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;</span> {{ $item->address }}</p>
+                                <p class=" text-primary"><span>Experience :&nbsp;</span> {{ $item->experience }} Years</p>
                             </div>
                             <div class="col">
                                 <a href="tel:{{ $item->mobile }}" class="btn text-white doct_call_now"><i

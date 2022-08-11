@@ -13,8 +13,8 @@
             <div class="card-header font-weight-bold text-center text-white bg-success">
                 Apply for Cattle Insurance
             </div>
-            <div class="card-body p-0 pt-2" style="height: 150px;">
-                <form action="{{ route('dashboard.uploadCropInsuranceData') }}" autocomplete="off" method="post"
+            <div class="card-body p-0 pt-2">
+                <form action="{{ route('dashboard.verifyCropInsuranceOtp') }}" autocomplete="off" method="post"
                     enctype="multipart/form-data" class="p-2">
                     {{-- <div class="flash-message">
                     @foreach (['danger', 'warning', 'success', 'info'] as $msg)
@@ -31,11 +31,16 @@
                     @csrf
 
                     <div class="text-field mb-4">
-                        <input type="text" autofocus required name="employee_id" class="form-control" title="Name"
-                            value="{{ old('employee_id') }}" />
+                         
+                        @php
+						    $mobile_no = Session::get('mobilenumber');
+						@endphp
+                        <p class="">Enter OTP Sent to <b>{{$mobile_no}}</b></p>
+                        <input type="tel" min="6" maxlength="6" required name="otp" class="form-control" title="Enter OTP" placeholder="Enter OTP" />
                         <label>OTP <span class="danger">*</span></label>
+                        <input type="hidden" name="mobile" value="{{ $mobile_no }}">
                         <span class="text-danger form-text">
-                            @error('employee_id')
+                            @error('otp')
                                 {{ $message }}
                             @enderror
                         </span>

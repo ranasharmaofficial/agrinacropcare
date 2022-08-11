@@ -129,16 +129,124 @@ class DashboardController extends Controller
     {
         return view('dashboard.crop-doc');
     }
-    public function cropInsuranceStepOne()
+    public function cropInsuranceStepOne(Request $request)
     {
-        return view('dashboard.crop_insurance_stepOne');
+       $data = ['LoggedUserInfo' => User::where('id', '=', session('LoggedDash'))->first()];
+
+       
+        // dd($count_employee_id);
+        if($request->employee_id!=null)
+        {
+            $employee_id = $request->get('employee_id');
+            $count_employee_id = User::where('user_id',$employee_id)->where('role',4)->get();
+            $emp_details = User::where('user_id',$employee_id)->where('role',4)->first();
+            // dd($count_employee_id);
+            if(count($count_employee_id)>0){
+            
+                //Send Message
+                $mobileotp = $emp_details->mobile;
+                $mobileotpsend = rand(111111,999999);
+                session()->put('mobilenumber',$mobileotp);
+                session()->put('employeeotp',$mobileotpsend);
+                $msg = 'Dear Student, '.$mobileotpsend.' is your one time password (OTP). Please enter the OTP to proceed. Thank You, Regards - HASANAH EDUCATIONAL TRUST';
+                $phones = $mobileotp;
+                $url = "http://45.249.108.134/api.php";
+                $ch = curl_init($url);
+                curl_setopt($ch, CURLOPT_HEADER, 0);
+                curl_setopt($ch, CURLOPT_POST, 1);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, "username=hasanahtrust&password=752761&sender=HETRST&sendto=".$phones."&message=".$msg."&PEID=1301164733895014972&templateid=1307164922578115135&type=3");
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+                $response = curl_exec($ch);
+                
+                // $request->session()->put('LoggedDash', $lastId);
+                // return redirect('dashboard/auth/login')->with(session()->flash('alert-success', 'Registration Success.'));
+                return redirect('dashboard/crop_insurance_stepTwo')->with(session()->flash('alert-success', 'Otp Sent!.'));
+            }
+            else{
+                return redirect()->back()->with(session()->flash('alert-danger', 'Invalid Employee Code!.'));
+            }
+        }
+        
+       return view('dashboard.crop_insurance_stepOne', $data, );
+    }
+    public function verifyCropInsuranceOtp(Request $request){
+        $request->validate([
+            'otp' => 'required|numeric|min:6',
+        ]);
+        $otp = $request->otp;
+        $mobile = $request->mobile;
+        $sessotp = session()->get('employeeotp');
+        $sessmob = session()->get('mobilenumber');
+        if ($mobile == $sessmob && $otp == $sessotp) {
+                // session()->forget(['employeeotp', 'mobilenumber']);
+                return redirect('dashboard/crop-insurance')->with(session()->flash('alert-success', 'OTP Verified.'));
+             }
+             else
+             {
+                return redirect()->back()->with(session()->flash('alert-danger', 'Incorrect Otp!.'));
+             }
+    }
+    public function verifyCattleInsuranceOtp(Request $request){
+        $request->validate([
+            'otp' => 'required|numeric|min:6',
+        ]);
+        $otp = $request->otp;
+        $mobile = $request->mobile;
+        $sessotp = session()->get('employeeotp');
+        $sessmob = session()->get('mobilenumber');
+        if ($mobile == $sessmob && $otp == $sessotp) {
+                // session()->forget(['employeeotp', 'mobilenumber']);
+                return redirect('dashboard/cattle-insurance')->with(session()->flash('alert-success', 'OTP Verified.'));
+             }
+             else
+             {
+                return redirect()->back()->with(session()->flash('alert-danger', 'Incorrect Otp!.'));
+             }
+    }
+    public function getEmployeeCount(Request $request){
+        
     }
     public function cropInsuranceStepTwo()
     {
-        return view('dashboard.cattle_insurance_stepTwo');
+        $data = ['LoggedUserInfo' => User::where('id', '=', session('LoggedDash'))->first()];
+        return view('dashboard.cattle_insurance_stepTwo',$data);
     }
-    public function cattleInsuranceStepOne()
+    public function cattleInsuranceStepOne(Request $request)
     {
+        // dd($count_employee_id);
+        if($request->employee_id!=null)
+        {
+            $employee_id = $request->get('employee_id');
+            $count_employee_id = User::where('user_id',$employee_id)->where('role',4)->get();
+            $emp_details = User::where('user_id',$employee_id)->where('role',4)->first();
+            // dd($count_employee_id);
+            if(count($count_employee_id)>0){
+            
+                //Send Message
+                $mobileotp = $emp_details->mobile;
+                $mobileotpsend = rand(111111,999999);
+                session()->put('mobilenumber',$mobileotp);
+                session()->put('employeeotp',$mobileotpsend);
+                $msg = 'Dear Student, '.$mobileotpsend.' is your one time password (OTP). Please enter the OTP to proceed. Thank You, Regards - HASANAH EDUCATIONAL TRUST';
+                $phones = $mobileotp;
+                $url = "http://45.249.108.134/api.php";
+                $ch = curl_init($url);
+                curl_setopt($ch, CURLOPT_HEADER, 0);
+                curl_setopt($ch, CURLOPT_POST, 1);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, "username=hasanahtrust&password=752761&sender=HETRST&sendto=".$phones."&message=".$msg."&PEID=1301164733895014972&templateid=1307164922578115135&type=3");
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+                $response = curl_exec($ch);
+                
+                // $request->session()->put('LoggedDash', $lastId);
+                // return redirect('dashboard/auth/login')->with(session()->flash('alert-success', 'Registration Success.'));
+                return redirect('dashboard/cattle_insurance_stepTwo')->with(session()->flash('alert-success', 'Otp Sent!.'));
+            }
+            else{
+                return redirect()->back()->with(session()->flash('alert-danger', 'Invalid Employee Code!.'));
+            }
+        }
         return view('dashboard.cattle_insurance_stepOne');
     }
     public function cattleInsuranceStepTwo()
@@ -380,18 +488,20 @@ class DashboardController extends Controller
     }
     public function uploadCropInsuranceData(Request $request)
     {
+        // dd($request->all());
         $request->validate([
-            'employee_id' => 'required',
+            // 'employee_id' => 'required',
             'name' => 'required',
+            'mobile' => 'required|numeric',
             'gender' => 'required',
             'dob' => 'required',
             'pincode' => 'required',
             'address' => 'required',
             'district' => 'required',
             'state' => 'required',
-            'crops_insurred' => 'required',
+            // 'crops_insurred' => 'required',
             'aadhar_card' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
-            'plan_details' => 'required',
+            // 'plan_details' => 'required',
             'nominee_name' => 'required',
             'nominee_father' => 'required',
             'nominee_relation' => 'required',
@@ -406,11 +516,11 @@ class DashboardController extends Controller
             $file->move(public_path('uploads/insurance-documents'), $aadhar_card);
         }
         // dd($aadhar_card);die;
-        $getUserID = User::where('mobile', $request->employee_id)->first();
-        $agentid = User::where('mobile', $request->employee_id)->get();
+        $getUserID = User::where('mobile', $request->employee_id)->where('role',4)->first();
+        $agentid = User::where('mobile', $request->employee_id)->where('role',4)->get();
         $getUserID = $getUserID->user_id;
 
-        if (count($agentid) >= 1) {
+        // if (count($agentid) >= 1) {
             $tokenno = time() . rand(1111, 9999);
             $first_date = date("d-M-Y");
             $after_one_year =  date("d-M-Y", strtotime("$first_date +365 day")); // PHP:  2009-03-04
@@ -429,6 +539,9 @@ class DashboardController extends Controller
                 "address" => "$request->address",
                 "aadhar_card_pic" => "$aadhar_card",
                 "major_crops_insurred" => "$request->crops_insurred",
+                "gross_premium" => "$request->gross_premium",
+                "nominee_salutation" => "$request->nominee_salutation",
+                "tenure" => "$request->tenure",
                 "plan_details" => "$request->plan_details",
                 "nominee_salutation" => "$request->nominee_salutation",
                 "nominee_name" => "$request->nominee_name",
@@ -449,9 +562,10 @@ class DashboardController extends Controller
                 }
             }
             return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please! try again later.'));
-        } else {
-            return redirect()->back()->with(session()->flash('alert-danger', 'Employee Code does not matched.'));
-        }
+        // } 
+        // else {
+        //     return redirect()->back()->with(session()->flash('alert-danger', 'Employee Code does not matched.'));
+        // }
     }
 
     //Crop insurance Form Preview Start
@@ -518,6 +632,9 @@ class DashboardController extends Controller
             $make_insurance->state = $fetchprocessdata->state;
             $make_insurance->district = $fetchprocessdata->district;
             $make_insurance->major_crops_insurred = $fetchprocessdata->major_crops_insurred;
+            $make_insurance->tenure = $fetchprocessdata->tenure;
+            $make_insurance->total_sum_insurred = $fetchprocessdata->total_sum_insurred;
+            $make_insurance->gross_premium = $fetchprocessdata->gross_premium;
             $make_insurance->plan_details = $fetchprocessdata->plan_details;
             $make_insurance->nominee_salutation = $fetchprocessdata->nominee_salutation;
             $make_insurance->nominee_name = $fetchprocessdata->nominee_name;
@@ -551,6 +668,7 @@ class DashboardController extends Controller
             $send_amount->paid_by = $insuranceidgen;
             $send_amount->save();
         }
+        session()->forget(['employeeotp', 'mobilenumber']);
         if ($make_insurance) {
             return redirect('dashboard/crop-insurance-done/' . $request->tokenno)->with(session()->flash('alert-success', 'Transaction successful.'));
         } else {

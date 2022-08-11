@@ -29,14 +29,7 @@
                     @endforeach
                 </div> --}}
                     @csrf
-                    {{-- <h6 class="register_heading">Crop E-Farms</h6> --}}
-
-                    {{-- <div class="text-field">
-                    <input type="text" autofocus required name="employee_id" class="form-control" title="Name" value="{{old('employee_id')}}" />
-                    <label>Employee Code <span class="danger">*</span></label>
-                    <span class="text-danger form-text">@error('employee_id') {{$message}} @enderror</span>
-                </div> --}}
-                    <h6 class="register_heading">Proposor Details</h6>
+                   <h6 class="register_heading">Proposor Details</h6>
                     <hr>
                     <div class="text-field">
                         <div class="input-group">
@@ -49,13 +42,13 @@
                                         <option value="Miss">Miss</option>
                                     </select>
                                     <span class="text-danger form-text">
-                                        @error('employee_id')
+                                        @error('salutation')
                                             {{ $salutation }}
                                         @enderror
                                     </span>
                                 </div>
                             </div>
-                            <input type="text" name="name" required class="form-control" id="Name"
+                            <input type="text" name="name" value="{{ old('name') }}" required class="form-control" id="Name"
                                 placeholder="Enter Your Name">
                         </div>
                         <span class="text-danger form-text">
@@ -64,10 +57,14 @@
                             @enderror
                         </span>
                     </div>
-                    <input type="hidden" name="type" value="1">
+                    @php
+                    $mobile_no = Session::get('mobilenumber');
+                @endphp
+                    <input type="text" name="type" value="1">
+                    <input type="text" name="employee_id" value="{{ $mobile_no }}">
                     <div class="text-field" style="margin-top: 40px;">
                         <label class="text-danger" style="top:-22px;">Gender <span class="danger">*</span></label>
-                        <select class="select w-100" required type="text" name="plan_details" id="class_id">
+                        <select class="select w-100" required type="text" name="gender" id="class_id">
                             <option value="male" selected>Male</option>
                             <option value="female">Female</option>
                         </select>
@@ -79,7 +76,7 @@
                     </div>
                     <div class="text-field" style="margin-bottom: 30px;">
                         <input type="tel" pattern="[6789][0-9]{9}" required name="mobile" class="form-control"
-                            title="Mobile" value="{{ old('gender') }}" />
+                            title="Mobile" value="{{ old('mobile') }}" />
                         <label>Mobile <span class="danger">*</span></label>
                         <span class="text-danger form-text">
                             @error('mobile')
@@ -171,32 +168,32 @@
                     <hr>
                     <div class="text-field" style="margin-top: 40px;">
                         <label class="text-danger" style="top:-22px;">Tenure <span class="danger">*</span></label>
-                        <select class="select w-100" required type="text" name="plan_details" id="class_id">
+                        <select class="select w-100" required type="text" name="tenure" id="class_id">
                             <option>---Select Plan---</option>
                             <option value="1">1 Year</option>
                         </select>
                         <span class="text-danger form-text">
-                            @error('plan_details')
+                            @error('tenure')
                                 {{ $message }}
                             @enderror
                         </span>
                     </div>
                     <div class="text-field" style="margin-bottom: 30px;">
-                        <input type="text" required name="nominee_father" class="form-control" title="Father"
-                            value="{{ old('nominee_father') }}" />
+                        <input type="text" required name="total_sum_insurred" class="form-control" title="Father"
+                            value="{{ old('total_sum_insurred') }}" />
                         <label>Total Sum Insurred </label>
                         <span class="text-danger form-text">
-                            @error('nominee_father')
+                            @error('total_sum_insurred')
                                 {{ $message }}
                             @enderror
                         </span>
                     </div>
                     <div class="text-field" style="margin-bottom: 30px;">
-                        <input type="text" required name="nominee_father" class="form-control" title="Father"
-                            value="{{ old('nominee_father') }}" />
+                        <input type="text" required name="gross_premium" class="form-control" title="Father"
+                            value="{{ old('gross_premium') }}" />
                         <label>Gross Premium in(Rs)</label>
                         <span class="text-danger form-text">
-                            @error('nominee_father')
+                            @error('gross_premium')
                                 {{ $message }}
                             @enderror
                         </span>

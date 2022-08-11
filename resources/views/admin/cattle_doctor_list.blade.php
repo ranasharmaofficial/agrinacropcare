@@ -60,6 +60,11 @@
                                 <th>Name</th>
                                 <th>Mobile</th>
                                 <th>Password</th>
+                                <th>State</th>
+                                <th>District</th>
+                                <th>Block</th>
+                                <th>Pin</th>
+                                <th>Address</th>
                                 <th>Action</th>
                                </tr>
                             </thead>
@@ -73,6 +78,11 @@
                                     <td>{{$item->name}}</td>
                                     <td>{{$item->mobile}}</td>
                                     <td>{{$item->password}}</td>
+                                    <td>{{$item->state_name}}</td>
+                                    <td>{{$item->districtName}}</td>
+                                    <td>{{$item->block_name}}</td>
+                                    <td>{{$item->pincode}}</td>
+                                    <td>{{$item->address}}</td>
                                     <td><a title="View Details" href="{{url('admin/cattle-doctor-view/'.$item->user_id)}}"><i class="ri-eye-line"></i></a></td>
                                 </tr>
                                 @endforeach

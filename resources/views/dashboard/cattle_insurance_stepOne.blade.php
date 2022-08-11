@@ -14,9 +14,8 @@
                 Apply for Cattle Insurance
             </div>
             <div class="card-body p-0 pt-2" style="height: 150px;">
-                <form action="{{ route('dashboard.uploadCropInsuranceData') }}" autocomplete="off" method="post"
-                    enctype="multipart/form-data" class="p-2">
-                    {{-- <div class="flash-message">
+                <form autocomplete="off" method="get" enctype="multipart/form-data" class="p-2">
+                {{-- <div class="flash-message">
                     @foreach (['danger', 'warning', 'success', 'info'] as $msg)
                         @if (Session::has('alert-' . $msg))
                             <div class="alert alert-{{ $msg }} alert-dismissible fade show" role="alert">
@@ -29,7 +28,6 @@
                     @endforeach
                 </div> --}}
                     @csrf
-
                     <div class="text-field mb-4">
                         <input type="text" autofocus required name="employee_id" class="form-control" title="Name"
                             value="{{ old('employee_id') }}" />
@@ -41,8 +39,7 @@
                         </span>
                     </div>
                     <button type="submit" class="btn btn-block ion-no-margin text-white" style="background-color: #003049"
-                        id="login"><a class="text-white"
-                            href="{{ url('dashboard/cattle_insurance_stepTwo') }}">Proceed</a>
+                        id="login">Proceed
                     </button>
                 </form>
             </div>

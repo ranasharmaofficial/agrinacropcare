@@ -1,6 +1,6 @@
 @extends('dashboard.layout.master')
 @section('title')Crop Insurance @endsection
-@section('header-title')Profile @endsection
+@section('header-title')Crop Insurance @endsection
 
 @section('content')
     <main role="main" class="ion-content ion-myprofile">

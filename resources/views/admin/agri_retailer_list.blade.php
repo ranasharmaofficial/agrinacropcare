@@ -55,11 +55,18 @@
                         <table class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
                             <tr class="bg-dark text-white">
-                                <th>Sl.No</th>
+                               <th>Sl.No</th>
                                 <th>User ID</th>
-                                <th>Name</th>
+                                <th>Firm Name</th>
+                                <th>Gst</th>
+                                <th>Prop Name</th>
                                 <th>Mobile</th>
                                 <th>Password</th>
+                                <th>State</th>
+                                <th>District</th>
+                                <th>Block</th>
+                                <th>Pin</th>
+                                <th>Address</th>
                                 <th>Action</th>
                                </tr>
                             </thead>
@@ -70,9 +77,16 @@
                                 <tr>
                                     <td>{{($agri_retailer_list->currentpage()-1) * $agri_retailer_list->perpage() + $key + 1}}</td>
                                     <td>{{$item->user_id}}</td>
+                                    <td>{{$item->firm_name}}</td>
+                                    <td style="text-transform:uppercase;">{{$item->gst}}</td>
                                     <td>{{$item->name}}</td>
                                     <td>{{$item->mobile}}</td>
                                     <td>{{$item->password}}</td>
+                                    <td>{{$item->state_name}}</td>
+                                    <td>{{$item->districtName}}</td>
+                                    <td>{{$item->block_name}}</td>
+                                    <td>{{$item->pincode}}</td>
+                                    <td>{{$item->address}}</td>
                                     <td><a title="View Details" href="{{url('admin/agri-retailer-view/'.$item->user_id)}}"><i class="ri-eye-line"></i></a></td>
                                 </tr>
                                 @endforeach
