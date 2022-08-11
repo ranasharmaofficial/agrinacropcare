@@ -282,6 +282,10 @@ class DashboardController extends Controller
     {
         return view('dashboard.editProfile');
     }
+    public function editAddress()
+    {
+        return view('dashboard.editAddress');
+    }
 
 
     public function uploadDocRegData(Request $request)

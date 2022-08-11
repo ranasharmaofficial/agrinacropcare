@@ -1,9 +1,9 @@
 @extends('dashboard.layout.master')
 @section('title')
-    Edit Profile
+    Edit Address
 @endsection
 @section('header-title')
-    Edit Profile
+    Edit Address
 @endsection
 
 @section('content')
