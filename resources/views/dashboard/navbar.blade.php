@@ -40,7 +40,7 @@ $logged_name = \App\Models\User::where('id',$logged_id)->first();
                 <a href="{{url('dashboard/home')}}"> <i class="fa fa-medkit" aria-hidden="true"></i>Animal Health Care</a>
             </li>
             <li>
-                <a href="{{url('dashboard/home')}}"> <i class="fa fa-industry" aria-hidden="true"></i>Insurance</a>
+                <a href="{{url('dashboard/insurance')}}"> <i class="fa fa-industry" aria-hidden="true"></i>Insurance</a>
             </li>
             <li>
                 <a href="{{url('dashboard/support')}}"> <i class="fa fa-envelope" aria-hidden="true"></i>Support</a>

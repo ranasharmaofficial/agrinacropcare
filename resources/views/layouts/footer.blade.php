@@ -16,7 +16,7 @@
                     <li><a href="{{url('about-us')}}">About Us</a></li>
                     <li><a href="#">Our Project</a></li>
                     <li><a href="#">Term &amp; Conditions</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="{{url('privacy-policy')}}">Privacy Policy</a></li>
                     <li><a href="#">Contact</a></li>
                 </ul>
             </div>
