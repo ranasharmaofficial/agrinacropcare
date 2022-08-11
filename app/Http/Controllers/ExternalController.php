@@ -75,4 +75,8 @@ class ExternalController extends Controller
         $className = Block::where('district_id', $request->post('school'))->get();
         return $className;
     }
+	public static function getDistrictName(Request $request){
+        $className = District::where('state', $request->post('state'))->get();
+        return $className;
+    }
 }

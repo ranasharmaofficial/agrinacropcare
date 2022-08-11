@@ -16,7 +16,7 @@
                         <span>Dashboard</span>
                     </a>
                 </li>
-                <li>
+                {{-- <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="ri-file-user-fill"></i>
                         <span>Teacher </span>
@@ -25,7 +25,7 @@
                         <li><a href="{{url('admin/teacher-list')}}">Teacher List</a></li>
                         <li><a href="{{url('admin/teacher-list-search')}}">Search Teacher List</a></li>
                     </ul>
-                </li>
+                </li> --}}
                 {{-- <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="ri-database-2-fill"></i>
@@ -41,17 +41,38 @@
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="ri-user-2-fill"></i>
-                        <span>Employee</span>
+                        <span>User</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        {{-- <li><a href="{{url('admin/add-employee')}}">Add Employee</a></li> --}}
-                        <li><a href="{{url('admin/employee-list')}}">Employee List</a></li>
-                        <li><a href="{{url('admin/view-employee')}}">View Employee</a></li>
+                        <li><a href="{{url('admin/farmer-list')}}">Farmer List</a></li>
+                        <li><a href="{{url('admin/agri-retailer-list')}}">Agri Retailer List</a></li>
+                        <li><a href="{{url('admin/cattle-doctor-list')}}">Cattle Doctor</a></li>
                     </ul>
                 </li>
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
-                        <i class="ri-user-2-fill"></i>
+                        <i class="ri-shield-user-fill"></i>
+                        <span>Employee</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="{{url('admin/add-employee')}}">Add Employee</a></li>
+                        <li><a href="{{url('admin/employee-list')}}">Employee List</a></li>
+                        {{-- <li><a href="{{url('admin/view-employee')}}">View Employee</a></li> --}}
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="ri-shield-fill"></i>
+                        <span>Insurance</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="{{url('admin/crop-insurance')}}">Crop Insurance</a></li>
+                        <li><a href="{{url('admin/cattle-insurance')}}">Cattle Insurance</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="ri-edit-box-fill"></i>
                         <span>Manage</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
@@ -59,21 +80,9 @@
                         <li><a href="{{url('admin/block-list')}}">Block List</a></li>
                     </ul>
                 </li>
-                
-                 {{-- <li>
+                {{-- <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
-                        <i class="ri-calendar-event-fill"></i>
-                        <span>Event</span>
-                    </a>
-                    <ul class="sub-menu" aria-expanded="true">
-                        <li><a href="{{url('admin/add-event')}}">Add Event</a></li>
-                        <li><a href="{{url('admin/event-list')}}">Event List</a>
-                        </li>
-                    </ul>
-                 </li>
-                 <li>
-                    <a href="javascript: void(0);" class="has-arrow waves-effect">
-                        <i class="ri-gallery-line"></i>
+                        <i class="ri-image-line"></i>
                         <span>Gallery</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="true">
@@ -95,7 +104,7 @@
                  </li>
                  <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
-                        <i class="ri-notification-2-fill"></i>
+                        <i class="ri-phone-fill"></i>
                         <span>Enquiry</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="true">
@@ -103,7 +112,39 @@
                         <li><a href="{{url('admin/emailsubscription-list')}}">Email Subscription</a>
                         </li>
                     </ul>
+                 </li> --}}
+                 <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="ri-money-dollar-circle-fill"></i>
+                        <span>Payment Setup</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="true">
+                        <li><a href="{{url('admin/fix-amount')}}">Fix Insurance Amount</a></li>
+                        
+                    </ul>
                  </li>
+                 <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="ri-mail-add-line"></i>
+                        <span>Loan Request</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="true">
+                        <li><a href="{{url('admin/kisan-loan')}}">Kisan Loan</a></li>
+                        
+                    </ul>
+                 </li>
+                 {{-- <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="ri-calendar-event-fill"></i>
+                        <span>Event</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="true">
+                        <li><a href="{{url('admin/add-event')}}">Add Event</a></li>
+                        <li><a href="{{url('admin/event-list')}}">Event List</a>
+                        </li>
+                    </ul>
+                 </li>
+                 
                  <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="ri-account-circle-line"></i>

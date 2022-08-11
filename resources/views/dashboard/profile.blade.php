@@ -10,9 +10,9 @@
     <main role="main" class="ion-content ion-myprofile">
         <div class="mb-2 card bg-white profile-box text-center">
             <div class="py-4 px-3 border-bottom">
-                <img alt="img" class="img-fluid mt-2 rounded-circle" src="">
+                {{-- <img alt="img" class="img-fluid mt-2 rounded-circle" src=""> --}}
                 <h5 class="font-weight-bold text-dark mb-1 mt-4">{{ $LoggedUserInfo['name'] }}</h5>
-                <p class="mb-0 text-muted">CLASS - </p>
+                {{-- <p class="mb-0 text-muted">CLASS - </p> --}}
             </div>
             <div class="d-flex">
                 <div class="col-6 border-right p-3">
@@ -24,6 +24,7 @@
                     </a>
                 </div>
                 <div class="col-6 p-3">
+
                     <a class="card-link-style" href="{{ url('dashboard/editProfile') }}">
                         <h6 class="font-weight-bold text-dark mb-1">
                             <i class="fa fa-user-circle-o" aria-hidden="true"></i>

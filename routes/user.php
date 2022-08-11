@@ -41,21 +41,28 @@ Route::get('support', [DashboardController::class, 'support'])->name('support');
 Route::get('cattle-doc-search', [DashboardController::class, 'cattleDocSearch'])->name('dashboard.cattle-doc-search');
 Route::get('crop-doc', [DashboardController::class, 'cropDoc'])->name('dashboard.crop-doc');
 Route::get('crop-doc-search-details', [DashboardController::class, 'cropDocSearchDetails'])->name('dashboard.crop-doc-search-details');
-Route::get('crop_insurance_stepOne', [DashboardController::class, 'cropInsuranceStepOne'])->name('dashboard.crop_insurance_stepOne');
-Route::get('crop_insurance_stepTwo', [DashboardController::class, 'cropInsuranceStepTwo'])->name('dashboard.crop_insurance_stepTwo');
-Route::get('cattle_insurance_stepOne', [DashboardController::class, 'cattleInsuranceStepOne'])->name('dashboard.cattle_insurance_stepOne');
-Route::get('cattle_insurance_stepTwo', [DashboardController::class, 'cattleInsuranceStepTwo'])->name('dashboard.cattle_insurance_stepTwo');
+// Route::get('cropinsurancestep-one', [DashboardController::class, 'cropInsuranceStepOne'])->name('dashboard.crop_insurance_stepOne');
+// Route::get('crop_insurance_stepTwo', [DashboardController::class, 'cropInsuranceStepTwo'])->name('dashboard.crop_insurance_stepTwo');
+// Route::get('cattle_insurance_stepOne', [DashboardController::class, 'cattleInsuranceStepOne'])->name('dashboard.cattle_insurance_stepOne');
+// Route::get('cattle_insurance_stepTwo', [DashboardController::class, 'cattleInsuranceStepTwo'])->name('dashboard.cattle_insurance_stepTwo');
 Route::group(['middleware' => ['DashboardAuthCheck']], function () {
     Route::get('profile', [DashboardController::class, 'profile'])->name('profile');
     Route::get('editProfile', [DashboardController::class, 'editProfile'])->name('editProfile');
     //crop insurace
+    Route::get('crop_insurance_stepOne', [DashboardController::class, 'cropInsuranceStepOne'])->name('dashboard.crop_insurance_stepOne');
+    Route::post('verifyCropInsuranceOtp', [DashboardController::class, 'verifyCropInsuranceOtp'])->name('dashboard.verifyCropInsuranceOtp');
+    Route::post('verifyCattleInsuranceOtp', [DashboardController::class, 'verifyCattleInsuranceOtp'])->name('dashboard.verifyCattleInsuranceOtp');
+    Route::get('getEmployeeCount', [DashboardController::class, 'getEmployeeCount'])->name('dashboard.getEmployeeCount');
+    Route::get('crop_insurance_stepTwo', [DashboardController::class, 'cropInsuranceStepTwo'])->name('dashboard.crop_insurance_stepTwo');
+    Route::get('cattle_insurance_stepOne', [DashboardController::class, 'cattleInsuranceStepOne'])->name('dashboard.cattle_insurance_stepOne');
+    Route::get('cattle_insurance_stepTwo', [DashboardController::class, 'cattleInsuranceStepTwo'])->name('dashboard.cattle_insurance_stepTwo');
+    // Route::get('getEmployeeCount', [DashboardController::class, 'getEmployeeCount'])->name('dashboard.getEmployeeCount');
     Route::get('crop-insurance', [DashboardController::class, 'cropInsurance'])->name('crop-insurance');
     Route::post('uploadCropInsuranceData', [DashboardController::class, 'uploadCropInsuranceData'])->name('dashboard.uploadCropInsuranceData');
     Route::get('crop-insurance-preview/{tokenno}', [DashboardController::class, 'cropInsuranceDetailsPreview'])->name('dashboard.crop-insurance-preview.{tokenno}');
     Route::get('crop-insurance-done/{tokenno}', [DashboardController::class, 'cropInsuranceDone'])->name('dashboard.crop-insurance-done.{tokenno}');
     //cattle insurance
-
-    Route::get('cattle-insurance', [DashboardController::class, 'cattleInsurance'])->name('cattle-insurance');
+	Route::get('cattle-insurance', [DashboardController::class, 'cattleInsurance'])->name('cattle-insurance');
     Route::post('uploadCattleInsuranceData', [DashboardController::class, 'uploadCattleInsuranceData'])->name('dashboard.uploadCattleInsuranceData');
     Route::get('cattle-insurance-preview/{tokenno}', [DashboardController::class, 'cattleInsuranceDetailsPreview'])->name('dashboard.cattle-insurance-preview.{tokenno}');
     Route::get('cattle-insurance-done/{tokenno}', [DashboardController::class, 'cattleInsuranceDone'])->name('dashboard.cattle-insurance-done.{tokenno}');

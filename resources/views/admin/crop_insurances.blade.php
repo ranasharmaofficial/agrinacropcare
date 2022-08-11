@@ -1,5 +1,5 @@
 @extends('admin.layouts.master')
-@section('title','Employee List')
+@section('title','Crop Insurance List')
 @section('content')
 <style>
     img, svg {
@@ -15,14 +15,12 @@
             <div class="col-12">
                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                     <h4 class="mb-sm-0">@yield('title')</h4>
-
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">Forms</a></li>
+                            <li class="breadcrumb-item"><a href="{{url('dashboard/home')}}">Dashboard</a></li>
                             <li class="breadcrumb-item active">@yield('title')</li>
                         </ol>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -33,7 +31,7 @@
                 <div class="card">
                     <div class="card-header bg-danger rounded">
                         <h3 class="card-title text-white">@yield('title')</h3>
-                        <p class="p-0 m-0 text-white">Total Employee: <b>{{$employee->total();}}</b>, Page No: <b>{{$employee->currentPage();}}</b></p>
+                        <p class="p-0 m-0 text-white">Total Crop Insurance: <b>{{$crop_insurance->total();}}</b>, Page No: <b>{{$crop_insurance->currentPage();}}</b></p>
 						
                     </div>
                     <div class="flash-message">
@@ -58,37 +56,35 @@
                             <thead>
                             <tr class="bg-dark text-white">
                                 <th>Sl.No</th>
-                                <th>User ID</th>
+                                <th>Insurance No</th>
+                                <th>Employee Id</th>
                                 <th>Name</th>
                                 <th>Mobile</th>
-                                <th>Email</th>
-                                <th>Password</th>
-                                <th>qualification</th>
-                                <th>Dob</th>
+                                <th>Gender</th>
+                                <th>DOB</th>
                                 <th>Action</th>
-                              </tr>
+                               </tr>
                             </thead>
 
 
                             <tbody>
-                                @foreach ($employee as $key => $item)
+                                @foreach ($crop_insurance as $key => $item)
                                 <tr>
-                                    <td>{{($employee->currentpage()-1) * $employee->perpage() + $key + 1}}</td>
-                                    <td>{{$item->user_id}}</td>
-                                    <td>{{$item->name}}</td>
+                                    <td>{{($crop_insurance->currentpage()-1) * $crop_insurance->perpage() + $key + 1}}</td>
+                                    <td>{{$item->insurance_no}}</td>
+                                    <td><a target="_blank" href="{{url('admin/employee-view/'.$item->employee_id)}}">{{$item->employee_id}}</a></td>
+                                    <td>{{$item->salutation.' '.$item->name}}</td>
                                     <td>{{$item->mobile}}</td>
-                                    <td>{{$item->email}}</td>
-                                    <td>{{$item->password}}</td>
-                                    <td>{{$item->qualification}}</td>
+                                    <td>{{$item->gender}}</td>
                                     <td>{{$item->dob}}</td>
-                                    <td><a title="View Details" href="{{url('admin/employee-view/'.$item->user_id)}}"><i class="ri-eye-line"></i></a></td>
-                                 </tr>
+                                    <td><a class="btn btn-danger btn-rounded btn-sm" title="View Details" href="{{url('admin/crop-insurance-details/'.$item->insurance_no)}}"><i class="ri-eye-line"></i> View&nbsp;Details</a></td>
+                                </tr>
                                 @endforeach
                                 <tr>
                                     <td colspan="7">
                                         <nav aria-label="...">
                                             <ul class="pagination justify-content-end mb-0">
-                                                {{$employee->links();}}
+                                                {{$crop_insurance->links();}}
                                             </ul>
                                         </nav>
                                     </td>

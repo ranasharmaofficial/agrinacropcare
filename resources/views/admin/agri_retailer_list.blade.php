@@ -1,5 +1,5 @@
 @extends('admin.layouts.master')
-@section('title','Employee List')
+@section('title','Agriculture Retailer List')
 @section('content')
 <style>
     img, svg {
@@ -15,14 +15,12 @@
             <div class="col-12">
                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                     <h4 class="mb-sm-0">@yield('title')</h4>
-
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">Forms</a></li>
+                            <li class="breadcrumb-item"><a href="{{url('dashboard/home')}}">Dashboard</a></li>
                             <li class="breadcrumb-item active">@yield('title')</li>
                         </ol>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -33,7 +31,7 @@
                 <div class="card">
                     <div class="card-header bg-danger rounded">
                         <h3 class="card-title text-white">@yield('title')</h3>
-                        <p class="p-0 m-0 text-white">Total Employee: <b>{{$employee->total();}}</b>, Page No: <b>{{$employee->currentPage();}}</b></p>
+                        <p class="p-0 m-0 text-white">Total Agri Retailer: <b>{{$agri_retailer_list->total();}}</b>, Page No: <b>{{$agri_retailer_list->currentPage();}}</b></p>
 						
                     </div>
                     <div class="flash-message">
@@ -57,38 +55,46 @@
                         <table class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead>
                             <tr class="bg-dark text-white">
-                                <th>Sl.No</th>
+                               <th>Sl.No</th>
                                 <th>User ID</th>
-                                <th>Name</th>
+                                <th>Firm Name</th>
+                                <th>Gst</th>
+                                <th>Prop Name</th>
                                 <th>Mobile</th>
-                                <th>Email</th>
                                 <th>Password</th>
-                                <th>qualification</th>
-                                <th>Dob</th>
+                                <th>State</th>
+                                <th>District</th>
+                                <th>Block</th>
+                                <th>Pin</th>
+                                <th>Address</th>
                                 <th>Action</th>
-                              </tr>
+                               </tr>
                             </thead>
 
 
                             <tbody>
-                                @foreach ($employee as $key => $item)
+                                @foreach ($agri_retailer_list as $key => $item)
                                 <tr>
-                                    <td>{{($employee->currentpage()-1) * $employee->perpage() + $key + 1}}</td>
+                                    <td>{{($agri_retailer_list->currentpage()-1) * $agri_retailer_list->perpage() + $key + 1}}</td>
                                     <td>{{$item->user_id}}</td>
+                                    <td>{{$item->firm_name}}</td>
+                                    <td style="text-transform:uppercase;">{{$item->gst}}</td>
                                     <td>{{$item->name}}</td>
                                     <td>{{$item->mobile}}</td>
-                                    <td>{{$item->email}}</td>
                                     <td>{{$item->password}}</td>
-                                    <td>{{$item->qualification}}</td>
-                                    <td>{{$item->dob}}</td>
-                                    <td><a title="View Details" href="{{url('admin/employee-view/'.$item->user_id)}}"><i class="ri-eye-line"></i></a></td>
-                                 </tr>
+                                    <td>{{$item->state_name}}</td>
+                                    <td>{{$item->districtName}}</td>
+                                    <td>{{$item->block_name}}</td>
+                                    <td>{{$item->pincode}}</td>
+                                    <td>{{$item->address}}</td>
+                                    <td><a title="View Details" href="{{url('admin/agri-retailer-view/'.$item->user_id)}}"><i class="ri-eye-line"></i></a></td>
+                                </tr>
                                 @endforeach
                                 <tr>
                                     <td colspan="7">
                                         <nav aria-label="...">
                                             <ul class="pagination justify-content-end mb-0">
-                                                {{$employee->links();}}
+                                                {{$agri_retailer_list->links();}}
                                             </ul>
                                         </nav>
                                     </td>

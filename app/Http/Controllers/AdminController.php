@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\State;
 use App\Models\Company;
 use App\Models\User;
 use App\Models\Logo;
@@ -21,6 +22,10 @@ use App\Models\Work;
 use App\Models\District;
 use App\Models\Block;
 use App\Models\Wallet;
+use App\Models\CropInsurance;
+use App\Models\CattleInsurance;
+use App\Models\FixInsuranceAmount;
+use App\Models\KisanLoan;
 use Illuminate\Support\Facades\Hash;
 
 
@@ -741,11 +746,20 @@ class AdminController extends Controller
         $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
         return view('admin/addemployee',$data);
     }
-    public function employeeList(){
+    public function employeeList(Request $request){
         $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
-        $employee = Employee::join('users', 'users.user_id', '=', 'employees.user_id')
-                ->get(['employees.*', 'users.*']);
-       return view('admin/employeelist',$data, compact('employee'));
+        $sort_search = null;
+        $employee = Employee::join('users', 'users.user_id', '=', 'employees.user_id');
+        if ($request->search != null){
+            $employee = $employee->where('users.name', 'like', '%'.$request->search.'%')
+                            ->orWhere('users.mobile', "like", "%" . $request->search . "%")
+                            ->orWhere('users.user_id', "like", "%" . $request->search . "%")
+                            ->orWhere('employees.user_id', "like", "%" . $request->search . "%");
+                            $sort_search = $request->search;
+        }
+        $employee = $employee ->select('employees.*', 'users.*')
+                                ->paginate(10);
+       return view('admin/employeelist',$data, compact('employee','sort_search'));
     }
     public function viewEmployee(Request $request){
         $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
@@ -776,29 +790,38 @@ class AdminController extends Controller
             'dob' => 'required|string',
             'gender' => 'required|string',
             'aadhar_card' => 'required|max:2048|mimes:pdf',
-            'pan_card' => 'required|max:2048|mimes:pdf',
-            'voter_id' => 'required|max:2048|mimes:pdf',
+            // 'pan_card' => 'required|max:2048|mimes:pdf',
+            // 'voter_id' => 'required|max:2048|mimes:pdf',
             'landmark' => 'required|string|max:180',
             'country' => 'required|string',
             'state' => 'required|string',
             'city' => 'required|string',
             'pincode' => 'required|max:10',
-            'mobile_no' => 'required|string',
+            'mobile_no' => 'required|unique:users,mobile',
             'email' => 'required|email',
-            'photo' => 'required|max:300|image|mimes:jpg,jpeg,png',
+            // 'photo' => 'required|max:1024|image|mimes:jpg,jpeg,png',
         ]);
 
         $employeeadd = new Employee;
         $lastUserId = User::orderBy('id', 'desc')->first();
-        if (isset($lastUserId)) {
+        // if (isset($lastUserId)) {
+             
+        //     $euserid = $lastUserId->user_id+1;
+        // } else {
+        //     $euserid = date('md').rand(111,999);
+        // }
+        $employee = User::where('role',4)->orderBy('id', 'desc')->first();
+        if (isset($employee)) {
             // Sum 1 + last id
-            $euserid = $lastUserId->user_id+1;
+            $reuserid = substr($employee->user_id, 3);
+            $userid = $reuserid + 1;
+            $employee_id_gen= 'EUC' . $userid . '';
         } else {
-            $euserid = date('md').rand(111,999);
+            $employee_id_gen = 'EUC10001';
         }
         $empid = time().rand(1111,9999);
         $employeeadd->employee_id = $empid;
-        $employeeadd->user_id = $euserid;
+        $employeeadd->user_id = $employee_id_gen;
         $employeeadd->qualification = $request->qualification;
         $employeeadd->experience = $request->experience;
         $employeeadd->dob = $request->dob;
@@ -816,14 +839,19 @@ class AdminController extends Controller
             $pancard = 'pan_card-'.time().'.'.$extenstion;
             $file->move(public_path('uploads/documents'), $pancard);
         }
-        $employeeadd->pan_card = $pancard;
+        if ($request->hasfile('pan_card')!=null){
+            $employeeadd->pan_card = $pancard;
+        }
         if ($request->hasfile('voter_id')) {
             $file = $request->file('voter_id');
             $extenstion = $file->getClientOriginalExtension();
             $voterid = 'voter_id-'.time().'.'.$extenstion;
             $file->move(public_path('uploads/documents'), $voterid);
         }
-        $employeeadd->voter_id = $voterid;
+        if ($request->hasfile('voter_id')!=null){
+            $employeeadd->voter_id = $voterid;
+        }
+        
         $employeeadd->landmark = $request->landmark;
         $employeeadd->city = $request->city;
         $employeeadd->state = $request->state;
@@ -840,7 +868,8 @@ class AdminController extends Controller
         $employeeadd->save();
 
         $loginemployee = new User;
-        $loginemployee->user_id = $euserid;
+        $loginemployee->user_id = $employee_id_gen;
+        // $loginemployee->user_id = $employee_id_gen;
         $alphabet = 'abcdefghijklmnopqrstuvwxyz@#$123456789';
         $pass = array(); //remember to declare $pass as an array
         $alphaLength = strlen($alphabet) - 1; //put the length -1 in cache
@@ -854,7 +883,7 @@ class AdminController extends Controller
         $loginemployee->name = $request->name;
         $loginemployee->mobile = $request->mobile_no;
         $loginemployee->email = $request->email;
-        $loginemployee->role = 2;
+        $loginemployee->role = 4;
         $loginemployee->save();
         if ($employeeadd && $loginemployee) {
             return redirect()->back()->with(session()->flash('alert-success', 'Employee Successfully Registered'));
@@ -1415,4 +1444,243 @@ class AdminController extends Controller
             return redirect()->back()->with(session()->flash('alert-warning', 'Something went wrong. Please try again.')); 
         } 
     }
+    //farmer list from here
+    public function farmerList(Request $request){
+        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
+        $sort_search = null;
+        $farmers_list = User::where('role',5);
+        if ($request->search != null){
+            $farmers_list = $farmers_list->where('users.name', 'like', '%'.$request->search.'%')
+                            ->orWhere('users.mobile', "like", "%" . $request->search . "%")
+                            ->orWhere('users.user_id', "like", "%" . $request->search . "%");
+                            $sort_search = $request->search;
+        }
+        $farmers_list = $farmers_list ->select('users.*')
+                                ->paginate(10);
+       return view('admin/farmer_lists',$data, compact('farmers_list','sort_search'));
+    }
+    public function viewFarmerDetails($user_id){
+        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
+        $farmer_details = User::where('user_id',$user_id)->first();
+        return view('admin/farmerdetails',$data, compact('farmer_details'));
+    }
+    //Agri retailer list from here
+    public function agriRetailerList(Request $request){
+        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
+        // $sort_search = null;
+        // $agri_retailer_list = User::where('role',2);
+        // if ($request->search != null){
+        //     $agri_retailer_list = $agri_retailer_list->where('users.name', 'like', '%'.$request->search.'%')
+        //                     ->orWhere('users.mobile', "like", "%" . $request->search . "%")
+        //                     ->orWhere('users.user_id', "like", "%" . $request->search . "%");
+        //                     $sort_search = $request->search;
+        // }
+        // $agri_retailer_list = $agri_retailer_list ->select('users.*')
+        //                         ->paginate(10);
+
+
+        $sort_search = null;
+        $agri_retailer_list = User::where('role',2)
+                    ->join('states', 'states.id', '=', 'users.state')
+                    ->join('districts','districts.id_district','=','users.district')
+                    ->join('blocks','blocks.id','=','users.block');
+        if ($request->search != null){
+            $agri_retailer_list = $agri_retailer_list->where('blocks.name', 'like', '%'.$request->search.'%')
+                            ->orWhere('districts.name', "like", "%" . $request->search . "%")
+                            ->orWhere('users.name', "like", "%" . $request->search . "%")
+                            ->orWhere('users.mobile', "like", "%" . $request->search . "%")
+                            ->orWhere('users.user_id', "like", "%" . $request->search . "%");
+                            $sort_search = $request->search;
+        }
+        $agri_retailer_list = $agri_retailer_list ->select('districts.name as districtName', 'blocks.name as block_name','states.name as state_name','users.*')
+                                ->paginate(35);
+                                
+       return view('admin/agri_retailer_list',$data, compact('agri_retailer_list','sort_search'));
+    }
+    public function viewAgriRetailerDetails($user_id){
+        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
+        $agri_retailer_details = User::where('user_id',$user_id)->first();
+        return view('admin/agriretailerdetails',$data, compact('agri_retailer_details'));
+    }
+    //cattle doctor list here
+     public function cattleDoctorList(Request $request){
+        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
+        $sort_search = null;
+        $cattle_doctor_list = User::where('role',3)
+                    ->join('states', 'states.id', '=', 'users.state')
+                    ->join('districts','districts.id_district','=','users.district')
+                    ->join('blocks','blocks.id','=','users.block');
+        if ($request->search != null){
+            $cattle_doctor_list = $cattle_doctor_list->where('blocks.name', 'like', '%'.$request->search.'%')
+                            ->orWhere('districts.name', "like", "%" . $request->search . "%")
+                            ->orWhere('users.name', "like", "%" . $request->search . "%")
+                            ->orWhere('users.mobile', "like", "%" . $request->search . "%")
+                            ->orWhere('users.user_id', "like", "%" . $request->search . "%");
+                            $sort_search = $request->search;
+        }
+        $cattle_doctor_list = $cattle_doctor_list ->select('districts.name as districtName', 'blocks.name as block_name','states.name as state_name','users.*')
+                                ->paginate(35);
+        // dd($cattle_doctor_list);
+       return view('admin/cattle_doctor_list',$data, compact('cattle_doctor_list','sort_search'));
+    }
+    public function viewCattleDoctorDetails($user_id){
+        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
+        $cattle_doc_details = User::where('user_id',$user_id)->first();
+        return view('admin/cattledoctordetails',$data, compact('cattle_doc_details'));
+    }
+    public function viewEmployeeDetails($user_id){
+        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
+        $employeedata = Employee::where('user_id', $user_id)->first();
+        $userdata = User::where('user_id', $employeedata->user_id)->first();
+        return view('admin/employeedetails',$data, compact('employeedata','userdata'));
+    }
+    //crop insurance list here
+     public function cropInsurance(Request $request){
+        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
+        $sort_search = null;
+        $crop_insurance = CropInsurance::where('type',1);
+        if ($request->search != null){
+            $crop_insurance = $cattle_doctore_list->where('crop_insurances.name', 'like', '%'.$request->search.'%')
+                            ->orWhere('crop_insurances.insurance_no', "like", "%" . $request->search . "%")
+                            ->orWhere('crop_insurances.employee_id', "like", "%" . $request->search . "%")
+                            ->orWhere('crop_insurances.pincode', "like", "%" . $request->search . "%")
+                            ->orWhere('crop_insurances.name', "like", "%" . $request->search . "%")
+                            ->orWhere('crop_insurances.mobile', "like", "%" . $request->search . "%");
+                            $sort_search = $request->search;
+        }
+        $crop_insurance = $crop_insurance ->select('crop_insurances.*')
+                                ->paginate(10);
+       return view('admin/crop_insurances',$data, compact('crop_insurance','sort_search'));
+    }
+    public function viewCropInsuranceDetails($insurance_no){
+        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
+        $crop_insurance_details = CropInsurance::where('insurance_no', $insurance_no)->first();
+        $emp_data = User::where('user_id', $crop_insurance_details->employee_id)->first();
+		// dd($emp_data);
+		// die;
+		return view('admin/view_crop_insurance',$data, compact('crop_insurance_details','emp_data'));
+    }
+	//cattle insurance list here
+     public function cattleInsurance(Request $request){
+        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
+        $sort_search = null;
+        $crop_insurance = CropInsurance::where('type',2);
+        if ($request->search != null){
+            $crop_insurance = $cattle_doctore_list->where('crop_insurances.name', 'like', '%'.$request->search.'%')
+                            ->orWhere('crop_insurances.insurance_no', "like", "%" . $request->search . "%")
+                            ->orWhere('crop_insurances.employee_id', "like", "%" . $request->search . "%")
+                            ->orWhere('crop_insurances.pincode', "like", "%" . $request->search . "%")
+                            ->orWhere('crop_insurances.name', "like", "%" . $request->search . "%")
+                            ->orWhere('crop_insurances.mobile', "like", "%" . $request->search . "%");
+                            $sort_search = $request->search;
+        }
+        $crop_insurance = $crop_insurance ->select('crop_insurances.*')
+                                ->paginate(10);
+       return view('admin/cattle_insurances',$data, compact('crop_insurance','sort_search'));
+    }
+    public function viewCattleInsuranceDetails($insurance_no){
+        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
+        $crop_insurance_details = CropInsurance::where('insurance_no', $insurance_no)->first();
+        $emp_data = User::where('user_id', $crop_insurance_details->employee_id)->first();
+		return view('admin/view_cattle_insurance',$data, compact('crop_insurance_details','emp_data'));
+    }
+	 public function stateList(Request $request){
+        $data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
+        $sort_search = null;
+        $state_list = State::orderBy('id','desc');
+        if ($request->search != null){
+            $state_list = $state_list->where('states.name', 'like', '%'.$request->search.'%');
+                            $sort_search = $request->search;
+        }
+        $state_list = $state_list ->select('states.*')
+                                ->paginate(10);
+       return view('admin/state_list',$data, compact('state_list','sort_search'));
+    }
+	public function addState(){
+		$data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
+		return view('admin/addstate',$data);
+	}
+    public function uploadState(Request $request){
+        $request->validate([
+            'name' => 'required|string'
+        ]);
+		$addstate = new State;
+		$addstate->name = $request->name;
+		$addstate->save();
+		if ($addstate) {
+            return redirect()->back()->with(session()->flash('alert-success', 'State Added Successfully!'));
+        } else {
+            return redirect()->back()->with(session()->flash('alert-warning', 'Something went wrong. Please try again.')); 
+        } 
+    }
+	public function fixAmount(){
+		$data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
+		$amount_details = FixInsuranceAmount::where('id',1)->first();
+		return view('admin/fixamount',$data, compact('amount_details'));
+	}
+	public function updateCropInsurance(Request $request)
+	{
+		$request->validate([
+			'crop_insurance_amount' => 'required|numeric'
+		]);
+		// dd($request->all());
+		// die;
+		$crop_insurance_amount = FixInsuranceAmount::where('id', 1)
+                        ->update([
+                            'crop_insurance_amount' => $request->crop_insurance_amount,
+                        ]);
+        if($crop_insurance_amount){
+        return redirect()->back()->with(session()->flash('alert-success', 'Crop Insurance Amount Updated Successfully '));
+        } else {
+            return redirect()->back()->with(session()->flash('alert-warning', 'Something went wrong. Please try again.')); 
+        } 
+	}
+	public function updateCattleInsurance(Request $request)
+	{
+		$request->validate([
+			'cattle_insurance_amount' => 'required|numeric'
+		]);
+		// dd($request->all());
+		// die;
+		$cattle_insurance_amount = FixInsuranceAmount::where('id', 1)
+                        ->update([
+                            'cattle_insurance_amount' => $request->cattle_insurance_amount,
+                        ]);
+        if($cattle_insurance_amount){
+        return redirect()->back()->with(session()->flash('alert-success', 'Cattle Insurance Amount Updated Successfully '));
+        } else {
+            return redirect()->back()->with(session()->flash('alert-warning', 'Something went wrong. Please try again.')); 
+        } 
+	}
+	public function updateAgentAmount(Request $request)
+	{
+		$request->validate([
+			'agent_amount' => 'required|numeric'
+		]);
+		// dd($request->all());
+		// die;
+		$agent_amount = FixInsuranceAmount::where('id', 1)
+                        ->update([
+                            'agent_amount' => $request->agent_amount,
+                        ]);
+        if($agent_amount){
+        return redirect()->back()->with(session()->flash('alert-success', 'Agent Amount Updated Successfully '));
+        } else {
+            return redirect()->back()->with(session()->flash('alert-warning', 'Something went wrong. Please try again.')); 
+        } 
+	}
+	public function kisanLoan(Request $request){
+		$data = ['LoggedUserInfo'=>User::where('id','=', session('LoggedUser'))->first()];
+        $sort_search = null;
+        $kisan_loan = KisanLoan::orderBy('id','desc');
+        if ($request->search != null){
+            $kisan_loan = $kisan_loan->where('kisan_loans.name', 'like', '%'.$request->search.'%')
+									->orWhere('kisan_loans.mobile', "like", "%" . $request->search . "%");
+                            $sort_search = $request->search;
+        }
+        $kisan_loan = $kisan_loan ->select('kisan_loans.*')
+                                ->paginate(10);
+       return view('admin/kisan_loan',$data, compact('kisan_loan','sort_search'));
+	}
+	
 }

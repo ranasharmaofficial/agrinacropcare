@@ -12,7 +12,11 @@ $logged_name = \App\Models\User::where('id',$logged_id)->first();
                 </div>
                 
                 <h3 class="profile_title">{{$logged_name->name}}</h3>
+                @if ($logged_name->role!=4)
+                    <h3 class="profile_title">{{$logged_name->mobile}}</h3>
+                @else
                 <h4 class="profile_email">{{$logged_name->user_id}}</h4>
+                @endif
             </li>
         @else
             <li class="bg-teal">
@@ -27,12 +31,12 @@ $logged_name = \App\Models\User::where('id',$logged_id)->first();
             <li>
                 <a href="{{url('dashboard/home')}}"> <i class="fa fa-home" aria-hidden="true"></i>Home</a>
             </li>
-            <li>
+            {{-- <li>
                 <a href="{{url('dashboard/home')}}"> <i class="fa fa-volume-up" aria-hidden="true"></i>Announcements</a>
             </li>
             <li>
                 <a href="{{url('dashboard/home')}}"> <i class="fa fa-calendar" aria-hidden="true"></i>Events</a>
-            </li>
+            </li> --}}
             <li>
                 <a href="{{url('dashboard/crop-care')}}"> <i class="fa fa-file-text-o" aria-hidden="true"></i>Crop Care</a>
             </li>

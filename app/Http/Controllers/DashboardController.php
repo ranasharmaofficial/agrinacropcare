@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\District;
+use App\Models\State;
 use App\Models\CropInsuranceProcess;
 use App\Models\CropInsurance;
 use App\Models\CattleInsurance;
@@ -44,17 +45,22 @@ class DashboardController extends Controller
                 $logged_name = $request->session()->put('logged_name', $doctorinfo->name);
                 $logged_mobile = $request->session()->put('logged_mobile', $doctorinfo->mobile);
                 $logged_user_id = $request->session()->put('logged_user_id', $doctorinfo->user_id);
-                return redirect('dashboard/home?doctor');
+                return redirect('dashboard/profile?doctor');
             }
             //Agent role here
             else if ($dashInfo->role == 2) {
                 $request->session()->put('LoggedDash', $dashInfo->id);
-                return redirect('dashboard/home?agent');
+                return redirect('dashboard/profile?agent');
             }
             //Farmer role here
             else if ($dashInfo->role == 5) {
                 $request->session()->put('LoggedDash', $dashInfo->id);
-                return redirect('dashboard/home?farmer');
+                return redirect('dashboard/profile?farmer');
+            }
+			//Employee role here
+            else if ($dashInfo->role == 4) {
+                $request->session()->put('LoggedDash', $dashInfo->id);
+                return redirect('dashboard/profile?employee');
             }
         } else {
             return redirect()->route('dashboard.auth.login')->with(session()->flash('alert-danger', 'Failed! Incorrect Password.'));
@@ -84,13 +90,15 @@ class DashboardController extends Controller
     }
     public function doctorRegistration()
     {
+        $statelist = State::get();
         $districtlist = District::get();
-        return view('dashboard.auth.doctor_register', compact('districtlist'));
+        return view('dashboard.auth.doctor_register', compact('districtlist','statelist'));
     }
     public function AgriRegistration()
     {
         $districtlist = District::get();
-        return view('dashboard.auth.agric_registration', compact('districtlist'));
+		$statelist = State::get();
+        return view('dashboard.auth.agric_registration', compact('districtlist','statelist'));
     }
 
     public function index()
@@ -121,16 +129,124 @@ class DashboardController extends Controller
     {
         return view('dashboard.crop-doc');
     }
-    public function cropInsuranceStepOne()
+    public function cropInsuranceStepOne(Request $request)
     {
-        return view('dashboard.crop_insurance_stepOne');
+       $data = ['LoggedUserInfo' => User::where('id', '=', session('LoggedDash'))->first()];
+
+       
+        // dd($count_employee_id);
+        if($request->employee_id!=null)
+        {
+            $employee_id = $request->get('employee_id');
+            $count_employee_id = User::where('user_id',$employee_id)->where('role',4)->get();
+            $emp_details = User::where('user_id',$employee_id)->where('role',4)->first();
+            // dd($count_employee_id);
+            if(count($count_employee_id)>0){
+            
+                //Send Message
+                $mobileotp = $emp_details->mobile;
+                $mobileotpsend = rand(111111,999999);
+                session()->put('mobilenumber',$mobileotp);
+                session()->put('employeeotp',$mobileotpsend);
+                $msg = 'Dear Student, '.$mobileotpsend.' is your one time password (OTP). Please enter the OTP to proceed. Thank You, Regards - HASANAH EDUCATIONAL TRUST';
+                $phones = $mobileotp;
+                $url = "http://45.249.108.134/api.php";
+                $ch = curl_init($url);
+                curl_setopt($ch, CURLOPT_HEADER, 0);
+                curl_setopt($ch, CURLOPT_POST, 1);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, "username=hasanahtrust&password=752761&sender=HETRST&sendto=".$phones."&message=".$msg."&PEID=1301164733895014972&templateid=1307164922578115135&type=3");
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+                $response = curl_exec($ch);
+                
+                // $request->session()->put('LoggedDash', $lastId);
+                // return redirect('dashboard/auth/login')->with(session()->flash('alert-success', 'Registration Success.'));
+                return redirect('dashboard/crop_insurance_stepTwo')->with(session()->flash('alert-success', 'Otp Sent!.'));
+            }
+            else{
+                return redirect()->back()->with(session()->flash('alert-danger', 'Invalid Employee Code!.'));
+            }
+        }
+        
+       return view('dashboard.crop_insurance_stepOne', $data, );
+    }
+    public function verifyCropInsuranceOtp(Request $request){
+        $request->validate([
+            'otp' => 'required|numeric|min:6',
+        ]);
+        $otp = $request->otp;
+        $mobile = $request->mobile;
+        $sessotp = session()->get('employeeotp');
+        $sessmob = session()->get('mobilenumber');
+        if ($mobile == $sessmob && $otp == $sessotp) {
+                // session()->forget(['employeeotp', 'mobilenumber']);
+                return redirect('dashboard/crop-insurance')->with(session()->flash('alert-success', 'OTP Verified.'));
+             }
+             else
+             {
+                return redirect()->back()->with(session()->flash('alert-danger', 'Incorrect Otp!.'));
+             }
+    }
+    public function verifyCattleInsuranceOtp(Request $request){
+        $request->validate([
+            'otp' => 'required|numeric|min:6',
+        ]);
+        $otp = $request->otp;
+        $mobile = $request->mobile;
+        $sessotp = session()->get('employeeotp');
+        $sessmob = session()->get('mobilenumber');
+        if ($mobile == $sessmob && $otp == $sessotp) {
+                // session()->forget(['employeeotp', 'mobilenumber']);
+                return redirect('dashboard/cattle-insurance')->with(session()->flash('alert-success', 'OTP Verified.'));
+             }
+             else
+             {
+                return redirect()->back()->with(session()->flash('alert-danger', 'Incorrect Otp!.'));
+             }
+    }
+    public function getEmployeeCount(Request $request){
+        
     }
     public function cropInsuranceStepTwo()
     {
-        return view('dashboard.cattle_insurance_stepTwo');
+        $data = ['LoggedUserInfo' => User::where('id', '=', session('LoggedDash'))->first()];
+        return view('dashboard.cattle_insurance_stepTwo',$data);
     }
-    public function cattleInsuranceStepOne()
+    public function cattleInsuranceStepOne(Request $request)
     {
+        // dd($count_employee_id);
+        if($request->employee_id!=null)
+        {
+            $employee_id = $request->get('employee_id');
+            $count_employee_id = User::where('user_id',$employee_id)->where('role',4)->get();
+            $emp_details = User::where('user_id',$employee_id)->where('role',4)->first();
+            // dd($count_employee_id);
+            if(count($count_employee_id)>0){
+            
+                //Send Message
+                $mobileotp = $emp_details->mobile;
+                $mobileotpsend = rand(111111,999999);
+                session()->put('mobilenumber',$mobileotp);
+                session()->put('employeeotp',$mobileotpsend);
+                $msg = 'Dear Student, '.$mobileotpsend.' is your one time password (OTP). Please enter the OTP to proceed. Thank You, Regards - HASANAH EDUCATIONAL TRUST';
+                $phones = $mobileotp;
+                $url = "http://45.249.108.134/api.php";
+                $ch = curl_init($url);
+                curl_setopt($ch, CURLOPT_HEADER, 0);
+                curl_setopt($ch, CURLOPT_POST, 1);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, "username=hasanahtrust&password=752761&sender=HETRST&sendto=".$phones."&message=".$msg."&PEID=1301164733895014972&templateid=1307164922578115135&type=3");
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+                $response = curl_exec($ch);
+                
+                // $request->session()->put('LoggedDash', $lastId);
+                // return redirect('dashboard/auth/login')->with(session()->flash('alert-success', 'Registration Success.'));
+                return redirect('dashboard/cattle_insurance_stepTwo')->with(session()->flash('alert-success', 'Otp Sent!.'));
+            }
+            else{
+                return redirect()->back()->with(session()->flash('alert-danger', 'Invalid Employee Code!.'));
+            }
+        }
         return view('dashboard.cattle_insurance_stepOne');
     }
     public function cattleInsuranceStepTwo()
@@ -150,10 +266,10 @@ class DashboardController extends Controller
             // ->paginate(15);
             // dd($cattledoctor);
 
-            $districtName = District::where('id_district', $cattledoctor->district)->get();
-            $districtName = $districtName->name;
+            // $districtName = District::where('id_district', $cattledoctor->district)->get();
+            // $districtName = $districtName->name;
         }
-        return view('dashboard/cattle-doc-search-details', compact('cattledoctor', 'districtName', 'pin'));
+        return view('dashboard/cattle-doc-search-details', compact('cattledoctor','pin'));
         // return view('dashboard.crop-doc-search-details');
     }
     public function profile()
@@ -176,7 +292,7 @@ class DashboardController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'mobile' => 'required|min:10|numeric',
+            'mobile' => 'required|min:10|unique:users,mobile',
             'address' => 'required',
             'state' => 'required|numeric',
             'district' => 'required|numeric',
@@ -188,14 +304,16 @@ class DashboardController extends Controller
         $checkUserExist = User::where('mobile', $request->mobile)->get();
         $c = count($checkUserExist);
 
-        $lastUserId = User::orderBy('id', 'desc')->first();
-        if (isset($lastUserId)) {
+        $last_userid = User::orderBy('id', 'desc')->first();
+        if (isset($last_userid)) {
             // Sum 1 + last id
-            $euserid = $lastUserId->user_id + 1;
+            $reuserid = substr($last_userid->user_id, 3);
+            $userid = $reuserid + 1;
+            $euserid= 'EUC' . $userid . '';
         } else {
-            $euserid = date('md') . rand(111, 999);
+            $euserid = 'EUC10001';
         }
-        if ($c < 1) {
+         
             $doctorupload = User::create([
                 "user_id" => "$euserid",
                 "mobile" => "$request->mobile",
@@ -212,12 +330,7 @@ class DashboardController extends Controller
 
             ]);
 
-            //  dd($lastID);
-            //  die;
-            // $updateuserid = User::where('id', $lastID)
-            //             ->update([
-            //                 'user_id' => '111'.$lastID,
-            //             ]);
+            
             if ($doctorupload) {
                 //Send Message
                 $msg = 'Dear Student, Your registration details are: Username : ' . $request->mobile . ' Password : ' . $request->mobile . ' Visit : https://bit.ly/3uA3gaJ Regards - HASANAH EDUCATIONAL TRUST';
@@ -231,41 +344,49 @@ class DashboardController extends Controller
                 curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
                 $response = curl_exec($ch);
                 // session()->forget(['mobileotp', 'mobilenumber']);
-                return redirect('dashboard/auth/login')->with(session()->flash('alert-success', 'Registration Success.'));
+				$lastId = $doctorupload->id;
+				$request->session()->put('LoggedDash', $lastId);
+                // return redirect('dashboard/auth/login')->with(session()->flash('alert-success', 'Registration Success.'));
+                return redirect('dashboard/profile')->with(session()->flash('alert-success', 'Registration Success.'));
             } else {
                 return redirect()->back()->with(session()->flash('alert-danger', 'Plz Try Again!.'));
             }
-        } else {
-            return redirect()->back()->with(session()->flash('alert-danger', 'Already Registered! Try with other No.'));
-        }
+         
     }
 
     public function uploadAgriRetailerRegData(Request $request)
     {
         $request->validate([
+            'firm_name' => 'required',
+            'gst_number' => 'required|min:15',
             'name' => 'required',
-            'mobile' => 'required|min:10|numeric',
+            'mobile' => 'required|min:10|unique:users,mobile',
             'address' => 'required',
             'state' => 'required|numeric',
             'district' => 'required|numeric',
             'block' => 'required|numeric',
             'panchayat' => 'required',
             'pin_code' => 'required|min:6|max:6',
-            'experience' => 'required',
+            
         ]);
         $checkUserExist = User::where('mobile', $request->mobile)->get();
         $c = count($checkUserExist);
-        $lastUserId = User::orderBy('id', 'desc')->first();
-        if (isset($lastUserId)) {
+        
+		$last_userid = User::orderBy('id', 'desc')->first();
+        if (isset($last_userid)) {
             // Sum 1 + last id
-            $euserid = $lastUserId->user_id + 1;
+            $reuserid = substr($last_userid->user_id, 3);
+            $userid = $reuserid + 1;
+            $euserid= 'EUC' . $userid . '';
         } else {
-            $euserid = date('md') . rand(111, 999);
+            $euserid = 'EUC10001';
         }
-        if ($c < 1) {
-            $doctorupload = User::create([
+        
+            $agri_retailer = User::create([
                 "user_id" => "$euserid",
                 "mobile" => "$request->mobile",
+                "firm_name" => "$request->firm_name",
+                "gst" => "$request->gst_number",
                 "name" => "$request->name",
                 "state" => "$request->state",
                 "district" => "$request->district",
@@ -278,7 +399,7 @@ class DashboardController extends Controller
                 "address" => "$request->address",
 
             ]);
-            if ($doctorupload) {
+            if ($agri_retailer) {
                 //Send Message
                 $msg = 'Dear Student, Your registration details are: Username : ' . $request->mobile . ' Password : ' . $request->mobile . ' Visit : https://bit.ly/3uA3gaJ Regards - HASANAH EDUCATIONAL TRUST';
                 $phones = $request->mobile;
@@ -291,13 +412,14 @@ class DashboardController extends Controller
                 curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
                 $response = curl_exec($ch);
                 // session()->forget(['mobileotp', 'mobilenumber']);
-                return redirect('dashboard/auth/login')->with(session()->flash('alert-success', 'Registration Success.'));
+				$lastId = $agri_retailer->id;
+				$request->session()->put('LoggedDash', $lastId);
+                // return redirect('dashboard/auth/login')->with(session()->flash('alert-success', 'Registration Success.'));
+                return redirect('dashboard/profile')->with(session()->flash('alert-success', 'Registration Success.'));
             } else {
                 return redirect()->back()->with(session()->flash('alert-danger', 'Plz Try Again!.'));
             }
-        } else {
-            return redirect()->back()->with(session()->flash('alert-danger', 'Already Registered! Try with other No.'));
-        }
+        
     }
 
     public function uploadFarmerRegData(Request $request)
@@ -309,12 +431,14 @@ class DashboardController extends Controller
         ]);
         $checkUserExist = User::where('mobile', $request->mobile)->get();
         $c = count($checkUserExist);
-        $lastUserId = User::orderBy('id', 'desc')->first();
-        if (isset($lastUserId)) {
+        $last_userid = User::orderBy('id', 'desc')->first();
+        if (isset($last_userid)) {
             // Sum 1 + last id
-            $euserid = $lastUserId->user_id + 1;
+            $reuserid = substr($last_userid->user_id, 3);
+            $userid = $reuserid + 1;
+            $euserid= 'EUC' . $userid . '';
         } else {
-            $euserid = date('md') . rand(111, 999);
+            $euserid = 'EUC10001';
         }
         if ($c < 1) {
             $farmerupload = User::create([
@@ -336,8 +460,10 @@ class DashboardController extends Controller
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
                 curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
                 $response = curl_exec($ch);
-                // session()->forget(['mobileotp', 'mobilenumber']);
-                return redirect('dashboard/auth/login')->with(session()->flash('alert-success', 'Registration Success.'));
+                $lastId = $farmerupload->id;
+				$request->session()->put('LoggedDash', $lastId);
+                // return redirect('dashboard/auth/login')->with(session()->flash('alert-success', 'Registration Success.'));
+                return redirect('dashboard/profile')->with(session()->flash('alert-success', 'Registration Success.'));
             } else {
                 return redirect()->back()->with(session()->flash('alert-danger', 'Plz Try Again!.'));
             }
@@ -366,18 +492,20 @@ class DashboardController extends Controller
     }
     public function uploadCropInsuranceData(Request $request)
     {
+        // dd($request->all());
         $request->validate([
-            'employee_id' => 'required',
+            // 'employee_id' => 'required',
             'name' => 'required',
+            'mobile' => 'required|numeric',
             'gender' => 'required',
             'dob' => 'required',
             'pincode' => 'required',
             'address' => 'required',
             'district' => 'required',
             'state' => 'required',
-            'crops_insurred' => 'required',
+            // 'crops_insurred' => 'required',
             'aadhar_card' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
-            'plan_details' => 'required',
+            // 'plan_details' => 'required',
             'nominee_name' => 'required',
             'nominee_father' => 'required',
             'nominee_relation' => 'required',
@@ -392,11 +520,11 @@ class DashboardController extends Controller
             $file->move(public_path('uploads/insurance-documents'), $aadhar_card);
         }
         // dd($aadhar_card);die;
-        $getUserID = User::where('mobile', $request->employee_id)->first();
-        $agentid = User::where('mobile', $request->employee_id)->get();
+        $getUserID = User::where('mobile', $request->employee_id)->where('role',4)->first();
+        $agentid = User::where('mobile', $request->employee_id)->where('role',4)->get();
         $getUserID = $getUserID->user_id;
 
-        if (count($agentid) >= 1) {
+        // if (count($agentid) >= 1) {
             $tokenno = time() . rand(1111, 9999);
             $first_date = date("d-M-Y");
             $after_one_year =  date("d-M-Y", strtotime("$first_date +365 day")); // PHP:  2009-03-04
@@ -415,6 +543,9 @@ class DashboardController extends Controller
                 "address" => "$request->address",
                 "aadhar_card_pic" => "$aadhar_card",
                 "major_crops_insurred" => "$request->crops_insurred",
+                "gross_premium" => "$request->gross_premium",
+                "nominee_salutation" => "$request->nominee_salutation",
+                "tenure" => "$request->tenure",
                 "plan_details" => "$request->plan_details",
                 "nominee_salutation" => "$request->nominee_salutation",
                 "nominee_name" => "$request->nominee_name",
@@ -435,9 +566,10 @@ class DashboardController extends Controller
                 }
             }
             return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please! try again later.'));
-        } else {
-            return redirect()->back()->with(session()->flash('alert-danger', 'Employee Code does not matched.'));
-        }
+        // } 
+        // else {
+        //     return redirect()->back()->with(session()->flash('alert-danger', 'Employee Code does not matched.'));
+        // }
     }
 
     //Crop insurance Form Preview Start
@@ -504,6 +636,9 @@ class DashboardController extends Controller
             $make_insurance->state = $fetchprocessdata->state;
             $make_insurance->district = $fetchprocessdata->district;
             $make_insurance->major_crops_insurred = $fetchprocessdata->major_crops_insurred;
+            $make_insurance->tenure = $fetchprocessdata->tenure;
+            $make_insurance->total_sum_insurred = $fetchprocessdata->total_sum_insurred;
+            $make_insurance->gross_premium = $fetchprocessdata->gross_premium;
             $make_insurance->plan_details = $fetchprocessdata->plan_details;
             $make_insurance->nominee_salutation = $fetchprocessdata->nominee_salutation;
             $make_insurance->nominee_name = $fetchprocessdata->nominee_name;
@@ -537,6 +672,7 @@ class DashboardController extends Controller
             $send_amount->paid_by = $insuranceidgen;
             $send_amount->save();
         }
+        session()->forget(['employeeotp', 'mobilenumber']);
         if ($make_insurance) {
             return redirect('dashboard/crop-insurance-done/' . $request->tokenno)->with(session()->flash('alert-success', 'Transaction successful.'));
         } else {
@@ -770,8 +906,9 @@ class DashboardController extends Controller
     public function agricultureShop(Request $request)
     {
         $data = null;
+        $statelist = State::get();
         $districtlist = District::get();
-        return view('dashboard.agricultureshop', compact('districtlist'));
+        return view('dashboard.agricultureshop', compact('districtlist','statelist'));
     }
     public function agriShopSearch(Request $request)
     {
@@ -780,13 +917,13 @@ class DashboardController extends Controller
         $pin = $request->get('pin');
         if ($pin !== null) {
 
-            $agrishops = User::where('state', $state)->where('users.district', $district)->where('pincode', $pin)->where('role', 2)
+            $agrishops = User::where('users.state', $state)->where('users.district', $district)->where('pincode', $pin)->where('role', 2)
                 ->join('districts', 'users.district', '=', 'districts.id_district')
                 // ->join('blocks', 'students.block_id', '=', 'blocks.id')
                 ->select('districts.*', 'users.*')
                 ->paginate(15);
             $districtName = District::where('id_district', $district)->first();
-            $districtName = $districtName->name;
+            // $districtName = $districtName->name;
         }
         return view('dashboard/agri-shop-search-details', compact('agrishops', 'districtName', 'pin'));
     }
@@ -795,24 +932,28 @@ class DashboardController extends Controller
     public function cattleDoctors(Request $request)
     {
         $data = null;
+        $statelist = State::get();
         $districtlist = District::get();
-        return view('dashboard.cattledoctor', compact('districtlist'));
+        return view('dashboard.cattledoctor', compact('districtlist','statelist'));
     }
     public function cattleDoctorSearch(Request $request)
     {
         $state = $request->get('state');
         $district = $request->get('district');
         $pin = $request->get('pin');
-        if ($pin !== null) {
+        if ($pin !== null && $state!==null && $district!==null) {
 
-            $cattledoctor = User::where('state', $state)->where('users.district', $district)->where('pincode', $pin)->where('role', 3)
+            $cattledoctor = User::where('users.state', $state)->where('users.district', $district)->where('pincode', $pin)->where('role', 3)
                 ->join('districts', 'users.district', '=', 'districts.id_district')
                 // ->join('blocks', 'students.block_id', '=', 'blocks.id')
                 ->select('districts.*', 'users.*')
                 ->paginate(15);
             $districtName = District::where('id_district', $district)->first();
-            $districtName = $districtName->name;
+            // $districtName = $districtName->name;
         }
+		else{
+			
+		}
         return view('dashboard/cattle-doctor-search-details', compact('cattledoctor', 'districtName', 'pin'));
     }
 }

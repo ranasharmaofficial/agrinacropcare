@@ -14,8 +14,7 @@
                 Apply for Crop Insurance
             </div>
             <div class="card-body p-0 pt-2" style="height: 150px;">
-                <form action="{{ route('dashboard.uploadCropInsuranceData') }}" autocomplete="off" method="post"
-                    enctype="multipart/form-data" class="p-2">
+                <form autocomplete="off" method="GET" action="{{ route('dashboard.crop_insurance_stepOne') }}" enctype="multipart/form-data" class="p-2">
                     {{-- <div class="flash-message">
                     @foreach (['danger', 'warning', 'success', 'info'] as $msg)
                         @if (Session::has('alert-' . $msg))

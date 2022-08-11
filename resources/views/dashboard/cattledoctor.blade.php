@@ -24,19 +24,20 @@
                     @endforeach
                 </div> --}}
                 @csrf
+				
                 <div class="text-field">
-                    <select type="text" autofocus required name="state" class="form-control" title="State" value="">
+                    <select type="text" autofocus required name="state" id="state" class="form-control" title="State" value="">
                         <option selected>---Select State---</option>
-                        <option value="1">Bihar</option>
+                         @foreach ($statelist as $citem)
+                                        <option value="{{ $citem->id }}">{{ $citem->name }}</option>
+                                    @endforeach
                     </select>
                     {{-- <label>State <span class="danger">*</span></label> --}}
                 </div>
                 <div class="text-field">
-                    <select type="text" autofocus required name="district" class="form-control" title="district" value="">
-                        <option selected>---Select District---</option>
-                        @foreach ($districtlist as $citem)
-                                <option value="{{$citem->id_district }}">{{$citem->name}}</option>                                            
-                            @endforeach 
+                    <select type="text" id="school_id" required name="district" class="form-control" title="district" value="">
+                        <option disabled value="0" selected>---Select District---</option>
+                        
                     </select>
                 </div>
 				<div class="text-field">
@@ -61,5 +62,69 @@
     </div>
 	</div>
     </main>
-	 
+	 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        jQuery(document).ready(function() {
+
+            jQuery('#school_id').change(function() {
+                let school = jQuery(this).val();
+                let datas = "";
+                // console.log(school)
+                // $('#sub_category').empty();
+                // $('#sub_category').append(`<option value="0" disabled selected>Processing...</option>`);
+                jQuery.ajax({
+                    url: '{{ url('getBlockNames') }}',
+                    type: 'post',
+                    //dataType: "json",
+                    data: 'school=' + school + '&_token={{ csrf_token() }}',
+                    success: function(result) {
+                        // console.log(result);
+                        if (result == '') {
+                            datas += '<option value="0">Not Found.</option>';
+                        } else {
+                            // console.log(result);
+                            datas += '<option selected disabled>---Select Block---</option>';
+                            $.each(result, function(i) {
+                                datas += '<option value="' + result[i].id + '">' +
+                                    result[i].name + '</option>';
+                                console.log(result);
+                            });
+                        }
+                        jQuery('#class_id').html(datas);
+                    }
+                });
+            });
+			
+			jQuery('#state').change(function() {
+                let state = jQuery(this).val();
+                let datas = "";
+                console.log(state)
+                // $('#sub_category').empty();
+                // $('#sub_category').append(`<option value="0" disabled selected>Processing...</option>`);
+                jQuery.ajax({
+                    url: '{{ url('getDistrictName') }}',
+                    type: 'post',
+                    //dataType: "json",
+                    data: 'state=' + state + '&_token={{ csrf_token() }}',
+                    success: function(result) {
+                        // console.log(result);
+                        if (result == '') {
+                            datas += '<option value="0">Not Found.</option>';
+                        } else {
+                            // console.log(result);
+                            datas += '<option selected disabled>---Select District---</option>';
+                            $.each(result, function(i) {
+                                datas += '<option value="' + result[i].id_district + '">' +
+                                    result[i].name + '</option>';
+                                console.log(result);
+                            });
+                        }
+                        jQuery('#school_id').html(datas);
+                    }
+                });
+            });
+
+
+        });
+    </script>
 @endsection

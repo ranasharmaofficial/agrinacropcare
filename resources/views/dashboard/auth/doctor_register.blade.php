@@ -36,9 +36,7 @@
                                 <div class="input-group-text bg-success">
                                     <select class="bg-success text-white" style="padding:0px;border:none;outline:none"
                                         name="salutation">
-                                        <option selected="selected" value="Mr.">Mr.</option>
-                                        <option value="Mrs.">Mrs.</option>
-                                        <option value="Miss">Miss</option>
+                                        <option selected="selected" value="Dr.">Dr.</option>
                                     </select>
                                     <span class="text-danger form-text">
                                         @error('employee_id')
@@ -82,7 +80,9 @@
                             <div class="text-field">
                                 <select class="select" required type="text" name="state" id="state">
                                     <option selected disabled>---Select State----</option>
-                                    <option value="1">Bihar</option>
+                                    @foreach ($statelist as $citem)
+                                        <option value="{{ $citem->id }}">{{ $citem->name }}</option>
+                                    @endforeach
                                 </select>
 
                                 <span class="text-danger form-text">
@@ -95,12 +95,8 @@
                         <div class="ion-list ion-no-margin">
                             <div class="text-field">
                                 <select class="select" required type="text" name="district" id="school_id">
-                                    <option selected disabled>---Select District----</option>
-                                    @foreach ($districtlist as $citem)
-                                        <option value="{{ $citem->id_district }}">{{ $citem->name }}</option>
-                                    @endforeach
+								<option selected disabled>---Select District----</option>
                                 </select>
-
                                 <span class="text-danger form-text">
                                     @error('district')
                                         {{ $message }}
@@ -146,8 +142,20 @@
                         </div>
                         <div class="ion-list ion-no-margin">
                             <div class="text-field">
-                                <input class="form-control" type="text" required name="experience" title="Experience"
-                                    value="{{ old('experience') }}" placeholder="Experience" />
+                                <select class="select" required type="text" name="experience" id="school_id">
+                                    <option selected disabled>---Select Experience----</option>
+                                    <option value="1">1 Year</option>
+                                    <option value="2">2 Year</option>
+                                    <option value="3">3 Year</option>
+                                    <option value="4">4 Year</option>
+                                    <option value="5">5 Year</option>
+                                    <option value="6">6 Year</option>
+                                    <option value="7">7 Year</option>
+                                    <option value="8">8 Year</option>
+                                    <option value="9">9 Year</option>
+                                    <option value="10">10 Year</option>
+                                    <option value="10+">10+ Year</option>
+                                </select>
                                 <span class="text-danger form-text">
                                     @error('experience')
                                         {{ $message }}
@@ -155,8 +163,7 @@
                                 </span>
                             </div>
                         </div>
-
-
+                        
                         <button type="submit" class="btn btn-block btn-success ion-no-margin" id="login">Register
                             Now</button>
                 </form>
@@ -181,7 +188,7 @@
             jQuery('#school_id').change(function() {
                 let school = jQuery(this).val();
                 let datas = "";
-                console.log(school)
+                // console.log(school)
                 // $('#sub_category').empty();
                 // $('#sub_category').append(`<option value="0" disabled selected>Processing...</option>`);
                 jQuery.ajax({
@@ -194,7 +201,7 @@
                         if (result == '') {
                             datas += '<option>Not Found.</option>';
                         } else {
-                            console.log(result);
+                            // console.log(result);
                             datas += '<option selected disabled>---Select Block---</option>';
                             $.each(result, function(i) {
                                 datas += '<option value="' + result[i].id + '">' +
@@ -203,6 +210,35 @@
                             });
                         }
                         jQuery('#class_id').html(datas);
+                    }
+                });
+            });
+			
+			jQuery('#state').change(function() {
+                let state = jQuery(this).val();
+                let datas = "";
+                // console.log(state)
+                // $('#sub_category').empty();
+                // $('#sub_category').append(`<option value="0" disabled selected>Processing...</option>`);
+                jQuery.ajax({
+                    url: '{{ url('getDistrictName') }}',
+                    type: 'post',
+                    //dataType: "json",
+                    data: 'state=' + state + '&_token={{ csrf_token() }}',
+                    success: function(result) {
+                        // console.log(result);
+                        if (result == '') {
+                            datas += '<option>Not Found.</option>';
+                        } else {
+                            // console.log(result);
+                            datas += '<option selected disabled>---Select District---</option>';
+                            $.each(result, function(i) {
+                                datas += '<option value="' + result[i].id_district + '">' +
+                                    result[i].name + '</option>';
+                                console.log(result);
+                            });
+                        }
+                        jQuery('#school_id').html(datas);
                     }
                 });
             });
