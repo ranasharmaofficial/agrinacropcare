@@ -38,7 +38,7 @@
                 </div>
 				
 				<div style="margin-top: 36px;" class="text-field">
-                    <input onchange="readAadhar(this);" type="file" required name="aadhar" class="form-control" title="Aadhar Card Picture" />
+                    <input onchange="readAadhar(this);" type="file" accept="image/png, image/gif, image/jpeg, image/jpg"  required name="aadhar" class="form-control" title="Aadhar Card Picture" />
                     <label style="top:-19px;">Aadhar Card Picture <span class="dob">*</span></label>
                     <span class="text-danger form-text">@error('aadhar') {{$message}} @enderror</span>
                 </div>
@@ -60,7 +60,7 @@
         }
 					</script>
                 <div style="margin-top: 36px;" class="text-field">
-                    <input onchange="readURL(this);" type="file" required name="pan" class="form-control" title="Aadhar Card Picture" />
+                    <input onchange="readURL(this);" type="file" accept="image/png, image/gif, image/jpeg, image/jpg"  required name="pan" class="form-control" title="Aadhar Card Picture" />
                     <label style="top:-19px;">Pan Card Picture <span class="dob">*</span></label>
                     <span class="text-danger form-text">@error('pan') {{$message}} @enderror</span>
                 </div>

@@ -280,11 +280,13 @@ class DashboardController extends Controller
     }
     public function editProfile()
     {
+
         return view('dashboard.editProfile');
     }
     public function editAddress()
     {
-        return view('dashboard.editAddress');
+        $data = ['LoggedUserInfo' => User::where('id', '=', session('LoggedDash'))->first()];
+        return view('dashboard.editAddress',$data);
     }
 
 

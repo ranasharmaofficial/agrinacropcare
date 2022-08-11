@@ -48,6 +48,7 @@ Route::get('crop-doc-search-details', [DashboardController::class, 'cropDocSearc
 Route::group(['middleware' => ['DashboardAuthCheck']], function () {
     Route::get('profile', [DashboardController::class, 'profile'])->name('profile');
     Route::get('editProfile', [DashboardController::class, 'editProfile'])->name('editProfile');
+    Route::get('edit-address', [DashboardController::class, 'editAddress'])->name('editAddress');
     //crop insurace
     Route::get('crop_insurance_stepOne', [DashboardController::class, 'cropInsuranceStepOne'])->name('dashboard.crop_insurance_stepOne');
     Route::post('verifyCropInsuranceOtp', [DashboardController::class, 'verifyCropInsuranceOtp'])->name('dashboard.verifyCropInsuranceOtp');

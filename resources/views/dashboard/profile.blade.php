@@ -34,7 +34,7 @@
                 </div>
             </div>
 
-            @if ($user->role == 2)
+            @if ($user->role == 4)
                 <div class="overflow-hidden border-top p-3 d-flex justify-content-between align-items-center">
                     <small class="text-secondary font-weight-bold">
                         <i class="fa fa-credit-card" aria-hidden="true"></i>
