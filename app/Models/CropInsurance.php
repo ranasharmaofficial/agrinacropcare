@@ -27,6 +27,8 @@ class CropInsurance extends Model
         'nominee_dob',
         'nominee_relation',
         'aadhar_card_pic',
+        'farmer_picture',
+        'aadhar_no',
         'insurance_start_date',
         'insurance_end_date',
         'plan_details',

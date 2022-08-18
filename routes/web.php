@@ -142,6 +142,10 @@ Route::group(['middleware'=>['AdminAuthCheck']], function () {
     Route::get('admin/employee-list', [AdminController::class, 'employeeList'])->name('admin.employee-list');
     Route::post('addEmployee', [AdminController::class, 'addEmployeeData'])->name('addEmployee');
     Route::post('updateEmployee', [AdminController::class, 'updateEmployeeData'])->name('updateEmployee');
+    // Route::post('admin/employee/destroy', [AdminController::class, 'deleteEmployee'])->name('employees.delete');
+    Route::delete('employee-list/{id}', [AdminController::class, 'deleteEmployee'])->name('employees.delete');
+    Route::delete('user-list/{id}', [AdminController::class, 'deleteUser'])->name('users.delete');
+    Route::delete('admin/insurance-list/{id}', [AdminController::class, 'insuranceDelete'])->name('insurances.delete');
 
     Route::get('admin/create-company',[AdminController::class,'createCompany'])->name('admin.create-company');
     Route::get('admin/company-list',[AdminController::class,'companyList'])->name('admin.company-list');

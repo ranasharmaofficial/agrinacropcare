@@ -23,6 +23,7 @@ use App\Models\District;
 use App\Models\Block;
 use App\Models\Wallet;
 use App\Models\CropInsurance;
+use App\Models\CropInsuranceProcess;
 use App\Models\CattleInsurance;
 use App\Models\FixInsuranceAmount;
 use App\Models\KisanLoan;
@@ -786,10 +787,10 @@ class AdminController extends Controller
         $request->validate([
             'name' => 'required|string',
             'qualification' => 'required|string|max:150',
-            'experience' => 'required|max:10',
+            // 'experience' => 'required|max:10',
             'dob' => 'required|string',
             'gender' => 'required|string',
-            'aadhar_card' => 'required|max:2048|mimes:pdf',
+            'aadhar_card' => 'required|max:2048|mimes:jpg,jpeg,png',
             // 'pan_card' => 'required|max:2048|mimes:pdf',
             // 'voter_id' => 'required|max:2048|mimes:pdf',
             'landmark' => 'required|string|max:180',
@@ -799,18 +800,19 @@ class AdminController extends Controller
             'pincode' => 'required|max:10',
             'mobile_no' => 'required|unique:users,mobile',
             'email' => 'required|email',
+            'aadhar_no' => 'required',
             // 'photo' => 'required|max:1024|image|mimes:jpg,jpeg,png',
         ]);
 
         $employeeadd = new Employee;
-        $lastUserId = User::orderBy('id', 'desc')->first();
+        // $lastUserId = User::orderBy('id', 'desc')->first();
         // if (isset($lastUserId)) {
              
         //     $euserid = $lastUserId->user_id+1;
         // } else {
         //     $euserid = date('md').rand(111,999);
         // }
-        $employee = User::where('role',4)->orderBy('id', 'desc')->first();
+        $employee = User::orderBy('id', 'desc')->first();
         if (isset($employee)) {
             // Sum 1 + last id
             $reuserid = substr($employee->user_id, 3);
@@ -823,7 +825,7 @@ class AdminController extends Controller
         $employeeadd->employee_id = $empid;
         $employeeadd->user_id = $employee_id_gen;
         $employeeadd->qualification = $request->qualification;
-        $employeeadd->experience = $request->experience;
+        // $employeeadd->experience = $request->experience;
         $employeeadd->dob = $request->dob;
         $employeeadd->gender = $request->gender;
         if ($request->hasfile('aadhar_card')) {
@@ -833,24 +835,24 @@ class AdminController extends Controller
             $file->move(public_path('uploads/documents'), $aadharcard);
         }
         $employeeadd->aadhar_card = $aadharcard;
-        if ($request->hasfile('pan_card')) {
-            $file = $request->file('pan_card');
-            $extenstion = $file->getClientOriginalExtension();
-            $pancard = 'pan_card-'.time().'.'.$extenstion;
-            $file->move(public_path('uploads/documents'), $pancard);
-        }
-        if ($request->hasfile('pan_card')!=null){
-            $employeeadd->pan_card = $pancard;
-        }
-        if ($request->hasfile('voter_id')) {
-            $file = $request->file('voter_id');
-            $extenstion = $file->getClientOriginalExtension();
-            $voterid = 'voter_id-'.time().'.'.$extenstion;
-            $file->move(public_path('uploads/documents'), $voterid);
-        }
-        if ($request->hasfile('voter_id')!=null){
-            $employeeadd->voter_id = $voterid;
-        }
+        // if ($request->hasfile('pan_card')) {
+        //     $file = $request->file('pan_card');
+        //     $extenstion = $file->getClientOriginalExtension();
+        //     $pancard = 'pan_card-'.time().'.'.$extenstion;
+        //     $file->move(public_path('uploads/documents'), $pancard);
+        // }
+        // if ($request->hasfile('pan_card')!=null){
+        //     $employeeadd->pan_card = $pancard;
+        // }
+        // if ($request->hasfile('voter_id')) {
+        //     $file = $request->file('voter_id');
+        //     $extenstion = $file->getClientOriginalExtension();
+        //     $voterid = 'voter_id-'.time().'.'.$extenstion;
+        //     $file->move(public_path('uploads/documents'), $voterid);
+        // }
+        // if ($request->hasfile('voter_id')!=null){
+        //     $employeeadd->voter_id = $voterid;
+        // }
         
         $employeeadd->landmark = $request->landmark;
         $employeeadd->city = $request->city;
@@ -858,6 +860,7 @@ class AdminController extends Controller
         $employeeadd->country = $request->country;
         $employeeadd->pincode = $request->pincode;
         $employeeadd->alt_mobile = $request->alt_mobile;
+        $employeeadd->aadhar_no = $request->aadhar_no;
         if ($request->hasfile('photo')) {
             $file = $request->file('photo');
             $extenstion = $file->getClientOriginalExtension();
@@ -1682,5 +1685,24 @@ class AdminController extends Controller
                                 ->paginate(10);
        return view('admin/kisan_loan',$data, compact('kisan_loan','sort_search'));
 	}
+    public function deleteEmployee($id){
+        $emp = User::where('id',$id)->first();
+        // dd($emp->user_id);
+        // die;
+        User::find($id)->delete();
+        Employee::where('user_id',$emp->user_id)->delete();
+        return back();
+    }
+    public function deleteUser($id){
+        User::find($id)->delete();
+        return back();
+    }
+    public function insuranceDelete($id){
+        $insurance = CropInsurance::where('id',$id)->first();
+        CropInsurance::find($id)->delete();
+        CropInsuranceProcess::where('token_no',$insurance->token_no)->delete();
+        Wallet::where('insurance_no',$insurance->insurance_no)->delete();
+        return back();
+    }
 	
 }

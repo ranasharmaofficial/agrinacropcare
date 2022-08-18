@@ -8,7 +8,11 @@ $logged_name = \App\Models\User::where('id',$logged_id)->first();
         @if($logged_id!=null)
             <li class="bg-teal">
                 <div class="ion-avatar ion-margin-start ios hydrated mb-2 md">
-                    <img class="img-responsive img-circle" alt="" src="{{asset('assets_dash/icon/man.png')}}">
+                    @if($logged_name->photo!=null)
+                    <img class="img-responsive img-circle" alt="" src="{{asset('uploads/user').'/'.$logged_name->photo}}">
+                    @else
+                    <img class="img-responsive img-circle" alt="" src="{{asset('assets_dash/icon/man.png')}}">  
+                    @endif
                 </div>
                 
                 <h3 class="profile_title">{{$logged_name->name}}</h3>

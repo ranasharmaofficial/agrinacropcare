@@ -53,6 +53,7 @@
     <!-- App js -->
     <script src="{{asset('assets_admin/js/app.js')}}"></script>
     <script src="{{asset('assets_admin/js/ajax.js')}}"></script>
+    <script src="{{asset('assets_admin/js/sweetalert.min.js')}}"></script>
      <!--tinymce js-->
      <script src="{{asset('assets_admin/libs/tinymce/tinymce.min.js')}}"></script>
     <script src="{{asset('assets_admin/js/form-editor.init.js')}}"></script>

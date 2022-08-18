@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\District;
 use App\Models\State;
+use App\Models\Block;
 use App\Models\CropInsuranceProcess;
 use App\Models\CropInsurance;
 use App\Models\CattleInsurance;
@@ -17,6 +18,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Exception;
 use Razorpay\Api\Api;
+use Image;
 
 class DashboardController extends Controller
 {
@@ -280,15 +282,65 @@ class DashboardController extends Controller
     }
     public function editProfile()
     {
-
-        return view('dashboard.editProfile');
+        $data = ['LoggedUserInfo' => User::where('id', '=', session('LoggedDash'))->first()];
+        $profiledetails = User::where('id', session('LoggedDash'))->first();
+        return view('dashboard.editProfile', $data, compact('profiledetails'));
+    }
+    public function updateProfile(Request $request)
+    {
+        $data = ['LoggedUserInfo' => User::where('id', '=', session('LoggedDash'))->first()];
+        // dd(session('LoggedDash'));die;
+        $request->validate([
+            'names' => 'required',
+            // 'email' => 'required',
+            // 'file' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024|dimensions:width=500,height=500',
+            'file' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+        ]);
+       
+        if ($request->hasfile('file')) {
+            $file = $request->file('file');
+            $extenstion = $file->getClientOriginalExtension();
+            $filename = 'user-ava-' . time() . '.' . $extenstion;
+            $file->move(public_path('uploads/user'), $filename);
+        }
+       
+        $upate_profile_details = User::where('id', session('LoggedDash'))
+            ->update([
+                'name' => $request->names,
+                'photo' => $filename,
+            ]);
+        if ($upate_profile_details) {
+            return redirect()->back()->with(session()->flash('alert-success', 'Profile Updated Successfully!.'));
+        }
+        return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please try again.'));
     }
     public function editAddress()
     {
         $data = ['LoggedUserInfo' => User::where('id', '=', session('LoggedDash'))->first()];
-        return view('dashboard.editAddress',$data);
+        $user = User::where('id', '=', session('LoggedDash'))->first();
+        $state = State::where('id','=',$user->state)->first();
+        $district = District::where('id_district','=',$user->district)->first();
+        // dd($user);
+        // die;
+        $block = Block::where('id','=',$user->block)->first();
+        $stateList = State::all();
+        return view('dashboard.editAddress',$data, compact('user','state','district','block','stateList'));
     }
-
+    public function updateAddressDetails(Request $request)
+    {
+        $upate_address_details = User::where('id', session('LoggedDash'))
+            ->update([
+                'address' => $request->address,
+                'pincode' => $request->pincode,
+                'state' => $request->state,
+                'district' => $request->district,
+                'block' => $request->block,
+            ]);
+        if ($upate_address_details) {
+            return redirect()->back()->with(session()->flash('alert-success', 'Address Updated Successfully!.'));
+        }
+        return redirect()->back()->with(session()->flash('alert-danger', 'Something went wrong. Please try again.'));
+    }
 
     public function uploadDocRegData(Request $request)
     {
@@ -490,7 +542,11 @@ class DashboardController extends Controller
     {
         $data = ['LoggedUserInfo' => User::where('id', '=', session('LoggedDash'))->first()];
         $user = User::where('id', '=', session('LoggedDash'))->first();
-        return view('dashboard.crop_insurance', $data, compact('user'));
+        $mobile_no = Session::get('mobilenumber');
+        $empDetails = User::where('mobile', '=', $mobile_no)->first();
+        // dd($empDetails);
+        // die;
+        return view('dashboard.crop_insurance', $data, compact('user','empDetails'));
     }
     public function uploadCropInsuranceData(Request $request)
     {
@@ -521,6 +577,14 @@ class DashboardController extends Controller
             $aadhar_card = 'aadhar_card-' . time() . '.' . $extenstion;
             $file->move(public_path('uploads/insurance-documents'), $aadhar_card);
         }
+        
+        // dd($aadhar_card);die;
+        if ($request->hasfile('farmer_picture')) {
+            $file = $request->file('farmer_picture');
+            $extenstion = $file->getClientOriginalExtension();
+            $farmer_picture = 'farmer_picture-' . time() . '.' . $extenstion;
+            $file->move(public_path('uploads/insurance-documents'), $farmer_picture);
+        }
         // dd($aadhar_card);die;
         $getUserID = User::where('mobile', $request->employee_id)->where('role',4)->first();
         $agentid = User::where('mobile', $request->employee_id)->where('role',4)->get();
@@ -529,7 +593,7 @@ class DashboardController extends Controller
         // if (count($agentid) >= 1) {
             $tokenno = time() . rand(1111, 9999);
             $first_date = date("d-M-Y");
-            $after_one_year =  date("d-M-Y", strtotime("$first_date +365 day")); // PHP:  2009-03-04
+            $after_one_year =  date("d-M-Y", strtotime("$first_date +365 day")); 
             $cropinsuranceprocess = CropInsuranceProcess::create([
                 "token_no" => "$tokenno",
                 "type" => "$request->type",
@@ -543,7 +607,9 @@ class DashboardController extends Controller
                 "district" => "$request->district",
                 "pincode" => "$request->pincode",
                 "address" => "$request->address",
+                "aadhar_no" => "$request->aadhar_no",
                 "aadhar_card_pic" => "$aadhar_card",
+                "farmer_picture" => "$farmer_picture",
                 "major_crops_insurred" => "$request->crops_insurred",
                 "gross_premium" => "$request->gross_premium",
                 "nominee_salutation" => "$request->nominee_salutation",
@@ -650,6 +716,8 @@ class DashboardController extends Controller
             $make_insurance->insurance_start_date = $fetchprocessdata->insurance_start_date;
             $make_insurance->insurance_end_date = $fetchprocessdata->insurance_end_date;
             $make_insurance->aadhar_card_pic = $fetchprocessdata->aadhar_card_pic;
+            $make_insurance->aadhar_no = $fetchprocessdata->aadhar_no;
+            $make_insurance->farmer_picture = $fetchprocessdata->farmer_picture;
             $make_insurance->receipt_no = time() . $fetchprocessdata->id;
             $make_insurance->payment_mobile = $response->contact;
             $make_insurance->payment_email = $response->email;
@@ -874,17 +942,34 @@ class DashboardController extends Controller
         $request->validate([
             'name' => 'required|string',
             'mobile' => 'required|numeric',
-            'aadhar' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
-            'pan' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
+            'aadhar' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
+            'pan' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:7000',
         ]);
         // dd($request->all());
         // die;
-        if ($request->hasfile('aadhar')) {
-            $file = $request->file('aadhar');
-            $extenstion = $file->getClientOriginalExtension();
-            $aadhar = 'aadhar-' . time() . '.' . $extenstion;
-            $file->move(public_path('uploads/kisanloan'), $aadhar);
-        }
+        // if ($request->hasfile('aadhar')) {
+        //     $file = $request->file('aadhar');
+        //     $extenstion = $file->getClientOriginalExtension();
+        //     $aadhar = 'aadhar-' . time() . '.' . $extenstion;
+        //     $file->move(public_path('uploads/kisanloan'), $aadhar);
+        // }
+            // image compress start
+
+            $image = $request->file('aadhar');
+        $input['imagename'] = time().'.'.$image->getClientOriginalExtension();
+     
+        $destinationPath = public_path('/uploads/kisanloan');
+        $img = Image::make($image->getRealPath());
+        $img->resize(500, 500, function ($constraint) {
+            $constraint->aspectRatio();
+        })->save($destinationPath.'/'.$input['imagename']);
+   
+        $destinationPath = public_path('/images');
+        $image->move($destinationPath, $input['imagename']);
+   
+        // $this->postImage->add($input);
+        
+            // image compress end
         if ($request->hasfile('pan')) {
             $file = $request->file('pan');
             $extenstion = $file->getClientOriginalExtension();
@@ -895,7 +980,7 @@ class DashboardController extends Controller
         $kisanloandetails =  KisanLoan::create([
             "name" => "$request->name",
             "mobile" => "$request->mobile",
-            "aadhar" => "$aadhar",
+            "aadhar" => $input['imagename'],
             "pan" => "$pan",
         ]);
         if ($kisanloandetails) {

@@ -49,6 +49,8 @@ Route::group(['middleware' => ['DashboardAuthCheck']], function () {
     Route::get('profile', [DashboardController::class, 'profile'])->name('profile');
     Route::get('editProfile', [DashboardController::class, 'editProfile'])->name('editProfile');
     Route::get('edit-address', [DashboardController::class, 'editAddress'])->name('editAddress');
+    Route::post('updateProfile', [DashboardController::class, 'updateProfile'])->name('dashboard.updateProfile');
+    Route::post('updateAddressDetails', [DashboardController::class, 'updateAddressDetails'])->name('dashboard.updateAddressDetails');
     //crop insurace
     Route::get('crop_insurance_stepOne', [DashboardController::class, 'cropInsuranceStepOne'])->name('dashboard.crop_insurance_stepOne');
     Route::post('verifyCropInsuranceOtp', [DashboardController::class, 'verifyCropInsuranceOtp'])->name('dashboard.verifyCropInsuranceOtp');
@@ -61,7 +63,7 @@ Route::group(['middleware' => ['DashboardAuthCheck']], function () {
     Route::get('crop-insurance', [DashboardController::class, 'cropInsurance'])->name('crop-insurance');
     Route::post('uploadCropInsuranceData', [DashboardController::class, 'uploadCropInsuranceData'])->name('dashboard.uploadCropInsuranceData');
     Route::get('crop-insurance-preview/{tokenno}', [DashboardController::class, 'cropInsuranceDetailsPreview'])->name('dashboard.crop-insurance-preview.{tokenno}');
-    Route::get('crop-insurance-done/{tokenno}', [DashboardController::class, 'cropInsuranceDone'])->name('dashboard.crop-insurance-done.{tokenno}');
+   
     //cattle insurance
 	Route::get('cattle-insurance', [DashboardController::class, 'cattleInsurance'])->name('cattle-insurance');
     Route::post('uploadCattleInsuranceData', [DashboardController::class, 'uploadCattleInsuranceData'])->name('dashboard.uploadCattleInsuranceData');
@@ -69,4 +71,5 @@ Route::group(['middleware' => ['DashboardAuthCheck']], function () {
     Route::get('cattle-insurance-done/{tokenno}', [DashboardController::class, 'cattleInsuranceDone'])->name('dashboard.cattle-insurance-done.{tokenno}');
 });
 Route::post('getInsuranceDone', [DashboardController::class, 'getInsuranceDone'])->name('dashboard.getInsuranceDone');
+Route::get('crop-insurance-done/{tokenno}', [DashboardController::class, 'cropInsuranceDone'])->name('dashboard.crop-insurance-done.{tokenno}');
 // Dashboard Modules End

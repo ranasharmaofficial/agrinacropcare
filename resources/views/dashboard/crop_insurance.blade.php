@@ -16,20 +16,18 @@
             <div class="card-body p-0">
                 <form action="{{ route('dashboard.uploadCropInsuranceData') }}" autocomplete="off" method="post"
                     enctype="multipart/form-data" class="p-2">
-                    {{-- <div class="flash-message">
-                    @foreach (['danger', 'warning', 'success', 'info'] as $msg)
-                        @if (Session::has('alert-' . $msg))
-                            <div class="alert alert-{{ $msg }} alert-dismissible fade show" role="alert">
-                                {{ Session::get('alert-' . $msg) }}
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                  </button>
-                            </div>
-                        @endif
-                    @endforeach
-                </div> --}}
-                    @csrf
-                   <h6 class="register_heading">Proposor Details</h6>
+                     @csrf
+                    <h6 class="register_heading">Employee Details</h6>
+                    <hr>
+                    <div class="row">
+                        <div class="col">
+                            <input type="text" readonly value="{{ $empDetails->name }}" required class="form-control">
+                        </div>
+                        <div class="col">
+                            <input type="text" readonly value="{{ $empDetails->user_id }}" required class="form-control">
+                        </div>
+                    </div>
+                   <h6 class="register_heading mt-2">Proposor Details</h6>
                     <hr>
                     <div class="text-field">
                         <div class="input-group">
@@ -60,8 +58,8 @@
                     @php
                     $mobile_no = Session::get('mobilenumber');
                 @endphp
-                    <input type="text" name="type" value="1">
-                    <input type="text" name="employee_id" value="{{ $mobile_no }}">
+                    <input type="hidden" name="type" value="1">
+                    <input type="hidden" name="employee_id" value="{{ $mobile_no }}">
                     <div class="text-field" style="margin-top: 40px;">
                         <label class="text-danger" style="top:-22px;">Gender <span class="danger">*</span></label>
                         <select class="select w-100" required type="text" name="gender" id="class_id">
@@ -78,6 +76,16 @@
                         <input type="tel" pattern="[6789][0-9]{9}" required name="mobile" class="form-control"
                             title="Mobile" value="{{ old('mobile') }}" />
                         <label>Mobile <span class="danger">*</span></label>
+                        <span class="text-danger form-text">
+                            @error('mobile')
+                                {{ $message }}
+                            @enderror
+                        </span>
+                    </div>
+                    <div class="text-field" style="margin-bottom: 30px;">
+                        <input type="tel" required name="aadhar_no" class="form-control"
+                            title="Mobile" value="{{ old('aadhar_no') }}" />
+                        <label>Aadhar Number <span class="danger">*</span></label>
                         <span class="text-danger form-text">
                             @error('mobile')
                                 {{ $message }}
@@ -145,12 +153,21 @@
                             @enderror
                         </span>
                     </div>
-                    <div style="margin-top:5px;"class="text-field">
-                        <input onchange="loadFile(event)" type="file" required name="aadhar_card"
-                            class="form-control" title="Aadhar Card Picture" />
+                    <div style="margin-top:35px;"class="text-field">
+                        <input onchange="loadFile(event)" type="file" required name="aadhar_card" class="form-control" title="Aadhar Card Picture" />
                         <label style="top:-20px;">Aadhar Card Picture <span class="dob">*</span></label>
                         <span class="text-danger form-text">
                             @error('aadhar_card')
+                                {{ $message }}
+                            @enderror
+                        </span>
+                    </div>
+
+                    <div style="margin-top:35px;"class="text-field">
+                        <input type="file" required name="farmer_picture" class="form-control" title="Farmer Picture" />
+                        <label style="top:-20px;">Farmer Picture <span class="dob">*</span></label>
+                        <span class="text-danger form-text">
+                            @error('farmer_picture')
                                 {{ $message }}
                             @enderror
                         </span>

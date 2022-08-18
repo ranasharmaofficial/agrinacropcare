@@ -33,5 +33,7 @@ class CropInsuranceProcess extends Model
         'insurance_start_date',
         'insurance_end_date',
         'plan_details',
+        'farmer_picture',
+        'aadhar_no',
     ];
 }

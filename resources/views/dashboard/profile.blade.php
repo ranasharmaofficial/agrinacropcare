@@ -10,13 +10,17 @@
     <main role="main" class="ion-content ion-myprofile">
         <div class="mb-2 card bg-white profile-box text-center">
             <div class="py-4 px-3 border-bottom">
-                {{-- <img alt="img" class="img-fluid mt-2 rounded-circle" src=""> --}}
+                @if($user->photo!=null)
+                <img alt="img" class="img-fluid mt-2 rounded-circle" src="{{asset('uploads/user').'/'.$user->photo}}">
+                @else
+                    <img alt="img" class="img-fluid mt-2 rounded-circle" src="{{asset('assets_dash/icon/man.png')}}">
+                @endif
                 <h5 class="font-weight-bold text-dark mb-1 mt-4">{{ $LoggedUserInfo['name'] }}</h5>
                 {{-- <p class="mb-0 text-muted">CLASS - </p> --}}
             </div>
             <div class="d-flex">
                 <div class="col-6 border-right p-3">
-                    <a class="card-link-style" href="{{url('dashboard/editAddress')}}">
+                    <a class="card-link-style" href="{{url('dashboard/edit-address')}}">
                         <h6 class="font-weight-bold text-dark mb-1">
                             <i class="fa fa-location-arrow" aria-hidden="true"></i>
                         </h6>
@@ -59,22 +63,21 @@
                         <th>Mobile:</th>
                         <td>{{ $user->mobile }}</td>
                     </tr>
+                @if ($user->email!=null)
                     <tr>
                         <th>Email:</th>
                         <td>{{ $user->email }}</td>
                     </tr>
+                @endif
                     <tr>
                         <th>Mobile:</th>
-                        <td>{{ $user->email }}</td>
+                        <td>{{ $user->mobile }}</td>
                     </tr>
                     <tr>
                         <th>Pin Code:</th>
-                        <td>{{ $user->email }}</td>
+                        <td>{{ $user->pincode }}</td>
                     </tr>
-                    <tr>
-                        <th>District:</th>
-                        <td>{{ $user->email }}</td>
-                    </tr>
+                   
 
                 </tbody>
             </table>

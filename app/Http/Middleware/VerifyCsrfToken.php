@@ -12,6 +12,8 @@ class VerifyCsrfToken extends Middleware
      * @var array<int, string>
      */
     protected $except = [
-        //
+        'https://agrinacropcare.com/dashboard/getInsuranceDone',
+        'https://agrinacropcare.com/dashboard/crop-insurance-preview',
+        'https://agrinacropcare.com/dashboard/crop-insurance-preview/*'
     ];
 }

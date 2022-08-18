@@ -55,7 +55,7 @@
                                     <input class="form-control" value="{{old('qualification')}}" required type="text" name="qualification" placeholder="Qualification" id="qualification">
                                     <small class="form-text text-danger">@error('qualification') {{$message}} @enderror</small>
                                 </div>
-                                <div class="col-sm-4">
+                                {{-- <div class="col-sm-4">
                                     <label for="experience" class="col-form-label">Total Experience <star>*</star></label>
                                     <select class="form-select" required type="text" name="experience" id="experience">
                                         <option value="0">0 Year</option>
@@ -71,7 +71,7 @@
                                         <option value="10+">10 Year +</option>
                                     </select>
                                     <small class="form-text text-danger">@error('experience') {{$message}} @enderror</small>
-                                </div>
+                                </div> --}}
                                 <div class="col-sm-4">
                                     <label for="dob" class="col-form-label">Date of Birth <star>*</star></label>
                                     <input class="form-control" type="date" required name="dob" placeholder="" id="dob">
@@ -88,20 +88,25 @@
                                     <small class="form-text text-danger">@error('gender') {{$message}} @enderror</small>
                                 </div>
                                 <div class="col-sm-4">
-                                    <label for="aadharNumber" class="col-form-label">Aadhar Card (Pdf Format) <star>*</star></label>
-                                    <input required class="form-control" accept="application/pdf" type="file" name="aadhar_card" id="aadharNumber">
-                                    <small class="form-text text-danger">@error('aadhar_card') {{$message}} @enderror</small>
+                                    <label for="aadhar_no" class="col-form-label">Aadhar No. <star>*</star></label>
+                                    <input class="form-control" type="tel" required name="aadhar_no" placeholder="Aadhar No" id="aadhar_no">
+                                    <small class="form-text text-danger">@error('aadhar_no') {{$message}} @enderror</small>
                                 </div>
                                 <div class="col-sm-4">
+                                    <label for="aadharNumber" class="col-form-label">Aadhar Card (Pdf Format) <star>*</star></label>
+                                    <input required class="form-control" accept="image/*" type="file" name="aadhar_card" id="aadharNumber">
+                                    <small class="form-text text-danger">@error('aadhar_card') {{$message}} @enderror</small>
+                                </div>
+                                {{-- <div class="col-sm-4">
                                     <label for="panNo" class="col-form-label">Pan Card (Pdf Format) <star>*</star></label>
                                     <input class="form-control" accept="application/pdf" type="file" name="pan_card" id="panNo">
-                                    {{-- <small class="form-text text-danger">@error('pan_card') {{$message}} @enderror</small> --}}
+                                    <small class="form-text text-danger">@error('pan_card') {{$message}} @enderror</small> 
                                 </div>
                                 <div class="col-sm-4">
                                     <label for="Voter" class="col-form-label">Voter Id (Pdf Format) <star>*</star></label>
                                     <input class="form-control" accept="application/pdf" type="file" name="voter_id" id="Voter">
-                                    {{-- <small class="form-text text-danger">@error('voter_id') {{$message}} @enderror</small> --}}
-                                </div>
+                                    <small class="form-text text-danger">@error('voter_id') {{$message}} @enderror</small> 
+                                </div> --}}
                             </div>
                         </div>
 
