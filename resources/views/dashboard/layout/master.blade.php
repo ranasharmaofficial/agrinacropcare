@@ -9,24 +9,52 @@
 	  <meta name="apple-mobile-web-app-status-bar-style" content="default">
 	  <meta http-equiv="Content-Security-Policy" content="default-src * 'self' 'unsafe-inline' 'unsafe-eval' data: gap:">
       <title>@yield('title') - Agrina Crop Care</title>
-      <!-- Owl Stylesheets -->
-      <link rel="stylesheet" href="{{asset('assets_dash/owlcarousel/assets/owl.carousel.min.css')}}">
-      <link rel="stylesheet" href="{{asset('assets_dash/owlcarousel/assets/owl.theme.default.min.css')}}">
-      <!-- nav Slide -->
-      <link rel="stylesheet" href="{{asset('assets_dash/dist/css/navslide.css?ver=4.2.3')}}">
-      <!-- Bootstrap core CSS -->
-      <link rel="stylesheet" href="{{asset('assets_dash/dist/css/bootstrap.css')}}">
-      <link rel="stylesheet" href="{{asset('assets_dash/dist/font/css/font-awesome.min.css')}}">
-      <!-- Custom styles for this template -->
-      <link rel="stylesheet" href="{{asset('assets_dash/dist/css/app.css')}}">
-      <!-- javascript -->
-      <script src="{{asset('assets_dash/vendors/jquery.min.js')}}"></script>
-      <script src="{{asset('assets_dash/dist/js/hc-offcanvas-nav.js?ver=4.2.2')}}"></script>
-      <script src="{{asset('assets_dash/owlcarousel/owl.carousel.js')}}"></script>
+      <!-- manifest meta -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="manifest" href="manifest.json" />
+
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" href="img/favicon180.png" sizes="180x180">
+    <link rel="icon" href="img/favicon32.png" sizes="32x32" type="image/png">
+    <link rel="icon" href="img/favicon16.png" sizes="16x16" type="image/png">
+
+    <!-- Material icons-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&amp;display=swap" rel="stylesheet">
+
+    <!-- swiper CSS -->
+    <link href="{{asset('assets_dash/vendor/swiper/css/swiper.min.css')}}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{{asset('assets_dash/css/style.css')}}" rel="stylesheet" id="style">
+
+      {{-- <script src="{{asset('assets_dash/owlcarousel/owl.carousel.js')}}"></script> --}}
       <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
       
    </head>
-   <body style="height:100%; width:100%; overflow:hidden;overflow-y:scroll;" class="index-app">
+   <body class="body-scroll d-flex flex-column h-100 menu-overlay" data-page="homepage">
+     <!-- screen loader -->
+     <div class="container-fluid h-100 loader-display">
+      <div class="row h-100">
+          <div class="align-self-center col">
+              <div class="logo-loading">
+                  <div class="icon icon-100 mb-4 rounded-circle">
+                      <img src="img/favicon144.png" alt="" class="w-100">
+                  </div>
+                  <h4 class="text-default">Agrina Crop Care</h4>
+                  <p class="text-secondary">Mobile HTML template</p>
+                  <div class="loader-ellipsis">
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
 		@include('dashboard.navbar')		
 		@yield('content')
 		@include('dashboard.tab-tools')
@@ -163,11 +191,34 @@ function get_state_city(){
         });
     
     </script>
+
+
+    <!-- Required jquery and libraries -->
+    <script src="{{asset('assets_dash/js/jquery-3.3.1.min.js')}}"></script>
+    <script src="{{asset('assets_dash/js/popper.min.js')}}"></script>
+    <script src="{{asset('assets_dash/vendor/bootstrap/js/bootstrap.min.js')}}"></script>
+
+    <!-- cookie js -->
+    <script src="{{asset('assets_dash/js/jquery.cookie.js')}}"></script>
+
+    <!-- Swiper slider  js-->
+    <script src="{{asset('assets_dash/vendor/swiper/js/swiper.min.js')}}"></script>
+
+    <!-- Customized jquery file  -->
+    <script src="{{asset('assets_dash/js/main.js')}}"></script>
+    <script src="{{asset('assets_dash/js/color-scheme-demo.js')}}"></script>
+
+    <!-- PWA app service registration and works -->
+    <script src="{{asset('assets_dash/js/pwa-services.js')}}"></script>
+
+    <!-- page level custom script -->
+    <script src="{{asset('assets_dash/js/app.js')}}"></script>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
       {{-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script> --}}
       <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
       <script>window.jQuery || document.write('<script src="{{asset("assets_dash/js/vendor/jquery.slim.min.js")}}"><\/script>')</script>
-      <script src="{{asset('assets_dash/dist/js/bootstrap.bundle.js')}}"></script>
+      
       <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
    </body>
 </html>
