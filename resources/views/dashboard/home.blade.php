@@ -491,7 +491,7 @@
         </div>
     </div>
 </main>
-
+@include('dashboard.tab-tools')
 
 @if (false)
     

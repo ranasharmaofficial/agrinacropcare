@@ -55,9 +55,12 @@
           </div>
       </div>
   </div>
-		@include('dashboard.navbar')		
+		@include('dashboard.navbar')
+
 		@yield('content')
-		@include('dashboard.tab-tools')
+
+		
+
       <script>
 
 function get_state_city(){
